@@ -153,7 +153,7 @@ ELETRODUTO_SECAO_CIRCULAR = 19;
 ELETROCALHA_FECHADA_OU_ELETRODUTO = 1;
 TETO = 23;
 /////////////////////
-localInstalacao = {
+LOCAL_INSTALACAO = {
 	1	: {description : "Eletroduto"},
     2	: {description : "Bandeja Perfurada"},
     3	: {description : "Leito  : {Escada para Cabos}"},
@@ -301,23 +301,90 @@ ORIENTACAO_FATOR_CORRECAO = {
 	1 : {description : "Não necessita aplicar fator de correção"},
     2 : {description : "Instalação horizontal"},
     3 : {description : "Instalacao vertical"}
+};
+
+/////////////////////
+_1POINT5V20 = 1;
+_VMAIORIGUAL20DE = 2;
+_1POINT5V5 = 3;
+_5V50 = 4;
+/////////////////////
+RELACAO_CABO_DUTO = {
+	1 : {description : "1,5De <= V < 20De"},
+	2 : {description : "V => 20De"},
+	3 : {description : "1,5De <= V < 5De"},
+	4 : {description : "5De <= V < 50De"}
+};
+
+/////////////////////
+_450V_750V = 1;
+_06KV_1KV = 2;
+_3_6KV_6KV = 3;
+_6KV_10KV = 4;
+_8_7KV_15KV = 5;
+_12KV_20KV = 6;
+_15KV_25KV = 7;
+_20KV_35KV = 8;
+/////////////////////
+TENSAO_ISOLAMENTO = {
+	1 : {description : "450/750V"},
+	2 : {description : "0.6/1kV"},
+	3 : {description : "3.6/6kV"},
+	4 : {description : "6/10kV"},
+	5 : {description : "8.7/15kV"},
+	6 : {description : "12/20kV"},
+	7 : {description : "15/25kV"},
+	8 : {description : "20/35kV"}
+}
+
+/////////////////////
+MONOFASICO_DOIS_CONDUTORES = 1;
+MONOFASICO_TRES_CONDUTORES = 2;
+DUAS_FASES_SEM_NEUTRO = 3;
+DUAS_FASES_COM_NEUTRO = 4;
+TRIFASICO_SEM_NEUTRO = 5;
+TRIFASICO_COM_NEUTRO = 6;
+/////////////////////
+SISTEMA = {
+    1 : {description : "Monofásico a dois condutores"},
+    2 : {description : "Monofásico a três condutores"},
+    3 : {description : "Duas fases sem neutro"},
+    4 : {description : "Duas fases com neutro"},
+    5 : {description : "Trifásico sem neutro"},
+    6 : {description : "Trifásico com neutro"}
+}
+
+/////////////////////
+ILUMINACAO = 1;
+FORCA = 2;
+SINALIZACAO = 3;
+CONTROLE = 4;
+APLICACOES_ESPECIAIS = 5;
+OUTROS = 6;
+/////////////////////
+UTILIZACAO_CIRCUITO = {
+    1 : {description : "Circuito de Iluminação"},
+    2 : {description : "Circuito de Força"},
+    3 : {description : "Circuito de Sinalização"},
+    4 : {description : "Circuito de Controle"},
+    5 : {description : "Circuito de extrabaixa tensão para aplicações especiais"},
+    6 : {description : "Para qualquer outra aplicação"}
+}
+
+/////////////////////
+_2X2 = 1;
+_2X3 = 2;
+_3X3 = 3;
+_3X4 = 4;
+/////////////////////
+BANCO_DUTOS = {
+	1 : {description : "1 Circuito"},
+	2 : {description : "2 Circuitos"},
+	3 : {description : "3 Circuitos"},
+	4 : {description : "4 Circuitos"}
 }
 
 //-----------------------------------------------------------------------------------------------------------//
-
-function Calculo() {
-	this.CRITERIO_DIMENSIONAMENTO_CURTO_CIRCUITO 	= 1;
-	this.CRITERIO_DIMENSIONAMENTO_CORRENTE 			= 2;
-	this.CRITERIO_DIMENSIONAMENTO_QUEDA_TENSAO		= 3;
-	
-	this.gradienteMaximo = 0;
-	this.fatorCanaleta = 1;
-	
-	this.calcular = function() {
-		
-	};
-}
-
 function DimensionamentoBean() {
     this.codigo = 0;
     this.tipoProduto = 0;
@@ -620,104 +687,88 @@ function DimensionamentoBean() {
     }
 
     this.isColunaB1 = function() {
-        if (isCabosEnergia()) {
-            a = localInstalacao == localInstalacao.ELETRODUTO.value && numeroCondutores == numeroCondutores.UNIPOLAR.value
-                    && possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value;
+        if (this.isCabosEnergia()) {
+            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores == UNIPOLAR && this.possibilidadeInstalacao == APARENTE;
 
-            b = possibilidadeInstalacao == possibilidadeInstalacao.EMBUTIDA.value
-                    && localInstalacao == localInstalacao.ELETRODUTO_CIRCULAR_ALVENARIA.value;
+            var b = this.possibilidadeInstalacao == EMBUTIDA && this.localInstalacao == ELETRODUTO_CIRCULAR_ALVENARIA;
 
-            c = localInstalacao == localInstalacao.CANALETA_FECHADA.value && numeroCondutores == numeroCondutores.UNIPOLAR.value;
+            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores == UNIPOLAR;
 
-            d = localInstalacao == localInstalacao.CANALETA_VENTILADA.value;
-            e = localInstalacao == localInstalacao.ELETROCALHA_PERFILADO.value
-                    && numeroCondutores == numeroCondutores.UNIPOLAR.value;
+            var d = this.localInstalacao == CANALETA_VENTILADA;
+            
+            var e = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores == UNIPOLAR;
 
-            f = possibilidadeInstalacao == possibilidadeInstalacao.ESPACO_CONSTRUCAO.value &&
-                    localInstalacao == localInstalacao.DIRETAMENTE.value &&
-                    (relacaoCaboDuto != RelacaoCaboXDuto._1POINT5V5.value);
+            var f = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == DIRETAMENTE && (this.relacaoCaboDuto != _1POINT5V5);
 
-            g = possibilidadeInstalacao == possibilidadeInstalacao.ESPACO_CONSTRUCAO.value &&
-                localInstalacao == localInstalacao.ELETRODUTO_SECAO_CIRCULAR.value &&
-                tensaoIsolamento == TensaoIsolamento._450V_750V.value &&
-                relacaoCaboDuto == RelacaoCaboXDuto._VMAIORIGUAL20DE.value;
+            var g = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == ELETRODUTO_SECAO_CIRCULAR && this.tensaoIsolamento == _450V_750V && this.relacaoCaboDuto == _VMAIORIGUAL20DE;
 
             return a || b || c || d || e || f || g;
-
-        } else if (isCabosNavais()) {
-            return (possibilidadeInstalacao == possibilidadeInstalacao.EMBUTIDA.value && isUnipolar());
+        } else if (this.isCabosNavais()) {
+            return (this.possibilidadeInstalacao == EMBUTIDA && this.isUnipolar());
         }
 
         return false;
     }
 
     this.isColunaB2 = function() {
-        if (isCabosEnergia()) {
-            a = localInstalacao == localInstalacao.ELETRODUTO.value && numeroCondutores != numeroCondutores.UNIPOLAR.value
-                    && possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value;
+        if (this.isCabosEnergia()) {
+            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores != UNIPOLAR && this.possibilidadeInstalacao == APARENTE;
 
-            c = localInstalacao == localInstalacao.CANALETA_FECHADA.value && numeroCondutores != numeroCondutores.UNIPOLAR.value;
-            d = localInstalacao == localInstalacao.ELETROCALHA_PERFILADO.value
-                    && numeroCondutores != numeroCondutores.UNIPOLAR.value;
+            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores != UNIPOLAR;
+            
+            var d = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores != UNIPOLAR;
 
-            e = possibilidadeInstalacao == possibilidadeInstalacao.ESPACO_CONSTRUCAO.value &&
-                localInstalacao == localInstalacao.DIRETAMENTE.value &&
-                (relacaoCaboDuto == RelacaoCaboXDuto._1POINT5V5.value);
+            var e = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == DIRETAMENTE && (this.relacaoCaboDuto == _1POINT5V5);
 
-            f = possibilidadeInstalacao == possibilidadeInstalacao.ESPACO_CONSTRUCAO.value &&
-                localInstalacao == localInstalacao.ELETRODUTO_SECAO_CIRCULAR.value &&
-                (tensaoIsolamento != TensaoIsolamento._450V_750V.value ||
-                relacaoCaboDuto != RelacaoCaboXDuto._VMAIORIGUAL20DE.value);
-
+            var f = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == ELETRODUTO_SECAO_CIRCULAR && (this.tensaoIsolamento != _450V_750V || this.relacaoCaboDuto != _VMAIORIGUAL20DE);
 
             return a || c || d || e || f;
-
-        } else if (isCabosNavais()) {
-            return (possibilidadeInstalacao == possibilidadeInstalacao.EMBUTIDA.value && !isUnipolar());
+        } else if (this.isCabosNavais()) {
+            return (this.possibilidadeInstalacao == EMBUTIDA && !this.isUnipolar());
         }
+        
         return false;
     }
 
     this.isColunaC = function() {
-        bResult = false;
+    	var bResult = false;
 
-        if (isCabosEnergia()) {
-            if (isBaixaTensao()) {
-                a = localInstalacao == localInstalacao.BANDEJA_NAO_PERFURADA.value;
-                b = localInstalacao == localInstalacao.PAREDES.value;
-                c = localInstalacao == localInstalacao.TETO.value;
-                d = localInstalacao == localInstalacao.ALVENARIA.value;
+        if (this.isCabosEnergia()) {
+            if (this.isBaixaTensao()) {
+                var a = this.localInstalacao == BANDEJA_NAO_PERFURADA;
+                var b = this.localInstalacao == PAREDES;
+                var c = this.localInstalacao == TETO;
+                var d = this.localInstalacao == ALVENARIA;
                 bResult = a || b || c || d;
 
-            } else if (isMediaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.CANALETA_FECHADA_SOLO.value) {
-                    bResult = (isUnipolar() && (isJustaposto() || isTrifolio())) || (isTripolar());
+            } else if (this.isMediaTensao()) {
+                if (this.possibilidadeInstalacao == CANALETA_FECHADA_SOLO) {
+                    bResult = (this.isUnipolar() && (this.isJustaposto() || this.isTrifolio())) || (this.isTripolar());
                 }
             }
 
-        } else if (isCabosNavais()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value) {
-                return localInstalacao == localInstalacao.BANDEJA_NAO_PERFURADA.value ||
-                    localInstalacao == localInstalacao.PAREDES.value ||
-                    localInstalacao == localInstalacao.TETO.value;
+        } else if (this.isCabosNavais()) {
+            if (this.possibilidadeInstalacao == APARENTE) {
+                return this.localInstalacao == BANDEJA_NAO_PERFURADA || this.localInstalacao == PAREDES || this.localInstalacao == TETO;
             }
         }
+        
         return bResult;
     }
 
     this.isColunaD = function() {
-        bResult = false;
+        var bResult = false;
 
-        if (isCabosEnergia()) {
-            if (isBaixaTensao()) {
-                a = possibilidadeInstalacao == possibilidadeInstalacao.SUBTERRANEA.value;
-                b = localInstalacao == localInstalacao.ELETRODUTO.value;
-                c = localInstalacao == localInstalacao.DIRETAMENTE_ENTERRADOS.value;
+        if (this.isCabosEnergia()) {
+            if (this.isBaixaTensao()) {
+                var a = this.possibilidadeInstalacao == SUBTERRANEA;
+                var b = this.localInstalacao == ELETRODUTO;
+                var c = this.localInstalacao == DIRETAMENTE_ENTERRADOS;
                 bResult = a && (b || c);
 
-            } else if (isMediaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.CANALETA_FECHADA_SOLO.value) {
-                    if (isUnipolar() && isEspacado()) {
+            } else if (this.isMediaTensao()) {
+                if (this.possibilidadeInstalacao == CANALETA_FECHADA_SOLO) {
+                    if (this.isUnipolar() && this.isEspacado()) {
                         bResult = true;
                     }
                 }
@@ -728,38 +779,30 @@ function DimensionamentoBean() {
     }
 
     this.isColunaE = function() {
-        bResult = false;
+    	var bResult = false;
 
-        if (isCabosEnergia()) {
-            if (isBaixaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value && !isUnipolar()) {
-                    if (((localInstalacao == localInstalacao.BANDEJA_PERFURADA.value)) ||
-                            (localInstalacao == localInstalacao.LEITO.value) ||
-                            (localInstalacao == localInstalacao.SUPORTES.value)) {
+        if (this.isCabosEnergia()) {
+            if (this.isBaixaTensao()) {
+                if (this.possibilidadeInstalacao == APARENTE && !this.isUnipolar()) {
+                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES)) {
                         bResult = true;
                     }
-                } else if (possibilidadeInstalacao == possibilidadeInstalacao.SUSPENSA.value) {
-                    if (localInstalacao == localInstalacao.SUPORTES.value) {
-                        if (!isUnipolar() && tensaoIsolamento != TensaoIsolamento._450V_750V.value) {
+                } else if (this.possibilidadeInstalacao == SUSPENSA) {
+                    if (this.localInstalacao == SUPORTES) {
+                        if (!this.isUnipolar() && this.tensaoIsolamento != _450V_750V) {
                             bResult = true;
                         }
                     }
                 }
 
-            } else if (isMediaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_APARENTE_AR.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_NAO_METALICO_APARENTE_AR.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_METALICO_APARENTE_AR.value) {
+            } else if (this.isMediaTensao()) {
+                if (this.possibilidadeInstalacao == ELETRODUTO_APARENTE_AR || this.possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_APARENTE_AR || this.possibilidadeInstalacao == ELETRODUTO_METALICO_APARENTE_AR) {
                     bResult = true;
-
                 }
             }
-        } else if (isCabosNavais()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value
-                    && (localInstalacao == localInstalacao.BANDEJA_PERFURADA.value ||
-                            localInstalacao == localInstalacao.LEITO.value ||
-                            localInstalacao == localInstalacao.SUPORTES.value)) {
-                return !isUnipolar();
+        } else if (this.isCabosNavais()) {
+            if (this.possibilidadeInstalacao == APARENTE && (this.localInstalacao == BANDEJA_PERFURADA || this.localInstalacao == LEITO || this.localInstalacao == SUPORTES)) {
+                return !this.isUnipolar();
             }
         }
 
@@ -767,160 +810,148 @@ function DimensionamentoBean() {
     }
 
     this.isColunaF = function() {
-        bResult = false;
+        var bResult = false;
 
-        if (isCabosEnergia()) {
-            if (isBaixaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value && isUnipolar()) {
-                    if (((localInstalacao == localInstalacao.BANDEJA_PERFURADA.value)) || (localInstalacao == localInstalacao.LEITO.value)
-                            || (localInstalacao == localInstalacao.SUPORTES.value)) {
+        if (this.isCabosEnergia()) {
+            if (this.isBaixaTensao()) {
+                if (this.possibilidadeInstalacao == APARENTE && this.isUnipolar()) {
+                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES)) {
                         bResult = true;
                     }
-                } else if (possibilidadeInstalacao == possibilidadeInstalacao.SUSPENSA.value) {
-                    if (localInstalacao == localInstalacao.SUPORTES.value && tensaoIsolamento != TensaoIsolamento._450V_750V.value) {
-                        if (isUnipolar()) {
+                } else if (this.possibilidadeInstalacao == SUSPENSA) {
+                    if (this.localInstalacao == SUPORTES && this.tensaoIsolamento != _450V_750V) {
+                        if (this.isUnipolar()) {
                             bResult = true;
                         }
                     }
                 }
 
-            } else if (isMediaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_SOLO.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_METALICO_SOLO.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_NAO_METALICO_SOLO.value) {
+            } else if (this.isMediaTensao()) {
+                if (this.possibilidadeInstalacao == ELETRODUTO_SOLO || this.possibilidadeInstalacao == ELETRODUTO_METALICO_SOLO || this.possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_SOLO) {
 
-                    if ((isUnipolar() && (isJustaposto() || isTrifolio())) || (isTripolar())) {
+                    if ((this.isUnipolar() && (this.isJustaposto() || this.isTrifolio())) || (this.isTripolar())) {
                         bResult = true;
                     }
 
-                } else if (possibilidadeInstalacao == possibilidadeInstalacao.BANCO_DUTOS_SOLO.value) {
-                    if ((isUnipolar() && isTrifolio()) || (isTripolar())) {
+                } else if (this.possibilidadeInstalacao == BANCO_DUTOS_SOLO) {
+                    if ((this.isUnipolar() && this.isTrifolio()) || (this.isTripolar())) {
                         bResult = true;
                     }
                 }
             }
 
-        } else if (isCabosNavais()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value &&
-                    (localInstalacao == localInstalacao.BANDEJA_PERFURADA.value ||
-                     localInstalacao == localInstalacao.LEITO.value ||
-                     localInstalacao == localInstalacao.SUPORTES.value)) {
-                return isUnipolar() && !isEspacado();
+        } else if (this.isCabosNavais()) {
+            if (this.possibilidadeInstalacao == APARENTE && (this.localInstalacao == BANDEJA_PERFURADA || this.localInstalacao == LEITO || this.localInstalacao == SUPORTES)) {
+                return this.isUnipolar() && !this.isEspacado();
             }
         }
+        
         return bResult;
     }
 
     this.isColunaG = function() {
-        bResult = false;
+        var bResult = false;
 
-        if (isCabosEnergia()) {
-            if (isBaixaTensao()) {
-                bResult = (localInstalacao == localInstalacao.ISOLADORES.value);
+        if (this.isCabosEnergia()) {
+            if (this.isBaixaTensao()) {
+                bResult = (this.localInstalacao == ISOLADORES);
 
-            } else if (isMediaTensao()) {
-                if (possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_SOLO.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_METALICO_SOLO.value
-                        || possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_NAO_METALICO_SOLO.value) {
-
+            } else if (this.isMediaTensao()) {
+                if (this.possibilidadeInstalacao == ELETRODUTO_SOLO || this.possibilidadeInstalacao == ELETRODUTO_METALICO_SOLO || this.possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_SOLO) {
+                	
                     bResult = (isUnipolar() && isEspacado());
-
-                } else if (possibilidadeInstalacao == possibilidadeInstalacao.BANCO_DUTOS_SOLO.value) {
-                    if (isUnipolar() || !isTrifolio()) {
+                    
+                } else if (this.possibilidadeInstalacao == BANCO_DUTOS_SOLO) {
+                    if (this.isUnipolar() || !this.isTrifolio()) {
                         bResult = true;
                     }
                 }
             }
 
-        } else if (isCabosNavais()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.APARENTE.value &&
-                    (localInstalacao == localInstalacao.BANDEJA_PERFURADA.value ||
-                     localInstalacao == localInstalacao.LEITO.value ||
-                     localInstalacao == localInstalacao.SUPORTES.value)) {
-
-                return isUnipolar() && isEspacado();
+        } else if (this.isCabosNavais()) {
+            if (this.possibilidadeInstalacao == APARENTE && (this.localInstalacao == BANDEJA_PERFURADA || this.localInstalacao == LEITO || this.localInstalacao == SUPORTES)) {
+                return this.isUnipolar() && this.isEspacado();
             }
         }
+        
         return bResult;
     }
 
     this.isColunaH = function() {
-
-        if (isCabosEnergia()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.DIRETAMENTE_SOLO.value) {
-                if ((isUnipolar() && (isJustaposto() || isTrifolio())) || (isTripolar())) {
+        if (this.isCabosEnergia()) {
+            if (this.possibilidadeInstalacao == DIRETAMENTE_SOLO) {
+                if ((this.isUnipolar() && (this.isJustaposto() || this.isTrifolio())) || (this.isTripolar())) {
                     return true;
                 }
             }
         }
+        
         return false;
     }
 
     this.isColunaI = function() {
-
-        if (isCabosEnergia()) {
-            if (possibilidadeInstalacao == possibilidadeInstalacao.DIRETAMENTE_SOLO.value) {
-                return (isUnipolar() && isEspacado());
+        if (this.isCabosEnergia()) {
+            if (this.possibilidadeInstalacao == DIRETAMENTE_SOLO) {
+                return (this.isUnipolar() && this.isEspacado());
             }
         }
+        
         return false;
     }
 
     this.is1Circuito = function() {
-        return this.quantidadeCircuitos == posicaoCabos.UM_CIRCUITO.value;
+        return this.quantidadeCircuitos == UM_CIRCUITO;
     }
 
     this.is2Circuitos = function() {
-        return this.quantidadeCircuitos == posicaoCabos.DOIS_CIRCUITO.value;
+        return this.quantidadeCircuitos == DOIS_CIRCUITO;
     }
 
     this.is3Circuitos = function() {
-        return this.quantidadeCircuitos == posicaoCabos.TRES_CIRCUITO.value;
+        return this.quantidadeCircuitos == TRES_CIRCUITO;
     }
 
     this.is4Circuitos = function() {
-        return this.quantidadeCircuitos == posicaoCabos.QUATRO_CIRCUITO.value;
+        return this.quantidadeCircuitos == QUATRO_CIRCUITO;
     }
 
     this.isOrientacaoFatorCorrecaoVertical = function() {
-        return orientacaoFatorCorrecao == orientacaoFatorCorrecao.VERTICAL.value;
+        return this.orientacaoFatorCorrecao == VERTICAL;
     }
 
     this.isOrientacaoFatorCorrecaoHorizontal = function() {
-        return orientacaoFatorCorrecao == orientacaoFatorCorrecao.HORIZONTAL.value;
+        return this.orientacaoFatorCorrecao == HORIZONTAL;
     }
 
     this.isSemOrientacaoFatorCorrecao = function() {
-        return orientacaoFatorCorrecao == orientacaoFatorCorrecao.SEM_FATOR.value;
+    	return this.orientacaoFatorCorrecao == SEM_FATOR;
     }
 
-    this.setpossibilidadeInstalacao = function(possibilidadeInstalacao) {
+    this.setPossibilidadeInstalacao = function(possibilidadeInstalacao) {
         this.possibilidadeInstalacao = possibilidadeInstalacao;
     }
 
     this.getSistema = function() {
-        return sistema;
+        return this.sistema;
     }
 
     this.getSistemaString = function() {
-        return Dimensionamento.getDescription(Sistema.class, sistema);
+        return SISTEMA[this.sistema].description;
     }
 
     this.isDuasFases = function() {
-        return ((sistema == Sistema.MONOFASICO_DOIS_CONDUTORES.value) || (sistema == Sistema.MONOFASICO_TRES_CONDUTORES.value) || (sistema == Sistema.DUAS_FASES_SEM_NEUTRO
-                .value));
+        return ((this.sistema == MONOFASICO_DOIS_CONDUTORES) || (this.sistema == MONOFASICO_TRES_CONDUTORES) || (this.sistema == DUAS_FASES_SEM_NEUTRO));
     }
 
     this.isTrifasico = function() {
-        return ((sistema == Sistema.DUAS_FASES_COM_NEUTRO.value) || (sistema == Sistema.TRIFASICO_COM_NEUTRO.value) || (sistema == Sistema.TRIFASICO_SEM_NEUTRO
-                .value));
+        return ((this.sistema == DUAS_FASES_COM_NEUTRO) || (this.sistema == TRIFASICO_COM_NEUTRO) || (this.sistema == TRIFASICO_SEM_NEUTRO));
     }
 
     this.getNumeroCircuitos = function(numeroCabos) {
-        if ((isColunaF() || isColunaG()) && possibilidadeInstalacao == possibilidadeInstalacao.BANCO_DUTOS_SOLO.value) {
-            return formacaoBancoDutos * numeroCabos;
+        if ((this.isColunaF() || this.isColunaG()) && this.possibilidadeInstalacao == BANCO_DUTOS_SOLO) {
+            return this.formacaoBancoDutos * this.numeroCabos;
         } else {
-            return quantidadeCircuitos * numeroCabos;
+            return this.quantidadeCircuitos * this.numeroCabos;
         }
     }
 
@@ -928,28 +959,28 @@ function DimensionamentoBean() {
         this.sistema = sistema;
     }
 
-    this.gettemperaturaMaximaCondutor = function() {
-        return temperaturaMaximaCondutor;
+    this.getTemperaturaMaximaCondutor = function() {
+        return this.temperaturaMaximaCondutor;
     }
 
-    this.istemperaturaMaximaCondutor70 = function() {
-        return temperaturaMaximaCondutor == temperaturaMaxima._70C.value;
+    this.isTemperaturaMaximaCondutor70 = function() {
+        return this.temperaturaMaximaCondutor == 70;
     }
 
     this.istemperaturaMaximaCondutor90 = function() {
-        return temperaturaMaximaCondutor == temperaturaMaxima._90C.value;
+        return this.temperaturaMaximaCondutor == 90;
     }
 
-    this.settemperaturaMaximaCondutor = function(temperaturaMaximaCondutor) {
+    this.setTemperaturaMaximaCondutor = function(temperaturaMaximaCondutor) {
         this.temperaturaMaximaCondutor = temperaturaMaximaCondutor;
     }
 
     this.getTensaoIsolamento = function() {
-        return tensaoIsolamento;
+        return this.tensaoIsolamento;
     }
 
     this.getTensaoIsolamentoString = function() {
-        return Dimensionamento.getDescription(TensaoIsolamento.class, tensaoIsolamento);
+        return TENSAO_ISOLAMENTO[this.tensaoIsolamento].description;
     }
 
     this.setTensaoIsolamento = function(tensaoIsolamento) {
@@ -957,11 +988,11 @@ function DimensionamentoBean() {
     }
 
     this.getUtilizacaoCircuito = function() {
-        return utilizacaoCircuito;
+        return this.utilizacaoCircuito;
     }
 
     this.getUtilizacaoCircuitoString = function() {
-        return Dimensionamento.getDescription(UtilizacaoCircuito.class, utilizacaoCircuito);
+        return UTILIZACAO_CIRCUITO[this.utilizacaoCircuito].description;
     }
 
     this.setUtilizacaoCircuito = function(utilizacaoCircuito) {
@@ -969,7 +1000,7 @@ function DimensionamentoBean() {
     }
 
     this.getTemperaturaArSolo = function() {
-        return temperaturaArSolo;
+        return this.temperaturaArSolo;
     }
 
     this.setTemperaturaArSolo = function(temperaturaArSolo) {
@@ -977,11 +1008,11 @@ function DimensionamentoBean() {
     }
 
     this.getComprimentoCircuito = function() {
-        return comprimentoCircuito;
+        return this.comprimentoCircuito;
     }
 
     this.getComprimentoCircuitoKM = function() {
-        return comprimentoCircuito / 1000;
+        return this.comprimentoCircuito / 1000;
     }
 
     this.setComprimentoCircuito = function(comprimentoCircuito) {
@@ -989,7 +1020,7 @@ function DimensionamentoBean() {
     }
 
     this.getCorrenteProjeto = function() {
-        return correnteProjeto;
+        return this.correnteProjeto;
     }
 
     this.setCorrenteProjeto = function(correnteProjeto) {
@@ -997,7 +1028,7 @@ function DimensionamentoBean() {
     }
 
     this.getFatorPotencia = function() {
-        return fatorPotencia;
+        return this.fatorPotencia;
     }
 
     this.setFatorPotencia = function(fatorPotencia) {
@@ -1005,7 +1036,7 @@ function DimensionamentoBean() {
     }
 
     this.getPotenciaAparente = function() {
-        return potenciaAparente;
+        return this.potenciaAparente;
     }
 
     this.setPotenciaAparente = function(potenciaAparente) {
@@ -1013,23 +1044,23 @@ function DimensionamentoBean() {
     }
 
     this.getQuedaTensaoMaxima = function() {
-        return quedaTensaoMaxima;
+        return this.quedaTensaoMaxima;
     }
 
     this.setQuedaTensaoMaxima = function(quedaTensaoMaxima) {
         this.quedaTensaoMaxima = quedaTensaoMaxima;
     }
 
-    this.getlocalInstalacao = function() {
-        return localInstalacao;
+    this.getLocalInstalacao = function() {
+        return this.localInstalacao;
     }
 
-    this.haslocalInstalacao = function() {
-        return localInstalacao > 0;
+    this.hasLocalInstalacao = function() {
+        return this.localInstalacao > 0;
     }
 
-    this.getlocalInstalacaoString = function() {
-        return Dimensionamento.getDescription(localInstalacao.class, localInstalacao);
+    this.getLocalInstalacaoString = function() {
+        return LOCAL_INSTALACAO[this.localInstalacao].description;
     }
 
     this.setlocalInstalacao = function(localInstalacao) {
@@ -1037,26 +1068,26 @@ function DimensionamentoBean() {
     }
 
     this.getTipoInstalacao = function() {
-        return tipoInstalacao;
+        return this.tipoInstalacao;
     }
 
     this.getTipoInstalacaoString = function() {
-        return Dimensionamento.getDescription(tipoInstalacao.class, tipoInstalacao);
+        return TIPO_INSTALACAO[this.tipoInstalacao].description;
     }
 
     this.isJustaposto = function() {
-        return tipoInstalacao == tipoInstalacao.FORMACAO_JUSTAPOSTA.value;
+        return this.tipoInstalacao == FORMACAO_JUSTAPOSTA;
     }
 
     this.isTrifolio = function() {
-        a = tipoInstalacao == tipoInstalacao.FORMACAO_TRIFOLIO.value;
-        b = isUnipolar() && (localInstalacao == localInstalacao.ELETRODUTO_SECAO_CIRCULAR.value);
+        var a = this.tipoInstalacao == FORMACAO_TRIFOLIO;
+        var b = this.isUnipolar() && (this.localInstalacao == ELETRODUTO_SECAO_CIRCULAR);
 
         return a || b;
     }
 
     this.isEspacado = function() {
-        return tipoInstalacao == tipoInstalacao.FORMACAO_ESPACADA.value;
+        return this.tipoInstalacao == FORMACAO_ESPACADA;
     }
 
     this.setTipoInstalacao = function(tipoInstalacao) {
@@ -1064,7 +1095,7 @@ function DimensionamentoBean() {
     }
 
     this.getUnidadeTensao = function() {
-        return unidadeTensao;
+        return this.unidadeTensao;
     }
 
     this.setUnidadeTensao = function(unidadeTensao) {
@@ -1072,7 +1103,7 @@ function DimensionamentoBean() {
     }
 
     this.getQuantidadeCamadas = function() {
-        return quantidadeCamadas;
+        return this.quantidadeCamadas;
     }
 
     this.setQuantidadeCamadas = function(quantidadeCamadas) {
@@ -1080,7 +1111,7 @@ function DimensionamentoBean() {
     }
 
     this.getQuantidadeCircuitos = function() {
-        return quantidadeCircuitos;
+    	return this.quantidadeCircuitos;
     }
 
     this.setQuantidadeCircuitos = function(quantidadeCircuitos) {
@@ -1088,15 +1119,15 @@ function DimensionamentoBean() {
     }
 
     this.getFixarInformacaoCurto = function() {
-        return fixarInformacaoCurto;
+        return this.fixarInformacaoCurto;
     }
 
     this.getFixarInformacaoCurtoString = function() {
-        return fixarInformacaoCurto == 0 ? "Não" : "Sim";
+        return this.fixarInformacaoCurto == 0 ? "Não" : "Sim";
     }
 
     this.isInformacaoCurtoCircuitoFixada = function() {
-        return fixarInformacaoCurto == 1;
+        return this.fixarInformacaoCurto == 1;
     }
     
     this.setFixarInformacaoCurto = function(fixarInformacaoCurto) {
@@ -1104,15 +1135,15 @@ function DimensionamentoBean() {
     }
 
     this.getFixarNumeroCabos = function() {
-        return fixarNumeroCabos;
+        return this.fixarNumeroCabos;
     }
 
     this.getFixarNumeroCabosString = function() {
-        return fixarNumeroCabos == 0 ? "Não" : "Sim";
+        return this.fixarNumeroCabos == 0 ? "Não" : "Sim";
     }
 
     this.isNumeroCabosFixada = function() {
-        return fixarNumeroCabos == 1;
+        return this.fixarNumeroCabos == 1;
     }
 
     this.setFixarNumeroCabos = function(fixarNumeroCabos) {
@@ -1120,11 +1151,11 @@ function DimensionamentoBean() {
     }
 
     this.getFixarSecaoCondutor = function() {
-        return fixarSecaoCondutor;
+        return this.fixarSecaoCondutor;
     }
 
     this.getFixarSecaoCondutorString = function() {
-        return fixarSecaoCondutor == 0 ? "Não" : "Sim";
+        return this.fixarSecaoCondutor == 0 ? "Não" : "Sim";
     }
 
     this.setFixarSecaoCondutor = function(fixarSecaoCondutor) {
@@ -1132,7 +1163,7 @@ function DimensionamentoBean() {
     }
 
     this.getCorrenteCurto = function() {
-        return correnteCurto;
+        return this.correnteCurto;
     }
 
     this.setCorrenteCurto = function(correnteCurto) {
@@ -1140,26 +1171,26 @@ function DimensionamentoBean() {
     }
 
     this.getEletrodutoMetalico = function() {
-        return eletrodutoMetalico;
+        return this.eletrodutoMetalico;
     }
 
     this.getEletrodutoMetalicoString = function() {
-        return eletrodutoMetalico == 0 ? "Não" : "Sim";
+        return this.eletrodutoMetalico == 0 ? "Não" : "Sim";
     }
 
     this.isEletrodutoMetal = function() {
-        return (getEletrodutoMetalico() == 1);
+    	return (this.getEletrodutoMetalico() == 1);
     }
     this.setEletrodutoMetalico = function(eletrodutoMetalico) {
         this.eletrodutoMetalico = eletrodutoMetalico;
     }
 
     this.getFormacaoBancoDutos = function() {
-        return formacaoBancoDutos;
+        return this.formacaoBancoDutos;
     }
 
     this.getFormacaoBancoDutosString = function() {
-        return Dimensionamento.getDescription(BancoDutos.class, formacaoBancoDutos);
+        return BANCO_DUTOS[this.formacaoBancoDutos].description;
     }
 
     this.setFormacaoBancoDutos = function(formacaoBancoDutos) {
@@ -1167,7 +1198,7 @@ function DimensionamentoBean() {
     }
 
     this.getNumeroBandejas = function() {
-        return numeroBandejas;
+        return this.numeroBandejas;
     }
 
     this.setNumeroBandejas = function(numeroBandejas) {
@@ -1175,7 +1206,7 @@ function DimensionamentoBean() {
     }
 
     this.getNumeroBandejasVertical = function() {
-        return numeroBandejasVertical;
+        return this.numeroBandejasVertical;
     }
 
     this.setNumeroBandejasVertical = function(numeroBandejasVertical) {
@@ -1183,7 +1214,7 @@ function DimensionamentoBean() {
     }
 
     this.getNumeroCabosFixado = function() {
-        return numeroCabosFixado;
+        return this.numeroCabosFixado;
     }
 
     this.setNumeroCabosFixado = function(numeroCabosFixado) {
@@ -1191,7 +1222,7 @@ function DimensionamentoBean() {
     }
 
     this.getNumeroTernasBandeja = function() {
-        return numeroTernasBandeja;
+        return this.numeroTernasBandeja;
     }
 
     this.setNumeroTernasBandeja = function(numeroTernasBandeja) {
@@ -1199,7 +1230,7 @@ function DimensionamentoBean() {
     }
 
     this.getNumeroTernasBandejaVertical = function() {
-        return numeroTernasBandejaVertical;
+        return this.numeroTernasBandejaVertical;
     }
 
     this.setNumeroTernasBandejaVertical = function(numeroTernasBandejaVertical) {
@@ -1207,11 +1238,11 @@ function DimensionamentoBean() {
     }
 
     this.getPosicaoCabosSolo = function() {
-        return quantidadeCircuitos;
+        return this.quantidadeCircuitos;
     }
 
     this.getPosicaoCabosSoloString = function() {
-        return Dimensionamento.getDescription(posicaoCabos.class, quantidadeCircuitos);
+        return POSICAO_CABOS[this.quantidadeCircuitos].description;
     }
 
     this.setPosicaoCabosSolo = function(posicaoCabosSolo) {
@@ -1219,7 +1250,7 @@ function DimensionamentoBean() {
     }
 
     this.getResistividadeTermica = function() {
-        return resistividadeTermica;
+        return this.resistividadeTermica;
     }
 
     this.setResistividadeTermica = function(resistividadeTermica) {
@@ -1227,7 +1258,7 @@ function DimensionamentoBean() {
     }
 
     this.getSecaoCondutorFixado = function() {
-        return secaoCondutorFixado;
+        return this.secaoCondutorFixado;
     }
 
     this.setSecaoCondutorFixado = function(secaoCondutorFixado) {
@@ -1235,11 +1266,11 @@ function DimensionamentoBean() {
     }
 
     this.getOrientacaoFatorCorrecao = function() {
-        return orientacaoFatorCorrecao;
+        return this.orientacaoFatorCorrecao;
     }
 
     this.getOrientacaoFatorCorrecaoString = function() {
-        return Dimensionamento.getDescription(orientacaoFatorCorrecao.class, orientacaoFatorCorrecao);
+        return ORIENTACAO_FATOR_CORRECAO[this.orientacaoFatorCorrecao].description;
     }
 
     this.setOrientacaoFatorCorrecao = function(orientacaoFatorCorrecao) {
@@ -1247,7 +1278,7 @@ function DimensionamentoBean() {
     }
 
     this.getTempoAtuacaoProtecao = function() {
-        return tempoAtuacaoProtecao;
+        return this.tempoAtuacaoProtecao;
     }
 
     this.setTempoAtuacaoProtecao = function(tempoAtuacaoProtecao) {
@@ -1255,7 +1286,7 @@ function DimensionamentoBean() {
     }
 
     this.setTempoAtuacaoProtecao = function() {
-        return codigo;
+        return this.codigo;
     }
 
     this.setCodigo = function(codigo) {
@@ -1263,11 +1294,11 @@ function DimensionamentoBean() {
     }
 
     this.getPosicionamentoCabo = function() {
-        return posicionamentoCabo;
+        return this.posicionamentoCabo;
     }
 
     this.getPosicionamentoCaboString = function() {
-        return Dimensionamento.getDescription(localInstalacao.class, posicionamentoCabo);
+        return LOCAL_INSTALACAO[this.posicionamentoCabo].description;
     }
 
     this.setPosicionamentoCabo = function(posicionamentoCabo) {
@@ -1275,7 +1306,7 @@ function DimensionamentoBean() {
     }
 
     this.getSistemaAterramento = function() {
-        return sistemaAterramento;
+        return this.sistemaAterramento;
     }
 
     this.setSistemaAterramento = function(sistemaAterramento) {
@@ -1283,25 +1314,22 @@ function DimensionamentoBean() {
     }
 
     this.isMultiAterrado = function() {
-        return isMediaTensao();
+        return this.isMediaTensao();
     }
 
     this.isEletroduto = function() {
-        return (localInstalacao == localInstalacao.ELETRODUTO.value ||
-                localInstalacao == localInstalacao.ELETRODUTO_CIRCULAR_ALVENARIA.value ||
-                localInstalacao == localInstalacao.ELETRODUTO_PAREDE.value ||
-                localInstalacao == localInstalacao.ELETRODUTO_SECAO_CIRCULAR.value);
+        return (this.localInstalacao == ELETRODUTO || this.localInstalacao == ELETRODUTO_CIRCULAR_ALVENARIA || this.localInstalacao == ELETRODUTO_PAREDE || this.localInstalacao == ELETRODUTO_SECAO_CIRCULAR);
     }
 
     this.isDiretamenteEnterrados = function() {
-        return (localInstalacao == localInstalacao.DIRETAMENTE_ENTERRADOS.value ||
-                localInstalacao == localInstalacao.DIRETAMENTE.value);
+        return (this.localInstalacao == DIRETAMENTE_ENTERRADOS || this.localInstalacao == DIRETAMENTE);
     }
 
     this.isEletrodutoSolo = function() {
-        a = possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_SOLO.value;
-        b = possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_METALICO_SOLO.value;
-        c = possibilidadeInstalacao == possibilidadeInstalacao.ELETRODUTO_NAO_METALICO_SOLO.value;
+        var a = this.possibilidadeInstalacao == ELETRODUTO_SOLO;
+        var b = this.possibilidadeInstalacao == ELETRODUTO_METALICO_SOLO;
+        var c = this.possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_SOLO;
+        
         return (a || b || c);
     }
 
@@ -1314,19 +1342,19 @@ function DimensionamentoBean() {
     }
 
     this.getorientacaoCabo = function() {
-        return orientacaoCabo;
+        return this.orientacaoCabo;
     }
 
     this.getOrietacaoCaboString = function() {
-        return Dimensionamento.getDescription(orientacaoCabo.class, orientacaoCabo);
+        return ORIENTACAO_CABO[this.orientacaoCabo].description;
     }
 
     this.isOrientacaoHorizontal = function() {
-        return orientacaoCabo == orientacaoCabo.HORIZONTAL.value;
+        return this.orientacaoCabo == HORIZONTAL;
     }
 
     this.isOrientacaoVertical = function() {
-        return orientacaoCabo == orientacaoCabo.VERTICAL.value;
+        return this.orientacaoCabo == VERTICAL;
     }
 
     this.setorientacaoCabo = function(orientacaoCabo) {
@@ -1334,11 +1362,11 @@ function DimensionamentoBean() {
     }
 
     this.getRelacaoCaboDuto = function() {
-        return relacaoCaboDuto;
+        return this.relacaoCaboDuto;
     }
 
     this.getRelacaoCaboDutoString = function() {
-        return Dimensionamento.getDescription(RelacaoCaboXDuto.class, relacaoCaboDuto);
+        return RELACAO_CABO_DUTO[this.relacaoCaboDuto].description;
     }
 
     this.setRelacaoCaboDuto = function(relacaoCaboDuto) {
@@ -1346,7 +1374,7 @@ function DimensionamentoBean() {
     }
 
     this.getAlturaCanaleta = function() {
-        return alturaCanaleta;
+        return this.alturaCanaleta;
     }
 
     this.setAlturaCanaleta = function(alturaCanaleta) {
@@ -1354,7 +1382,7 @@ function DimensionamentoBean() {
     }
 
     this.getLarguraCanaleta = function() {
-        return larguraCanaleta;
+        return this.larguraCanaleta;
     }
 
     this.setLarguraCanaleta = function(larguraCanaleta) {
@@ -1362,7 +1390,7 @@ function DimensionamentoBean() {
     }
 
     this.getAplicacao = function() {
-        return aplicacao;
+        return this.aplicacao;
     }
 
     this.setAplicacao = function(aplicacao) {
@@ -1370,7 +1398,7 @@ function DimensionamentoBean() {
     }
 
     this.getTipoCabo = function() {
-        return tipoCabo;
+        return this.tipoCabo;
     }
 
     this.setTipoCabo = function(tipoCabo) {
