@@ -1,0 +1,68 @@
+body {
+	width:450px;
+	height:440px;
+	/*-webkit-transform:rotate(-90deg);*/
+}
+
+#faq {
+    margin:0;
+}
+
+#faq dt {
+	position:relative;
+	top:-5px;
+	padding-left:14px;
+	padding-top:4px;
+	background-size:100% 100%;
+	width:439px;
+	height:24px;
+}
+
+#faq dd {
+	position:relative;
+	top:-5px;
+	padding:10px;
+	padding-right:20px;
+	margin:0px;
+	background-image:url("../img/info-bgresposta.png");
+	background-size:100% 100%;
+	width:423px;
+}
+
+.closed-question {
+	background-image:url("../img/info-bgperguntafechada.png");
+}
+
+.open-question {
+	background-image:url("../img/info-bgperguntaaberta.png");
+}
+
+img {
+	zoom:50%;
+}
+
+#img-footer {
+	position:relative;
+	top:-10px;
+}
+
+.searchbar input {
+	width:200px;
+}
+
+.searchbar {
+	position:relative;
+	top:-5px;
+	background-image:url("../img/info-bgbusca.png");
+	width:453px;
+	background-size:100% 100%;
+	padding-bottom:10px;
+}
+
+#btn-return {
+	position:absolute;
+	top:0;
+	left:0;
+	width:60px;
+	height:60px;
+}

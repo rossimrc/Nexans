@@ -1,0 +1,27 @@
+body {
+	width:470px;
+	height:450px;
+}
+
+.rotated {
+	-webkit-transform:rotate(90deg);
+}
+
+ul {
+    margin:0px;
+    padding:0px;
+	margin-left:4px;
+}
+
+ul li {
+    list-style:none;
+	margin:0px;
+	padding:0px;
+	margin-top:-5px;
+}
+
+ul li img {
+	zoom:50%;
+	margin:0px;
+	padding:0px;
+}

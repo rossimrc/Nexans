@@ -1,0 +1,53 @@
+.app {
+    /*height:100%;*/
+}
+
+html, body {
+    /*overflow:hidden;
+    -webkit-user-select: none;*/ 
+}
+
+#image-holder {
+	position:absolute;
+	width:2800px;
+}
+
+.bg-tutorial {
+	background-image:url("../img/bg-conheca.png");
+	background-size:100%;
+	width:298px;
+	height:438px;
+	position:relative;
+	float:left;
+	left:10px;
+	margin-left:-10px;
+}
+
+.image-index-icon {
+    width:10px;
+    height:10px;
+    margin:5px;
+    position:relative;
+    float:left;
+    -webkit-border-radius:5px;
+    background-color:white;
+}
+
+.icon-selected {
+    background-color:black;
+}
+
+#image-index {
+	position:fixed;
+	bottom:0px;
+	width:100%;
+}
+
+#back-button {
+	width:50px;
+	height:50px;
+	position:fixed;
+	top:70px;
+	left:30px;
+}
+
