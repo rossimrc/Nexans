@@ -100,11 +100,6 @@ Table02.prototype.getSecao = function(tableName, dimensionamento, corrente, mini
 		var Objeto_json = JSON.parse(Objeto_real);
 		
 		secao = Objeto_real;
-		
-		/*$.each(Objeto_json, function(i, item) {
-		    //alert(item.NME_TABELA);
-		    $('#div').append("<br>Nome Tabela: " + item.NME_TABELA);
-		  });*/
 	}
 	catch(err)
 	{
