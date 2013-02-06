@@ -61,34 +61,53 @@ Table02DAO.prototype.getByCorrente = function(tableName, coluna, corrente, minim
 	
 	var filtro = "";
 	
+	var result = [];
+		
 	filtro = filtro + "NME_TABELA='" + tableName + "'";
 	filtro = filtro + " AND " + auxColuna + ">" + corrente;
 	filtro = filtro + " AND (NMR_SECAO between '" + minimaSecao + "' AND '" + maximaSecao + "')";
 
 	this.db.transaction(function (transaction) {
 		
-	    var query="SELECT * FROM TAB_AUXILIAR_02 WHERE " + filtro +";";
-	    //alert("Query: " + query);
+	    //var query="SELECT * FROM TAB_AUXILIAR_02 WHERE " + filtro +";";
+	    var query="SELECT * FROM TAB_AUXILIAR_02;";
 		
-        transaction.executeSql(query, [],
+	    transaction.executeSql(query, [],
                 function (transaction, resultSet) {
-
-                        //var string = "";
+                        var string = "";
                         
 						//return resultSet.rows;
 				
-                        /*for (var i=0; i<resultSet.rows.length; i++) {
+                        for (var i=0; i<resultSet.rows.length; i++) {
 
                                 var row = resultSet.rows.item(i);
-                                alert("Tabela:" + row['NME_TABELA'] + " - Secao: " + row['NMR_SECAO']  + " - VLR_A: " + row['VLR_A']);
+                                /*result[i] = {
+                                		NME_TABELA: row['NME_TABELA'],
+                                        NMR_SECAO: row['NMR_SECAO'],
+                                        VLR_B1_2: row['VLR_B1_2'],
+                                        VLR_B1_3: row['VLR_B1_3'],
+                                        VLR_B2_2: row['VLR_B2_2'],
+                                        VLR_B2_3: row['VLR_B2_3'],
+                                        VLR_C_2: row['VLR_C_2'],
+                                        VLR_C_3: row['VLR_C_3'],
+                                        VLR_E_2: row['VLR_E_2'],
+                                        VLR_E_3: row['VLR_E_3'],
+                                        VLR_F_2: row['VLR_F_2'],
+                                        VLR_F_3T: row['VLR_F_3T'],
+                                        VLR_F_3: row['VLR_F_3'],
+                                        VLR_G_H: row['VLR_G_H'],
+                                        VLR_G_V: row['VLR_G_V']
+                                };*/
                                 
-                                //alert('Alias test: Name: '+row['name']+' ('+row['tbl_a_id']+') Color: '+row['color']+' ('+row['tbl_b_id']+')');
-                                // string = string + "ID: "+row['id']+" A_ID: "+row['tbl_a_id']+" B_ID: "+row['tbl_b_id']+"\n";
-                        }*/
+                                result[i] = resultSet.rows.item(i);
+                        }
+                        localStorage.removeItem('resultTable02DAOGetByCorrente');
                         
-                      return resultSet.rows;
+                        localStorage.setItem('resultTable02DAOGetByCorrente', JSON.stringify(result));
                 });
-    	});	
+    	});
+	
+	return "resultTable02DAOGetByCorrente";
 };
 
 /**
