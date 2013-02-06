@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>Teste Classes Beans e Dao</title>
+			
+		<script type="text/javascript" src="./database/dbinit.js"></script>
+		<script type="text/javascript" src="./beans/simulacao/DimensionamentoBean.js"></script>
+		<script type="text/javascript" src="./business/importacao/ProdutoBean.js"></script>
+		<script type="text/javascript" src="./business/simulacao/dimensionamento/SecaoNominalCondutores.js"></script>
+		<script type="text/javascript" src="./business/simulacao/dimensionamento/TabelaUtil.js"></script>
+		<script type="text/javascript" src="./business/importacao/ProdutoBean.js"></script>
+		<script type="text/javascript" src="./dao/importacao/TabelaProdutoDAO.js"></script>
+		
+		<script type="text/javascript" src="./beans/table/Table02PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table02Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table02DAO.js"></script>		
+		<script type="text/javascript" src="./business/table/Table02.js"></script>
+		
+		<script type="text/javascript" src="./beans/table/Table04PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table04Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table04DAO.js"></script>		
+		
+		<script type="text/javascript" src="./beans/table/Table05PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table05Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table05DAO.js"></script>
+		
+		<script type="text/javascript" src="./beans/table/Table06PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table06Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table06DAO.js"></script>		
+		
+		<script type="text/javascript" src="./beans/table/Table09PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table09Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table09DAO.js"></script>		
+		
+		<script type="text/javascript" src="./beans/table/Table10PKBean.js"></script>
+		<script type="text/javascript" src="./beans/table/Table10Bean.js"></script>		
+		<script type="text/javascript" src="./dao/table/Table10DAO.js"></script>
+		
+		<script type="text/javascript" src="business/tabela/Tabela28.js"></script>
+		<script type="text/javascript" src="business/tabela/Tabela29.js"></script>
+		<script type="text/javascript" src="business/tabela/Tabela30.js"></script>
+		<script type="text/javascript" src="business/tabela/Tabela31.js"></script>
+		
+		<script type="text/javascript" src="business/tabela/Tabela36.js"></script>
+		<script type="text/javascript" src="business/tabela/Tabela37.js"></script>
+		
+		<script type="text/javascript" src="business/tabela/Tabela38.js"></script>
+		<script type="text/javascript" src="business/tabela/Tabela39.js"></script>	
+		
+		<script type="text/javascript" src="js/jquery.js"></script>			
+		
+	</head>	
+	<body>
+		<div class="teste"></div>
+		<br /><br />
+		<center><h1>Teste de Tradução das Classes Beans e DAO</h1></center>	
+		<script type="text/javascript">
+
+			var db = openDatabase("nexans", "1.0", "", 50 * 1024 * 1024);
+
+			//var Table10DAO = new Table10DAO(db);
+			//var TabelaProdutoDAO = new TabelaProdutoDAO(db);
+			//var DimensionamentoBean = new DimensionamentoBean();
+
+			//var Table09DAO = new Table09DAO(db);
+
+			//Table10DAO.setNomeTabela('nome da tabela');
+			//alert('Resultado getNomeTabela: ' + Table10DAO.getNomeTabela());
+			//Table10DAO.getByCorrente('28_01','A','225','25','120');
+
+			//TabelaProdutoDAO.getByFamilia('250');
+			//TabelaProdutoDAO.getCabo(DimensionamentoBean,'25');
+			
+			//Table09DAO.getByNumeroCircuitos('3','45_01');
+
+			//Table07DAO.getByResistividade('1');
+			
+			var DimensionamentoBean = new DimensionamentoBean(db);
+			var ProdutoBean = new ProdutoBean(db);
+			//var SecaoNominalCondutores = new SecaoNominalCondutores(DimensionamentoBean,ProdutoBean);
+			
+			var Table02 = new Table02(db);
+			Table02.getByTableName('1');
+			var secaoAux = Table02.getSecao('28_01',DimensionamentoBean,'225','25','120');
+
+			var secao = JSON.parse(secaoAux);
+
+			$.each(secao, function(i, item) {
+			    //alert(item.NME_TABELA);
+			    $('.teste').append("<br>Nome Tabela: " + item.NME_TABELA);
+			  });
+			
+		</script>
+	</body>
+</html>
