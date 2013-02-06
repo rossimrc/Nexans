@@ -10,13 +10,13 @@ function SecaoNominalCondutores(dimensionamento, produto) {
 	
 	this.fatorCorrecao = new FatorCorrecao(this.dimensionamento, this.produto);
 	
-	// Número de cabos utilizados.
+	// N˙mero de cabos utilizados.
     this.numeroCabos = 0;
 
-    // Seção do condutor (SC).
+    // SeÁ„o do condutor (SC).
     this.sC = 0;
 
-    // Resistencia do condutor em CC à temperatura máxima do condutor (Rcc).
+ // Resistencia do condutor em CC ‡ temperatura m·xima do condutor (Rcc).
     this.rcc = 0;
     this.rcaCorrigido = 0;
 
@@ -33,13 +33,29 @@ function SecaoNominalCondutores(dimensionamento, produto) {
     // Diametro medio da blindagem.
     this.dp = 0;
 
-    // Resistência elétrica em corrente alternada da proteção metálica (Rp).
+    // ResistÍncia elÈtrica em corrente alternada da proteÁ„o met·lica (Rp).
     this.rp = 0;
 
     // Fatores
     this.fatorTemperaturaAmbiente = 0;
     this.fatorAgrupamento = 0;
-    this.fatorResistividadeTermica = 0;
-    
-    //developing this
+    this.fatorResistividadeTermica = 0;  
 }
+
+/**
+ * Method description
+ * @return void
+ */
+SecaoNominalCondutores.prototype.calcularCriterioCorrente = function() {
+	this.calcularCriterioCorrente('1', 'false');	
+};
+
+/**
+ * Method description
+ * @param int numCabos
+ * @param boolean aumentarSecao
+ * @return void
+ */
+SecaoNominalCondutores.prototype.calcularCriterioCorrente = function(numCabos, aumentarSecao) {
+	alert('Teste overload' + numCabos);
+};
