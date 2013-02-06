@@ -88,9 +88,20 @@
 
 			var secao = JSON.parse(secaoAux);
 
+			/*for(var key in secao)
+			{ 
+				//alert('key name: ' + key + ' value: ' + secao[key]);
+				$('.teste').append("<br>Campo [" + key + "]: " + secao[key]); 
+			}*/
+
 			$.each(secao, function(i, item) {
 			    //alert(item.NME_TABELA);
-			    $('.teste').append("<br>Nome Tabela: " + item.NME_TABELA);
+				for(var key in item)
+				{ 
+					//alert('key name: ' + key + ' value: ' + item[key]);
+					$('.teste').append("<br>Campo [" + key + "]: " + item[key]); 
+				}
+			    //$('.teste').append("<br>Nome Tabela: " + item.NME_TABELA);
 			  });
 			
 		</script>
