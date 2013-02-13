@@ -1,4 +1,18 @@
-var pages = ["page-newproject", "page-projectdescription", "page-cabledescription", "page-cableinfo", "page-dimension"];
+var loadingNaval = true;
+var loading = true;
+
+function removeA(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
+
+var pages = ["page-newproject", "page-projectdescription", "page-cabledescription", "page-cableinfo", "page-dimension", "localInstalacaoAparente-popup"];
 var currentPage = 0;
 var db = window.openDatabase("a2", "1.0", "", 200000);
 
@@ -83,7 +97,7 @@ function initCurrentPage(p) {
 }
 
 function errorCB(err) {
-	alert(err.code + " " +err.message);
+	alert("Erro Banco: " + err.code + " " +err.message);
 	for(var e in  err)
 		console.log(e);
 }
@@ -210,7 +224,7 @@ function checkPageConsistency(p) {
 			else unwarnElementError($("#system"));
 
 			if(valid) {
-				db.transaction(function(tx){
+				/*db.transaction(function(tx){
 					
 					var material = $("#cableMaterial").val();
 					var condutores = $("#conductorNumber").val();
@@ -218,11 +232,11 @@ function checkPageConsistency(p) {
 					var temperatura = $("#maximumTemperature").val();
 					
 					tx.executeSql('SELECT c.* FROM cabos c JOIN cabos_de_potencia cp ON c.id = cp.id_cabo WHERE cp.id_material = ? AND id_condutores = ? AND id_tensao = ? AND id_temperatura >= ?',[material, condutores, tensao, temperatura],function(tx, rs){
-							$("#page-cabledescription ul").empty();
+							//$("#page-cabledescription ul").empty();
 							var i;
 							for(i = 0; i < rs.rows.length; i++) {
 								console.log(rs.rows.item(i));
-								$("#page-cabledescription ul").first().append("<li onclick='loadCableInfo("+rs.rows.item(i).id+")'>"+rs.rows.item(i).nome+"</li>");
+								//$("#page-cabledescription ul").first().append("<li onclick='loadCableInfo("+rs.rows.item(i).id+")'>"+rs.rows.item(i).nome+"</li>");
 							}
 							if(i <= 0)
 							{
@@ -233,7 +247,7 @@ function checkPageConsistency(p) {
 					
 					
 					
-				},errorCB);
+				},errorCB);*/
 				
 			}
 			else {
@@ -297,7 +311,7 @@ function checkPageConsistency(p) {
 			else unwarnElementError($("#system"));
 
 			if(valid) {
-				db.transaction(function(tx){
+				/*db.transaction(function(tx){
 					
 					var construcao = $("#cableConstruction").val();
 					var aplicacao = $("#cableFirePerformance").val();
@@ -306,11 +320,11 @@ function checkPageConsistency(p) {
 					var tensao = $("#systemVoltage").val();
 					
 					tx.executeSql('SELECT c.* FROM cabos c JOIN cabos_navais cn ON c.id = cn.id_cabo WHERE cn.id_construcao = ? AND cn.id_aplicacao = ? AND cn.id_isolacao = ? AND id_condutores = ? AND id_tensao = ?',[construcao, aplicacao, isolacao, condutores, tensao],function(tx, rs){
-							$("#page-cabledescription ul").empty();
+							//$("#page-cabledescription ul").empty();
 							var i;
 							for(i = 0; i < rs.rows.length; i++) {
 								console.log(rs.rows.item(i));
-								$("#page-cabledescription ul").first().append("<li onclick='loadCableInfo("+rs.rows.item(i).id+")'>"+rs.rows.item(i).nome+"</li>");
+								//$("#page-cabledescription ul").first().append("<li onclick='loadCableInfo("+rs.rows.item(i).id+")'>"+rs.rows.item(i).nome+"</li>");
 							}
 							if(i <= 0)
 							{
@@ -319,7 +333,7 @@ function checkPageConsistency(p) {
 							}
 					});
 					
-				},errorCB);
+				},errorCB);*/
 				
 			}
 			else {
@@ -344,9 +358,10 @@ function loadCableInfo(c) {
 		tx.executeSql("SELECT * FROM cabos WHERE id = ?",[c],function(tx, rs){
 			console.log(rs.rows.item(0).imagem);
 			//$("#cableinfo").html("<div class='cable-name'>" + rs.rows.item(0).nome + "</div>" + "<br><img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img><br><div class='cable-description'>"+rs.rows.item(0).descricao+"</div>");
-			$(".cable-name").html(rs.rows.item(0).nome);
-			$(".cable-photo").html("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
-			$(".cable-description").html(rs.rows.item(0).descricao);
+			//$(".cable-name").html(rs.rows.item(0).nome);
+			//$(".cable-photo").html("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
+                      alert("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
+			//$(".cable-description").html(rs.rows.item(0).descricao);
 		});
 	},errorCB,nextPage);
 	//$("#page-cableinfo div").first().html(cables[c].name + "<br><img src='"+cables[c].image+"'></img><br>"+cables[c].description);
@@ -392,37 +407,53 @@ db.transaction(populateDB, errorCB, successCB);
 
 function populateDB(tx) {
 
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_de_produtos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+	//VERIFICADO
+    tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_de_produtos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM tipo_de_produtos');
 	tx.executeSql('INSERT INTO tipo_de_produtos VALUES (1,"Cabos de Potência")');
 	tx.executeSql('INSERT INTO tipo_de_produtos VALUES (2,"Cabos Navais (Offshore)")');
 	
+    //VERIFICADO
 	tx.executeSql('CREATE TABLE IF NOT EXISTS nivel_de_tensao_do_sistema (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM nivel_de_tensao_do_sistema');
 	tx.executeSql('INSERT INTO nivel_de_tensao_do_sistema VALUES (1,"Baixa Tensão até 1kV")');
 	tx.executeSql('INSERT INTO nivel_de_tensao_do_sistema VALUES (2,"Média Tensão de 1kV até 35kV")');
+    tx.executeSql('INSERT INTO nivel_de_tensao_do_sistema VALUES (3,"Média Tensão de 1kV até 20kV")');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_tensao (id_1 INTEGER, id_2 INTEGER)');
+	//TABELA DE RELACIONAMENTO ENTRE TIPO_DE_PRODUTOS E NIVEL_DE_TENSAO_DO_SISTEMA
+    tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_tensao (id_1 INTEGER, id_2 INTEGER)');
 	tx.executeSql('DELETE FROM tipo_x_tensao');
 	tx.executeSql('INSERT INTO tipo_x_tensao VALUES (1,1)');
 	tx.executeSql('INSERT INTO tipo_x_tensao VALUES (1,2)');
+	//tx.executeSql('INSERT INTO tipo_x_tensao VALUES (1,3)');
 	tx.executeSql('INSERT INTO tipo_x_tensao VALUES (2,1)');
-	tx.executeSql('INSERT INTO tipo_x_tensao VALUES (2,2)');
+	//tx.executeSql('INSERT INTO tipo_x_tensao VALUES (2,2)');
+	tx.executeSql('INSERT INTO tipo_x_tensao VALUES (2,3)');
 	
 	/**********/
+    //VERIFICADO
 	//Especificação do tipo construtivo
+    //TIPO ORIGINAL É CabosNavais
 	tx.executeSql('CREATE TABLE IF NOT EXISTS construcao_do_cabo (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM construcao_do_cabo');
 	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (1,"Cabo armado com trança de Cobre")');
 	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (2,"Cabo armado com trança de Aço")');
 	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (3,"Cabo não armado")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (4,"Segurança Máxima - resistente ao fogo - Norma IEC 60331-21")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (5,"Auto-extinção e não-propagação de chama - Norma IEC 60332-3-22")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (6,"Isolação HF XLPE")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (7,"Isolação HF HEPR")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (8,"Unipolar - Um condutor")');
+	tx.executeSql('INSERT INTO construcao_do_cabo VALUES (9,"Três condutores")');
+
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS aplicacao_do_cabo (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM aplicacao_do_cabo');
-	tx.executeSql('INSERT INTO aplicacao_do_cabo VALUES (1,"Auto-extinção e não-propagação da chama - NORMA IEC 60332-3-22")');
-	tx.executeSql('INSERT INTO aplicacao_do_cabo VALUES (2,"Segurança Máxima - resistente ao fogo - NORMA IEC 60331-21")');
+	tx.executeSql('INSERT INTO aplicacao_do_cabo VALUES (5,"Auto-extinção e não-propagação da chama - NORMA IEC 60332-3-22")');
+	tx.executeSql('INSERT INTO aplicacao_do_cabo VALUES (4,"Segurança Máxima - resistente ao fogo - NORMA IEC 60331-21")');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_tensao_x_construcao (id_1 INTEGER, id_2 INTEGER, id_3 INTEGER)');
+	//TABELA DE RELACIONAMENTO
+    tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_tensao_x_construcao (id_1 INTEGER, id_2 INTEGER, id_3 INTEGER)');
 	tx.executeSql('DELETE FROM tipo_x_tensao_x_construcao');
 	tx.executeSql('INSERT INTO tipo_x_tensao_x_construcao VALUES (2,1,1)');
 	tx.executeSql('INSERT INTO tipo_x_tensao_x_construcao VALUES (2,1,2)');
@@ -460,7 +491,8 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO unidade_de_tensao VALUES (1,"Volts - V")');
 	tx.executeSql('INSERT INTO unidade_de_tensao VALUES (2,"QuiloVolts - kV")');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS numero_de_condutores (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+	//VERIFICADO - ORIGINAL NumeroCondutores
+    tx.executeSql('CREATE TABLE IF NOT EXISTS numero_de_condutores (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM numero_de_condutores');
 	tx.executeSql('INSERT INTO numero_de_condutores VALUES(1,"Unipolar - Um condutor")');
 	tx.executeSql('INSERT INTO numero_de_condutores VALUES(2,"Bipolar - Dois condutores")');
@@ -476,7 +508,8 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO tensao_x_numero VALUES(2,1)');
 	tx.executeSql('INSERT INTO tensao_x_numero VALUES(2,3)');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS utilizacao_do_circuito (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    //VERIFICADO - ORIGINAL UtilizacaoCircuito
+    tx.executeSql('CREATE TABLE IF NOT EXISTS utilizacao_do_circuito (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM utilizacao_do_circuito');
 	tx.executeSql('INSERT INTO utilizacao_do_circuito VALUES(1,"Circuito de Iluminação")');
 	tx.executeSql('INSERT INTO utilizacao_do_circuito VALUES(2,"Circuito de Força")');
@@ -497,7 +530,8 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO tipo_x_material_x_utilizacao VALUES(1,2,2)');
 	tx.executeSql('INSERT INTO tipo_x_material_x_utilizacao VALUES(2,1,2)');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS sistema (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+	//VERIFICADO - ORIGINAL Sistema
+    tx.executeSql('CREATE TABLE IF NOT EXISTS sistema (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM sistema');
 	tx.executeSql('INSERT INTO sistema VALUES (1,"Monofásico a dois condutores")');
 	tx.executeSql('INSERT INTO sistema VALUES (2,"Monofásico a três condutores")');
@@ -534,25 +568,42 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO tipo_x_condutores_x_sistema VALUES (2,4,5)');
 	//tx.executeSql('INSERT INTO tipo_x_condutores_x_sistema VALUES (2,3,5)');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS temperatura_do_condutor (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+	//VERIFICADO - ORIGINAL TemperaturaMaxima
+    tx.executeSql('CREATE TABLE IF NOT EXISTS temperatura_do_condutor (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
 	tx.executeSql('DELETE FROM temperatura_do_condutor');
-	tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (1,"70º")');
+	/*tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (1,"70º")');
 	tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (2,"85º")');
 	tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (3,"90º")');
-	tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (4,"105º")');
+	tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (4,"105º")');*/
+    //DADOS EXTRAIDOS DA CLASSE Dimensionamento, METODO TemperaturaMaxima
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (35,"35º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (40,"40º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (45,"45º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (50,"50º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (55,"55º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (60,"60º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (65,"65º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (70,"70º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (75,"75º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (80,"80º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (85,"85º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (90,"90º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (95,"95º")');
+    tx.executeSql('INSERT INTO temperatura_do_condutor VALUES (105,"105º")');
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_temperatura (id_1 INTEGER, id_2 INTEGER)');
+	/*tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_x_temperatura (id_1 INTEGER, id_2 INTEGER)');
 	tx.executeSql('DELETE FROM tipo_x_temperatura');
 	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (1,1)');
 	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (1,3)');
 	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (2,1)');
 	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (2,2)');
-	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (2,3)');
+	tx.executeSql('INSERT INTO tipo_x_temperatura VALUES (2,3)');*/
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tensao_de_isolamento (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, max REAL, id_tipo INTEGER)');
+	//VERIFICADO - ORIGINAL TensaoIsolamento
+    tx.executeSql('CREATE TABLE IF NOT EXISTS tensao_de_isolamento (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, max REAL, id_tipo INTEGER)');
 	tx.executeSql('DELETE FROM tensao_de_isolamento');
-	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(1,"0.6kV",1.000,1)');
-	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(2,"450/750V",0.750,1)');
+	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(2,"0.6kV",1.000,1)');
+	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(1,"450/750V",0.750,1)');
 	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(3,"3.6/6kV",6.000,2)');
 	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(4,"6/10kV",10.000,2)');
 	tx.executeSql('INSERT INTO tensao_de_isolamento VALUES(5,"8.7/15kV",15.000,2)');
@@ -562,7 +613,7 @@ function populateDB(tx) {
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS cabos(id INTEGER PRIMARY KEY, nome TEXT NOT NULL, descricao TEXT NOT NULL, imagem TEXT NOT NULL, id_tipo INTEGER)');
 	tx.executeSql('DELETE FROM cabos');
-	tx.executeSql('INSERT INTO cabos VALUES(1,"Cabo Noflam Antichama BWF Flexível","Construção\
+	/*tx.executeSql('INSERT INTO cabos VALUES(1,"Cabo Noflam Antichama BWF Flexível","Construção\
 		\
 		1) - Condutor flexível de cobre, têmpera mole, com encordoamento na classe 5.\
 		2) - Isolação:\
@@ -656,12 +707,8 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO cabos VALUES(14,"AFITOX MXP S","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus dui, iaculis vitae sodales et, viverra eu est. Nam at egestas eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris commodo rhoncus suscipit. Nam cursus nisi vel magna aliquam adipiscing. Aenean pellentesque augue eu arcu hendrerit eget pulvinar odio cursus. Vestibulum fringilla sagittis orci, sed convallis quam egestas nec. Nullam a dui nibh, et vehicula quam. Suspendisse dignissim lacinia tortor vitae lacinia. Cras consectetur eros non urna molestie eu condimentum eros interdum. Nam et eros tellus, non porta dolor. Praesent rutrum adipiscing elementum. Nam in nulla sapien, id scelerisque ante.","img/cabo-placeholder.png",2)');
 	tx.executeSql('INSERT INTO cabos VALUES(15,"AFITOX MEP BC","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus dui, iaculis vitae sodales et, viverra eu est. Nam at egestas eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris commodo rhoncus suscipit. Nam cursus nisi vel magna aliquam adipiscing. Aenean pellentesque augue eu arcu hendrerit eget pulvinar odio cursus. Vestibulum fringilla sagittis orci, sed convallis quam egestas nec. Nullam a dui nibh, et vehicula quam. Suspendisse dignissim lacinia tortor vitae lacinia. Cras consectetur eros non urna molestie eu condimentum eros interdum. Nam et eros tellus, non porta dolor. Praesent rutrum adipiscing elementum. Nam in nulla sapien, id scelerisque ante.","img/cabo-placeholder.png",2)');
 	tx.executeSql('INSERT INTO cabos VALUES(16,"AFITOX MEP S","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus dui, iaculis vitae sodales et, viverra eu est. Nam at egestas eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris commodo rhoncus suscipit. Nam cursus nisi vel magna aliquam adipiscing. Aenean pellentesque augue eu arcu hendrerit eget pulvinar odio cursus. Vestibulum fringilla sagittis orci, sed convallis quam egestas nec. Nullam a dui nibh, et vehicula quam. Suspendisse dignissim lacinia tortor vitae lacinia. Cras consectetur eros non urna molestie eu condimentum eros interdum. Nam et eros tellus, non porta dolor. Praesent rutrum adipiscing elementum. Nam in nulla sapien, id scelerisque ante.","img/cabo-placeholder.png",2)');
-	
-	tx.executeSql('INSERT INTO cabos VALUES(17,"EP-DRY 105ºC","","",1)');
-	tx.executeSql('INSERT INTO cabos VALUES(18,"EP-DRY","","",1)');
-	tx.executeSql('INSERT INTO cabos VALUES(19,"FIFEX BF","","",1)');
-	
-	/*tx.executeSql('INSERT INTO cabos VALUES(1,"NOFLAM FLEX",1)');
+		
+	tx.executeSql('INSERT INTO cabos VALUES(1,"NOFLAM FLEX",1)');
 	tx.executeSql('INSERT INTO cabos VALUES(2,"AFITOX-F 750 V",1)');
 	tx.executeSql('INSERT INTO cabos VALUES(3,"VINIL",1)');
 	tx.executeSql('INSERT INTO cabos VALUES(4,"VINIL-FLEX",1)');
@@ -676,7 +723,33 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO cabos VALUES(13,"AFITOX MXP BC",2)');
 	tx.executeSql('INSERT INTO cabos VALUES(14,"AFITOX MXP S",2)');
 	tx.executeSql('INSERT INTO cabos VALUES(15,"AFITOX MEP BC",2)');
-	tx.executeSql('INSERT INTO cabos VALUES(16,"AFITOX MEP S",2)');*/
+	tx.executeSql('INSERT INTO cabos VALUES(16,"AFITOX MEP S",2)');
+    tx.executeSql('INSERT INTO cabos VALUES(17,"EP-DRY 105ºC","","",1)');
+    tx.executeSql('INSERT INTO cabos VALUES(18,"EP-DRY","","",1)');
+    tx.executeSql('INSERT INTO cabos VALUES(19,"FIFEX BF","","",1)');*/
+                  
+                  
+     //VERIFICADO - ORIGINAL Cabo
+     tx.executeSql('INSERT INTO cabos VALUES(370,"Noflam Antichama BWF Flexível","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(1020,"Afitox-F 750V","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(2020,"Afitox-F 0,6/1kV","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(390,"Vinil","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(400,"Vinil Flexível","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(340,"Fiter Flex","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(230,"EP-DRY","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(300,"FIPEX BF","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(220,"EP-DRY 105ºC","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(150,"Afitox SM BC","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(200,"Afitox XPBC","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(140,"Afitox SM AS","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(210,"Afitox XPS","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(130,"Afitox SM","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(190,"Afitox XP","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(110,"Afitox MXP BC","","",2)');
+     tx.executeSql('INSERT INTO cabos VALUES(120,"Afitox MXP S","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(70,"EAfitox MEP BC","","",1)');
+     tx.executeSql('INSERT INTO cabos VALUES(80,"Afitox MEP S","","",1)');
+
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS cabos_de_potencia (id_material INTEGER, id_condutores INTEGER, id_tensao INTENGER, id_temperatura INTEGER, id_cabo INTEGER)');
 	tx.executeSql('DELETE FROM cabos_de_potencia');
@@ -734,6 +807,168 @@ function populateDB(tx) {
 	tx.executeSql('INSERT INTO cabos_navais VALUES (0,0,1,3,2,14)'); //MXP S
 	tx.executeSql('INSERT INTO cabos_navais VALUES (0,0,2,1,2,15)'); //MEP BC
 	tx.executeSql('INSERT INTO cabos_navais VALUES (0,0,2,3,2,16)'); //MEP S
+                  
+    //*NOVO - ORIGINAL PossibilidadeInstalacao
+    tx.executeSql('CREATE TABLE IF NOT EXISTS possibilidade_instalacao (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM possibilidade_instalacao');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (1,"Aparente")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (2,"Embutida")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (3,"Espaço de construção")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (4,"Subterrânea")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (5,"Suspensa")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (6,"Aparente ao Ar (Bandeja - Sem exposição solar)")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (7,"Banco de dutos no Solo")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (8,"Canaleta fechada no Solo")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (9,"Diretamente enterrado no Solo")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (10,"Eletroduto aparente ao Ar (Bandeja - Sem exposição solar)")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (11,"Eletroduto no Solo")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (12,"Eletroduto não metálico aparente ao ar (Sem exposição solar)")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (13,"Eletroduto metálico aparente ao ar (Sem exposição solar)")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (14,"Eletroduto não metálico no solo")');
+    tx.executeSql('INSERT INTO possibilidade_instalacao VALUES (15,"Eletroduto metálico no solo")');
+                  
+    //*NOVO - ORIGINAL TemperaturaArSolo
+    tx.executeSql('CREATE TABLE IF NOT EXISTS temperatura_ar_solo (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM temperatura_ar_solo');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (10,"10º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (15,"15º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (20,"20º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (25,"25º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (30,"30º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (35,"35º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (40,"40º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (45,"45º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (50,"50º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (55,"55º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (60,"60º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (65,"65º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (70,"70º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (75,"75º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (80,"80º")');
+    tx.executeSql('INSERT INTO temperatura_ar_solo VALUES (85,"85º")');
+                  
+    //*NOVO - ORIGINAL TipoInstalacao
+    tx.executeSql('CREATE TABLE IF NOT EXISTS tipo_instalacao (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, enum TEXT NOT NULL, id INTEGER)');
+    tx.executeSql('DELETE FROM tipo_instalacao');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (1,"Cabos unipolares",1,"CABOS_UNIPOLARES_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (2,"Cabos multipolares",2,"CABOS_MULTIPOLARES_B2")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (3,"Cabos unipolares",3,"CABOS_UNIPOLARES_F")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (4,"Cabos multipolares",4,"CABOS_MULTIPOLARES_E")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (5,"Cabos unipolares",5,"CABOS_UNIPOLARES_C")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (6,"Cabos multipolares",6,"CABOS_MULTIPOLARES_C")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (7,"Cabos multipolares",7,"CABOS_MULTIPOLARES_A1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (8,"Cabos unipolares",8,"CABOS_UNIPOLARES_A1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (9,"Cabos multipolares",9,"CABOS_MULTIPOLARES_A2")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (10,"Cabos unipolares",10,"CABOS_UNIPOLARES_D")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (11,"Cabos multipolares",11,"CABOS_MULTIPOLARES_D")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (12,"Cabos multipolares",12,"CABOS_MULTIPOLARES_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (13,"Condutores isolados",13,"CONDUTORES_ISOLADOS_G")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (14,"Cabos unipolares",14,CABOS_UNIPOLARES_B1_B2"")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (15,"Cabos multipolares",15,"CABOS_MULTIPOLARES_B1_B2")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (16,"Cabos unipolares",16,"CABOS_UNIPOLARES_B2_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (17,"Cabos multipolares",17,"CABOS_MULTIPOLARES_B2_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (18,"Condutores isolados",18,"CONDUTORES_ISOLADOS_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (19,"Condutores isolados",19,"CONDUTORES_ISOLADOS_A1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (20,"Condutores isolados",20,"CONDUTORES_ISOLADOS_B2_B1")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (21,"Formação espaçada",21,"")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (22,"Trifólio",22,"FORMACAO_TRIFOLIO")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (23,"Plano justapostos",23,"FORMACAO_JUSTAPOSTA")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (24,"Formação Espaçada",24,"FORMACAO_ESPACADA")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (25,"Formação Horizontal",25,"FORMACAO_HORIZONTAL")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (26,"Formação Vertical",26,"FORMACAO_VERTICAL")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (27,"Instalação em Bandejas",27,"INSTALACAO_BANDEJAS")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (28,"Instalação Vertical",28,"INSTALACAO_VERTICAL")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (29,"Não precisa aplicar fator de correção",29,"SEM_FATOR_CORRECAO")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (30,"Um cabo por duto",24,"_1_CABO")');
+    tx.executeSql('INSERT INTO tipo_instalacao  VALUES (31,"Três cabos por duto",22,"_3_CABOS")');
+                  
+    //*NOVO - ORIGINAL LocalInstalacao
+    tx.executeSql('CREATE TABLE IF NOT EXISTS local_instalacao (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, enum TEXT NOT NULL, id INTEGER)');
+    tx.executeSql('DELETE FROM local_instalacao');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (1,"Eletroduto",1,"ELETRODUTO")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (2,"Bandeja Perfurada",2,"BANDEJA_PERFURADA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (3,"Leito (Escada para Cabos)",3,"LEITO")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (4,"Bandeja não perfurada (Prateleira)",4,"BANDEJA_NAO_PERFURADA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (5,"Suportes",5,"SUPORTES")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (6,"Em paredes",6,"PAREDES")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (7,"Moldura",7,"MOLDURA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (8,"Em parede isolante diretamente",8,"PAREDE_ISOLANTE")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (9,"Em alvenaria diretamente",9,"ALVENARIA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (10,"Eletroduto em parede termicamente isolante",10,"ELETRODUTO_PAREDE")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (11,"Caixilho de porta ou janela",11,"CAIXILHO_PORTA_PAREDE")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (12,"Eletroduto circular em alvenaria",12,"ELETRODUTO_CIRCULAR_ALVENARIA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (13,"Diretamente enterrados",13,"DIRETAMENTE_ENTERRADOS")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (14,"Canaleta fechada",14,"CANALETA_FECHADA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (15,"Canaleta ventilada",15,"CANALETA_VENTILADA")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (16,"Eletrocalha ou perfilado",16,"ELETROCALHA_PERFILADO")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (17,"Isoladores",17,"ISOLADORES")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (18,"Diretamente",18,"DIRETAMENTE")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (19,"Em eletroduto (Seção circular)",19,"ELETRODUTO_SECAO_CIRCULAR")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (20,"Eletrocalha fechada ou Eletroduto",1,"ELETROCALHA_FECHADA_OU_ELETRODUTO")');
+    tx.executeSql('INSERT INTO local_instalacao  VALUES (21,"Teto (Fixação Direta)",23,"TETO")');
+                  
+    //*NOVO - ORIGINAL TemperaturaMaxima
+    tx.executeSql('CREATE TABLE IF NOT EXISTS banco_dutos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM banco_dutos');
+    tx.executeSql('INSERT INTO banco_dutos VALUES (1,"1 Circuito")');
+    tx.executeSql('INSERT INTO banco_dutos VALUES (2,"2 Circuitos")');
+    tx.executeSql('INSERT INTO banco_dutos VALUES (3,"3 Circuitos")');
+    tx.executeSql('INSERT INTO banco_dutos VALUES (4,"4 Circuitos")');
+                  
+    //*NOVO - ORIGINAL ResistividadeTermica
+    tx.executeSql('CREATE TABLE IF NOT EXISTS resistividade_termica (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM resistividade_termica');
+    tx.executeSql('INSERT INTO resistividade_termica VALUES (1,"1 K.m/W")');
+    tx.executeSql('INSERT INTO resistividade_termica VALUES (2,"1,5 K.m/W")');
+    tx.executeSql('INSERT INTO resistividade_termica VALUES (3,"2 K.m/W")');
+    tx.executeSql('INSERT INTO resistividade_termica VALUES (4,"3 K.m/W")');
+    tx.executeSql('INSERT INTO resistividade_termica VALUES (5,"2,5 K.m/W")');
+                  
+    //*NOVO - ORIGINAL RelacaoCaboXDuto
+    tx.executeSql('CREATE TABLE IF NOT EXISTS relacao_cubo_duto (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM relacao_cubo_duto');
+    tx.executeSql('INSERT INTO relacao_cubo_duto VALUES (1,"1,5De <= V < 20De")');
+    tx.executeSql('INSERT INTO relacao_cubo_duto VALUES (2,"V => 20De")');
+    tx.executeSql('INSERT INTO relacao_cubo_duto VALUES (3,"1,5De <= V < 5De")');
+    tx.executeSql('INSERT INTO relacao_cubo_duto VALUES (4,"5De <= V < 50De")');
+
+    //*NOVO - ORIGINAL PosicaoCabos
+    tx.executeSql('CREATE TABLE IF NOT EXISTS posicao_cabos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM posicao_cabos');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (1,"1 circuito")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (2,"2 circuitos")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (3,"3 circuitos")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (4,"4 circuitos")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (6,"6 circuitos")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (9,"9 circuitos")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (10,"3 cabos unipolares em plano encostados ou em trifolio ou um cabo tripolar (método H)")');
+    tx.executeSql('INSERT INTO posicao_cabos VALUES (11,"3 cabos unipolares em plano afastados de no mÌnimo um diâmetro.")');
+                  
+    //*NOVO - ORIGINAL OrientacaoCabo
+    tx.executeSql('CREATE TABLE IF NOT EXISTS orientacao_cabo (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM orientacao_cabo');
+    tx.executeSql('INSERT INTO orientacao_cabo VALUES (1,"Formação Horizontal")');
+    tx.executeSql('INSERT INTO orientacao_cabo VALUES (2,"Formação Vertical")');
+                  
+    //*NOVO - ORIGINAL DistanciaCabos
+    tx.executeSql('CREATE TABLE IF NOT EXISTS distancia_cabos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, enum TEXT NOT NULL, id INTEGER)');
+    tx.executeSql('DELETE FROM distancia_cabos');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (1,"Nula",1,"NULA")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (2,"1m",2,"_1M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (3,"0,125m",3,"_0_125M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (4,"0,25m",4,"_0_25M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (5,"0,5m",5,"_0_5M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (6,"Maior que 0,5m",6,"MAIOR_0_5M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (7,"Maior que 1m",7,"MAIOR_1M")');
+    tx.executeSql('INSERT INTO distancia_cabos  VALUES (2,"Um di‚metro de cabo",2,"UM_DIAMETRO")');
+
+    //*NOVO - ORIGINAL OrientacaoFatorCorrecao
+    tx.executeSql('CREATE TABLE IF NOT EXISTS orientacao_fator_correcao (id INTEGER PRIMARY KEY, nome TEXT NOT NULL)');
+    tx.executeSql('DELETE FROM orientacao_fator_correcao');
+    tx.executeSql('INSERT INTO orientacao_fator_correcao VALUES (0,"Não necessita aplicar fator de correção")');
+    tx.executeSql('INSERT INTO orientacao_fator_correcao VALUES (2,"Instalação horizontal")');
+    tx.executeSql('INSERT INTO orientacao_fator_correcao VALUES (2,"Instalação vertical")');
+
 }
 
 function successCB() {
@@ -747,25 +982,90 @@ function successCB() {
 		});
 	},errorCB);*/
 }
-
-react2("#systemVoltage", "#cableList", myquery2("nivel_de_tensao_do_sistema","tipo_de_produtos","tipo_x_tensao") );
-$("#cableList").change(function() { //FREQUENCY
-	if(parseInt($("#cableList").val()) > 0)
-		$("#frequency").val("60");
-	else
-		$("#frequency").val("");
+                  
+$("#cableConstruction").change(function(){
+                               alert("Entrou cableConstruction");
+    var nivelTensao = $("#systemVoltage").val(); //dimensionamento.nivelTensao
+    getTiposCabo(nivelTensao);
 });
-react2("#cableMaterial","#cableList", myquery2("material_do_condutor","tipo_de_produtos","tipo_x_material"));
-react2("#conductorNumber","#systemVoltage", myquery2("numero_de_condutores","nivel_de_tensao_do_sistema","tensao_x_numero"));
-react3("#circuitUsage","#cableList","#cableMaterial", myquery3("utilizacao_do_circuito","tipo_x_material_x_utilizacao"));
-react3("#system","#cableList","#conductorNumber", myquery3("sistema","tipo_x_condutores_x_sistema"));
-react2("#maximumTemperature", "#cableList", myquery2("temperatura_do_condutor","tipo_de_produtos","tipo_x_temperatura"));
 
+$("#cableFirePerformance").change(function(){
+    var nivelTensao = $("#systemVoltage").val(); //dimensionamento.nivelTensao
+    getAplicacoes(nivelTensao);
+});
+
+//react2("#systemVoltage", "#cableList", myquery2("nivel_de_tensao_do_sistema","tipo_de_produtos","tipo_x_tensao") );
+$("#cableList").change(function() { //FREQUENCY
+    tipoProdutoOnChange();
+});
+//react2("#cableMaterial","#cableList", myquery2("material_do_condutor","tipo_de_produtos","tipo_x_material"));
+//react2("#conductorNumber","#systemVoltage", myquery2("numero_de_condutores","nivel_de_tensao_do_sistema","tensao_x_numero"));
+//react3("#circuitUsage","#cableList","#cableMaterial", myquery3("utilizacao_do_circuito","tipo_x_material_x_utilizacao"));
+//react3("#system","#cableList","#conductorNumber", myquery3("sistema","tipo_x_condutores_x_sistema"));
+
+//ESTE METODO FOI SUBSTITUIDO, POIS A TEMPERATURA MAXIMA FOR SELECIONADA AI SIM VAI POPULAR A TEMPERATURA MAXIMA
+//react2("#maximumTemperature", "#cableList", myquery2("temperatura_do_condutor","tipo_de_produtos","tipo_x_temperatura"));
+                  
+/*$("#isolationVoltage").change(function(){
+    var tipoProduto = $("#cableList").val();
+    var nivelTensao = $("#systemVoltage").val();
+    var caboSelecionado = $("#caboSelecionado").val();
+    var tensaoIsolamento = $("#isolationVoltage").val();
+    var materialCondutor = $("#cableMaterial").val();
+    getTemperaturaMaximaCondutor(tipoProduto, nivelTensao, caboSelecionado, tensaoIsolamento, materialCondutor);
+});*/
+                  
+$("#systemVoltage").change(function(){
+    nivelTensaoOnChange();
+});
+                  
+$("#cableMaterial").change(function(){
+    materialCondutorOnChange();
+});
+
+$("#conductorNumber").change(function(){
+    numeroCondutoresOnChange();
+});
+                  
+$("#serviceVoltage").change(function(){
+    tensaoServicoOnChange();
+});
+                  
+$("#voltageUnit").change(function(){
+    tensaoServicoOnChange();
+});
+                  
+$("#isolationVoltage").change(function(){
+    tensaoIsolamentoOnChange();
+});
+                  
+$("#circuitUsage").change(function(){
+    utilizacaoCircuitoOnChange();
+});
+                  
+$("#system").change(function(){
+    sistemaOnChange();
+});
+                                    
+$("#maximumTemperature").change(function(){
+    updateCaboSelecionado();
+});
+                  
+$("#caboSelecionado").change(function(){
+    caboSelecionadoOnChange();
+});
+                  
+$("#possibilidadeInstalacao").change(function(){
+                                     alert("Entrou possibilidadeInstalacao");
+    possibilidadeInstalacaoOnChange();
+    getLocaisInstalacao()
+});
+                  
 react3("#cableConstruction","#cableList","#systemVoltage",myquery3("construcao_do_cabo","tipo_x_tensao_x_construcao"));
 react3("#cableFirePerformance","#cableList","#systemVoltage",myquery3("aplicacao_do_cabo","tipo_x_tensao_x_aplicacao"));
-react3("#isolationMaterial","#cableList","#systemVoltage",myquery3("material_de_isolacao","tipo_x_tensao_x_isolacao"));
+//react3("#isolationMaterial","#cableList","#systemVoltage",myquery3("material_de_isolacao","tipo_x_tensao_x_isolacao"));
 
-$("#serviceVoltage").change(function(){
+/*$("#serviceVoltage").change(function(){
 	$("#voltageUnit").change();
 });
 
@@ -811,9 +1111,9 @@ $("#voltageUnit").change(function(){ //ISOLATION VOLTAGE
 			 }
 		});
 	},errorCB);
-});
+});*/
 
-$("#systemVoltage").change(function(){
+/*$("#systemVoltage").change(function(){
 	var type = $("#cableList").val();
 	var voltage = $(this).val();
 	
@@ -829,7 +1129,7 @@ $("#systemVoltage").change(function(){
 		showPopup("specification-popup2");
 		$("#isolationMaterial").focus();
 	}
-});
+});*/
 
 $("#specification-popup-cancel").click(function(){
 	$("#systemVoltage").val("0");
@@ -924,37 +1224,3 @@ function react3(me, listen1, listen2, query)
 }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

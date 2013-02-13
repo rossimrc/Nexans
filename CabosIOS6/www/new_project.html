@@ -29,6 +29,8 @@
         <title>Nexans - Cabos</title>
     </head>
     <body data-role="page">
+        <input type="hidden" name="tipoInstalacao" id="tipoInstalacao" value="23" />
+        <input type="hidden" name="aplicacao" id="aplicacao" value="0" />
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
 			<div id="page-newproject">
@@ -74,8 +76,8 @@
                     	Nível de Tensão do Sistema:<br>
                     	<select id="systemVoltage">
 							<option value="0">Selecione</option>
-							<option value="1">Baixa Tensão até 1kV</option>
-							<option value="2">Média Tensão 1kV até 35kV</option>
+							<!--<option value="1">Baixa Tensão até 1kV</option>
+							<option value="2">Média Tensão 1kV até 35kV</option>-->
 						</select>
 						<br>
 						<span id="specification-popup-btn">Especificação do tipo construtivo</span>
@@ -111,7 +113,7 @@
                     	<select id="isolationVoltage" class="small-select2">
 							<option value="0">Selecione</option>
 						</select>
-						<div style="position:relative;float:left;color:black;padding-left:5px;">kV</div>
+						<div id="unidadeTensao" style="position:relative;float:left;color:black;padding-left:5px;">kV</div>
 						<div class="inline-faq">?</div>
 						<br style="clear:both;"/>
                 	</li>
@@ -137,6 +139,14 @@
 						<div class="inline-faq">?</div>
 						<br style="clear:both;"/>
                 	</li>
+					<li>
+                    	Cabo Selecionado:<br>
+                    	<select id="caboSelecionado" class="small-select">
+							<option value="0">Selecione</option>
+						</select>
+						<div class="inline-faq">?</div>
+						<br style="clear:both;"/>
+                	</li>
             	</ul>
 				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
 			</div>
@@ -146,13 +156,14 @@
 				<div class="project-title"><span class="title"></span></div>
             	<ul>
                 	<li onclick='loadCableInfo(1)'>
-                    	Afitox MEP BC
+                    	Clique aqui para visualizar o cabo
                 	</li>
             	</ul>
 				<img class="img-footer" src="img/novo-rodape-limpo.png"/>
 			</div>
 			
 			<div id="page-cableinfo">
+                <img id="caboImage" name="caboImage" src="img/spacer.gif">
 				<img src="img/form-topo.png"/>
 				<div class="project-title"><span class="title"></span></div>
 				<ul>
@@ -169,15 +180,16 @@
             	<ul class="new-project">
                 	<li>
                     	Possibilidade de Instalação:<br>
-						<select>
+                        <select id="possibilidadeInstalacao" class="small-select2">
 							<option selected>Selecione</option>
 						</select><br>
 						Local da Instalação:<br>
-                    	<input/>
+                    	<input type="text" class="input2" id="localInstalacao" readonly="readonly"
+                        style="width:340px;" value="" />
                 	</li>
                 	<li>
 						Temperatura Ambiente (Ao Ar/Solo):
-						<select class="small-select">
+						<select id="temperaturaArSolo" class="small-select">
 							<option selected>Selecione</option>
 						</select>
 						<div style="position:relative;float:left;color:black;padding-left:5px;">˚C</div>
@@ -202,11 +214,11 @@
 					</li>
 					<li>
 						Corrente do Projeto:<br>
-						<input class="small-select"/>
+						<input id="correnteProjeto" class="small-select"/>
 						<div style="position:relative;float:left;color:black;padding-left:5px;">A</div>
 						
 						Potência Aparente:<br>
-						<input class="small-select2"/>
+						<input id="potenciaAparente" class="small-select2"/>
 						<div style="position:relative;float:left;color:black;padding-left:5px;">kVA</div>
 						<br style="clear:both"/>
 					</li>
@@ -223,15 +235,17 @@
 				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
 			</div>
 			
-			<div id="specification-popup" class="popup">
+			<div id="specification-popup" class="page-dimension">
 				<div class="popup-body">
 					a) Quanto a proteção metálica:<br>
 					Construção do cabo<br>
-					<select id="cableConstruction">
+					<select id="cableConstruction" class="small-select">
+                        <option value="0">Selecione</option>
 					</select>
 					b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br>
 					Aplicação do cabo<br>
-					<select id="cableFirePerformance">
+					<select id="cableFirePerformance" class="small-select">
+                        <option value="0">Selecione</option>
 					</select>
 					<button id="specification-popup-cancel">cancelar</button>
 					<button id="specification-popup-continue">continuar</button>
@@ -245,6 +259,60 @@
 					</select>
 					<button id="specification-popup2-cancel">cancelar</button>
 					<button id="specification-popup2-continue">continuar</button>
+				</div>
+			</div>
+            
+            <div id="localInstalacaoAparente-popup" class="popup">
+                    <ul class="new-project">
+                        <li>
+                            Eletroduto:<br>
+                            <a href=''> <img
+                                src="img/dimensionamento/aparente/Eletroduto_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        <li>
+                            Bandeja Perfurada:<br>
+                            <a href=''>
+                                <img src="img/dimensionamento/aparente/BandejaPerfurada.jpg"
+                                border="0" /></a><br>
+                        </li>
+                        <li>
+                            Leito (Escada para cabos):<br>
+                            <a href=''> <img
+                                src="img/dimensionamento/aparente/Leito.jpg" border="0" /> </a><br>
+                        </li>
+                        <li>
+                            Bandeja não Perfurada (Prateleira):<br>
+                            <a href=''>
+                                <img src="img/dimensionamento/aparente/BandejaNaoPerfurada.jpg"
+                                border="0" /> </a><br>
+                        </li>
+                        <li>
+                            Suportes:<br>
+                            <a href=''><img src="img/dimensionamento/aparente/Suporte.jpg" border="0" /> </a><br>
+                        </li>
+                        <li>
+                            Em Paredes:<br>
+                            <a href=''> <img src="img/dimensionamento/aparente/Parede.jpg" border="0" /> </a><br>
+                        </li>
+                        <li>
+                            Selecione:<br>
+                            <select id="locaisInstalacao" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select>
+                            <button id="specification-popup-cancel">cancelar</button>
+                            <button id="specification-popup-continue">continuar</button>
+                        </li>
+                    </ul>
+            </div>
+			<div id="localInstalacaoContinuar-popup" class="popup">
+				<div class="popup-body">
+					Selecione:<br>
+					<select id="locaisInstalacao" class="small-select">
+                        <option value="0">Selecione</option>
+					</select>
+					<button id="specification-popup-cancel">cancelar</button>
+					<button id="specification-popup-continue">continuar</button>
 				</div>
 			</div>
 			
@@ -261,6 +329,9 @@
         <script type="text/javascript" src="cordova-2.1.0.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/dimensioning.js"></script>
+        <script type="text/javascript" src="js/enums.js"></script>
+        <script type="text/javascript" src="js/functionsDimensioning.js"></script>
+        <script type="text/javascript" src="js/beans/simulacao/DimensionamentoBean.js"></script>
         <script type="text/javascript">
             app.initialize();
 			initNewProject();
