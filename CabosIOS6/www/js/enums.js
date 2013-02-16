@@ -184,14 +184,14 @@ ELETROCALHA_PERFILADO = 16;
 ISOLADORES = 17;
 DIRETAMENTE = 18;
 ELETRODUTO_SECAO_CIRCULAR = 19;
-ELETROCALHA_FECHADA_OU_ELETRODUTO = 1;
+ELETROCALHA_FECHADA_OU_ELETRODUTO = 111;
 TETO = 23;
 /////////////////////
 LOCAL_INSTALACAO = {
 	1	: {description : "Eletroduto"},
     2	: {description : "Bandeja Perfurada"},
     3	: {description : "Leito  : {Escada para Cabos}"},
-    4	: {description : "Bandeja no perfurada  : {Prateleira}"},
+    4	: {description : "Bandeja não perfurada  : {Prateleira}"},
     5	: {description : "Suportes"},
     6	: {description : "Em paredes"},
     7	: {description : "Moldura"},
@@ -207,7 +207,7 @@ LOCAL_INSTALACAO = {
     17	: {description : "Isoladores"},
     18	: {description : "Diretamente"},
     19	: {description : "Em eletroduto  : {Seo circular}"},
-    1	: {description : "Eletrocalha fechada ou Eletroduto"},
+    111	: {description : "Eletrocalha fechada ou Eletroduto"}, //1
     23	: {description : "Teto  : {Fixao Direta}"}
 };
 
@@ -241,8 +241,8 @@ FORMACAO_VERTICAL = 26;
 INSTALACAO_BANDEJAS = 27;
 INSTALACAO_VERTICAL = 28;
 SEM_FATOR_CORRECAO = 29;
-_1_CABO = 24;
-_3_CABOS = 22;
+_1_CABO = 242;
+_3_CABOS = 222;
 /////////////////////
 TIPO_INSTALACAO = {
 	1	: {description : "Cabos unipolares"},
@@ -274,8 +274,8 @@ TIPO_INSTALACAO = {
 	27	: {description : "Instalao em Bandejas"},
 	28	: {description : "Instalao Vertical"},
 	29	: {description : "No precisa aplicar fator de correo"},
-	24	: {description : "Um cabo por duto"},
-	22	: {description : "Trs cabos por duto"}
+	242	: {description : "Um cabo por duto"},
+	222	: {description : "Trs cabos por duto"}
 };
 
 

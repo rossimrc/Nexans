@@ -1382,29 +1382,45 @@ function tipoProdutoOnChange()
 
 function resetPossibilidadeInstalacao()
 {
-    //document.getElementById("div_localInstalacao").style.display = "none";
-    $("#localInstalacao").val("");
+    document.getElementById("div_localInstalacao").style.display = "none";
+    closePopup("localInstalacaoAparente-popup");
     
     //DWRUtil.setValue("dimensionamento.localInstalacao", "0");
     $("#localInstalacao").val("");
     
     //IMPLEMENTAR OS CAMPOS DO TIPO HIDDEN CASO NECESSARIO
-    /*DWRUtil.setValue("dimensionamento.tipoInstalacao", 23);
-    DWRUtil.setValue("dimensionamento.resistividadeTermica", "<%=ResistividadeTermica._2_5.getValue()%>");
-    DWRUtil.setValue("dimensionamento.posicaoCabosSolo", "0");
-    DWRUtil.setValue("dimensionamento.formacaoBancoDutos", "0");
-    DWRUtil.setValue("dimensionamento.numeroBandejas", "1");
-    DWRUtil.setValue("dimensionamento.numeroTernasBandeja", "1");
-    DWRUtil.setValue("dimensionamento.numeroBandejasVertical", "1");
-    DWRUtil.setValue("dimensionamento.numeroTernasBandejaVertical", "1");
-    DWRUtil.setValue("dimensionamento.orientacaoFatorCorrecao", "0");
-    DWRUtil.setValue("dimensionamento.quantidadeCamadas", "1");
-    DWRUtil.setValue("dimensionamento.quantidadeCircuitos", "1");
-    DWRUtil.setValue("dimensionamento.eletrodutoMetalico", "0");
-    DWRUtil.setValue("dimensionamento.distanciaEntreCabos", "0");
-    DWRUtil.setValue("dimensionamento.relacaoCaboDuto", "");
-    DWRUtil.setValue("dimensionamento.posicionamentoCabo", "0");
-    DWRUtil.setValue("dimensionamento.orientacaoCabo", "0");*/
+    //DWRUtil.setValue("dimensionamento.tipoInstalacao", 23);
+    $("#tipoInstalacao").val("23");
+    //DWRUtil.setValue("dimensionamento.resistividadeTermica", "<%=ResistividadeTermica._2_5.getValue()%>"); 5
+    $("#resistividadeTermica").val(_2_5);
+    //DWRUtil.setValue("dimensionamento.posicaoCabosSolo", "0");
+    $("#posicaoCabosSolo").val("0");
+    //DWRUtil.setValue("dimensionamento.formacaoBancoDutos", "0");
+    $("#formacaoBancoDutos").val("0");
+    //DWRUtil.setValue("dimensionamento.numeroBandejas", "1");
+    $("#numeroBandejas").val("1");
+    //DWRUtil.setValue("dimensionamento.numeroTernasBandeja", "1");
+    $("#numeroTernasBandeja").val("1");
+    //DWRUtil.setValue("dimensionamento.numeroBandejasVertical", "1");
+    $("#numeroBandejasVertical").val("1");
+    //DWRUtil.setValue("dimensionamento.numeroTernasBandejaVertical", "1");
+    $("#numeroTernasBandejaVertical").val("1");
+    //DWRUtil.setValue("dimensionamento.orientacaoFatorCorrecao", "0");
+    $("#orientacaoFatorCorrecao").val("0");
+    //DWRUtil.setValue("dimensionamento.quantidadeCamadas", "1");
+    $("#quantidadeCamadas").val("1");
+    //DWRUtil.setValue("dimensionamento.quantidadeCircuitos", "1");
+    $("#quantidadeCircuitos").val("1");
+    //DWRUtil.setValue("dimensionamento.eletrodutoMetalico", "0");
+    $("#eletrodutoMetalico").val("0");
+    //DWRUtil.setValue("dimensionamento.distanciaEntreCabos", "0");
+    $("#distanciaEntreCabos").val("0");
+    //DWRUtil.setValue("dimensionamento.relacaoCaboDuto", "");
+    $("#relacaoCaboDuto").val("");
+    //DWRUtil.setValue("dimensionamento.posicionamentoCabo", "0");
+    $("#posicionamentoCabo").val("0");
+    //DWRUtil.setValue("dimensionamento.orientacaoCabo", "0");
+    $("#orientacaoCabo").val("0");
 }
 
 function materialCondutorOnChange()
@@ -1707,36 +1723,43 @@ function updateImageCabo()
     if (cabo == AFITOX_06_1KV)
     {
         //caboControl.src = "img/cabos/CaboAfitox06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_06_1KV].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitox06_1kV.jpg'></img>");
     }
     else if (cabo == AFITOX_750V)
     {
         //caboControl.src = "img/cabos/CaboAfitox750V.jpg";
+        //$(".cable-name").html(CABO[AFITOX_750V].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitox750V.jpg'></img>");
     }
     else if (cabo == EP_DRY)
     {
         //caboControl.src = "img/cabos/CaboEPDRY.jpg";
+        //$(".cable-name").html(CABO[EP_DRY].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY.jpg'></img>");
     }
     else if (cabo == EP_DRY_105C)
     {
         //caboControl.src = "img/cabos/CaboEPDRY105.jpg";
+        //$(".cable-name").html(CABO[EP_DRY_105C].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY105'></img>");
     }
     else if (cabo == FITER_FLEX)
     {
         //caboControl.src = "img/cabos/CaboFiterFlex.jpg";
+        //$(".cable-name").html(CABO[FITER_FLEX].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboFiterFlex.jpg'></img>");
     }
     else if (cabo == FIPEX_BF)
     {
         //caboControl.src = "img/cabos/CaboFiperxBF.jpg";
+        //$(".cable-name").html(CABO[FIPEX_BF].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboFiperxBF.jpg'></img>");
     }
     else if (cabo == NOFLAN_ANTICHAMA_BWF_FLEXIVEL)
     {
         //caboControl.src = "img/cabos/CaboNoflamAntichamaBWFFlexivel.jpg";
+        //$(".cable-name").html(CABO[NOFLAN_ANTICHAMA_BWF_FLEXIVEL].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboNoflamAntichamaBWFFlexivel.jpg'></img>");
     }
     else if (cabo == VINIL)
@@ -1744,11 +1767,13 @@ function updateImageCabo()
         if (materialCondutor == COBRE)
         {
             //caboControl.src = "img/cabos/CaboVinil.jpg";
+            //$(".cable-name").html(CABO[COBRE].description);
             $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboVinil.jpg'></img>");
         }
         else
         {
             //caboControl.src = "img/cabos/CaboVinilAluminio.jpg";
+            //$(".cable-name").html("Cabo Vinil Aluminios");
             $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboVinilAluminio.jpg'></img>");
         }
         
@@ -1756,57 +1781,68 @@ function updateImageCabo()
     else if (cabo == VINIL_FLEXIVEL)
     {
         //caboControl.src = "img/cabos/CaboVinilFlexivel.jpg";
+        //$(".cable-name").html(CABO[VINIL_FLEXIVEL].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboVinilFlexivel.jpg'></img>");
     }
     else if (cabo == AFITOX_SM_BC)
     {
         //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM_BC].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxSM.jpg'></img>");
     }
     else if (cabo == AFITOX_XPBC)
     {
         //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XPBC].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
     }
     else if (cabo == AFITOX_SM_AS)
     {
         //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM_AS].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxSM.jpg'></img>");
     }
     else if (cabo == AFITOX_XPS)
     {
         //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XPS].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
     }
     else if (cabo == AFITOX_SM)
     {
         //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
     }
     else if (cabo == AFITOX_XP)
     {
         //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XP].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
     }
     else if (cabo == AFITOX_MXP_BC)
     {
         //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MXP_BC].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
     }
     else if (cabo == AFITOX_MXP_S)
     {
         //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        $(".cable-name").html(CABO[AFITOX_MXP_S].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
         
     }
     else if (cabo == AFITOX_MEP_BC)
     {
         //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MEP_BC].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
     }
     else if (cabo == AFITOX_MEP_S)
     {
         //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MEP_S].description);
         $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
     }
     else
@@ -1861,7 +1897,7 @@ function possibilidadeInstalacaoOnChange()
 {
     updateTemperaturaArSolo();
     
-    alert("Entrou em possibilidadeInstalacaoOnChange");
+    //alert("Entrou em possibilidadeInstalacaoOnChange");
     
     var possibilidade = $("#possibilidadeInstalacao").val();
     var tensao = $("#systemVoltage").val();
@@ -1903,16 +1939,93 @@ function possibilidadeInstalacaoOnChange()
     
     var params = "?possibilidadeInstalacao=" + possibilidade + "&caboSelecionado=" + cabo + "&tipoProduto=" + tipoProduto;
     
+    closePopup("eletroduto-popup");
+    closePopup("bandeja_perfurada");
+    closePopup("leito");
+    closePopup("bandeja_nao_perfurada");
+    closePopup("suportes");
+    closePopup("em_parede");
+    closePopup("teto");
+    
+    closePopup("id_eletrocalha_fechada");
+    closePopup("id_eletroduto_circular_naval");
+    closePopup("id_eletroduto_parede_term_isolante");
+    closePopup("id_caixilho_porta_janela");
+    closePopup("li_eletroduto_circular_embutido");
+    closePopup("li_eletroduto_circular_alvenaria");
+    closePopup("id_eletroduto_circular");
+    closePopup("id_caixilho_porta_janela");
+    //closePopup("");
+    
     if (tensao == BAIXA)
     {
         if (possibilidade == APARENTE)
         {
             //pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
+            
+            if(isCabosEnergia())
+            {
+                if(isAntiChama() || isAfitox750())
+                {
+                    document.getElementById("eletroduto").style.display = "";
+                }
+                else
+                {
+                    if((!isAntiChama()) || (!isAfitox750()))
+                    {
+                        document.getElementById("eletroduto").style.display = "";
+                        document.getElementById("bandeja_perfurada").style.display = "";
+                        document.getElementById("leito").style.display = "";
+                        document.getElementById("bandeja_nao_perfurada").style.display = "";
+                        document.getElementById("suportes").style.display = "";
+                        document.getElementById("em_parede").style.display = "";
+                        document.getElementById("teto").style.display = "";
+                    }
+                }
+            }
+            else
+            {
+                document.getElementById("bandeja_perfurada").style.display = "";
+                document.getElementById("leito").style.display = "";
+                document.getElementById("bandeja_nao_perfurada").style.display = "";
+                document.getElementById("suportes").style.display = "";
+                document.getElementById("em_parede").style.display = "";
+                document.getElementById("teto").style.display = "";
+            }
+            
             showPopup("localInstalacaoAparente-popup");
             //$("#cableConstruction").focus();
         }
         else if (possibilidade == EMBUTIDA)
         {
+            if(isNaval())
+            {
+                document.getElementById("id_eletrocalha_fechada").style.display = "";
+                document.getElementById("id_eletroduto_circular_naval").style.display = "";
+            }
+            else
+            {
+                if(isAntiChama() || isAfitox750())
+                {
+                    if(isNaval())
+                    {
+                        document.getElementById("li_eletroduto_circular_embutido").style.display = "";
+                    }
+                    else
+                    {
+                        document.getElementById("li_eletroduto_circular_alvenaria").style.display = "";
+                    }
+                    
+                    document.getElementById("id_eletroduto_circular").style.display = "";
+                    
+                    if(isExibirMoldura())
+                    {
+                        
+                    }
+                }
+            }
+            
+            showPopup("localInstalacaoAparente-popup");
             //pagina = "instalacaoEmbutida.sdf" + params + "&numeroCondutores=" + numeroCondutores;
         }
         else if (possibilidade == SUBTERRANEA)
@@ -1929,6 +2042,7 @@ function possibilidadeInstalacaoOnChange()
         }
         
     }
+    //alert("Saiu em possibilidadeInstalacaoOnChange");
     /*else if (tensao == MEDIA)
     {
         var url = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
@@ -2004,39 +2118,4 @@ function possibilidadeInstalacaoOnChange()
     {
         openWindow("dimensionamento/" + pagina, paginaH, paginaW);
     }*/
-}
-
-function getLocaisInstalacao()
-{
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    
-    $("#locaisInstalacao").html("");
-    $("#locaisInstalacao").append(new Option("Selecione","0", false, false));
-
-    if (dimensionamento.isCabosEnergia())
-    {
-        addItem(LocalInstalacao.ELETRODUTO);
-        
-        if ((caboSelecionado != NOFLAN_ANTICHAMA_BWF_FLEXIVEL) && (caboSelecionado != AFITOX_750V))
-        {
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[BANDEJA_PERFURADA].description,BANDEJA_PERFURADA, false, false));
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[LEITO].description,LEITO, false, false));
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[BANDEJA_NAO_PERFURADA].description,BANDEJA_NAO_PERFURADA, false, false));
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[SUPORTES].description,SUPORTES, false, false));
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[PAREDES].description,PAREDES, false, false));
-            $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[TETO].description,TETO, false, false));
-        }
-    }
-    else
-    {
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[BANDEJA_PERFURADA].description,BANDEJA_PERFURADA, false, false));
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[LEITO].description,LEITO, false, false));
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[BANDEJA_NAO_PERFURADA].description,BANDEJA_NAO_PERFURADA, false, false));
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[SUPORTES].description,SUPORTES, false, false));
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[PAREDES].description,PAREDES, false, false));
-        $("#locaisInstalacao").append(new Option(LOCAL_INSTALACAO[TETO].description,TETO, false, false));
-    }
 }

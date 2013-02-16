@@ -129,15 +129,16 @@ select {
 }
 
 .popup {
-	background-color:rgba(0,0,0,0.8);
+	background-color:rgba(0,0,0,1);
 	width:100%;
 	height:100%;
-	position:absolute;
+	position:fixed;
 	top:0px;
 	left:0px;
 	padding:20px;
 	-webkit-box-sizing: border-box;
 	display:none;
+	overflow:scroll;
 }
 
 .popup-body {

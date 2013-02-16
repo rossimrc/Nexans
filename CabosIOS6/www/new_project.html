@@ -30,6 +30,23 @@
     </head>
     <body data-role="page">
         <input type="hidden" name="tipoInstalacao" id="tipoInstalacao" value="23" />
+        <input type="hidden" name="posicionamentoCabo" id="posicionamentoCabo" value="0" />
+        
+        <input type="hidden" name="resistividadeTermica" id="resistividadeTermica" value="5" />
+        <input type="hidden" name="posicaoCabosSolo" id="posicaoCabosSolo" value="0" />
+        <input type="hidden" name="formacaoBancoDutos" id="formacaoBancoDutos" value="0" />
+        <input type="hidden" name="numeroBandejas" id="numeroBandejas" value="1" />
+        <input type="hidden" name="numeroTernasBandeja" id="numeroTernasBandeja" value="1" />
+        <input type="hidden" name="numeroBandejasVertical" id="numeroBandejasVertical" value="1" />
+        <input type="hidden" name="numeroTernasBandejaVertical" id="numeroTernasBandejaVertical" value="1" />
+        <input type="hidden" name="orientacaoFatorCorrecao" id="orientacaoFatorCorrecao" value="0" />
+        <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
+        <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
+        <input type="hidden" name="eletrodutoMetalico" id="eletrodutoMetalico" value="0" />
+        <input type="hidden" name="distanciaEntreCabos" id="distanciaEntreCabos" value="0" />
+        <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
+        <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
+        
         <input type="hidden" name="aplicacao" id="aplicacao" value="0" />
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
@@ -183,8 +200,10 @@
                         <select id="possibilidadeInstalacao" class="small-select2">
 							<option selected>Selecione</option>
 						</select><br>
+                	</li>
+                	<li id="div_localInstalacao">
 						Local da Instalação:<br>
-                    	<input type="text" class="input2" id="localInstalacao" readonly="readonly"
+                    	<input type="text" class="input2" id="localInstalacaoDesc" readonly="readonly"
                         style="width:340px;" value="" />
                 	</li>
                 	<li>
@@ -235,7 +254,7 @@
 				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
 			</div>
 			
-			<div id="specification-popup" class="page-dimension">
+			<div id="specification-popup" class="popup">
 				<div class="popup-body">
 					a) Quanto a proteção metálica:<br>
 					Construção do cabo<br>
@@ -262,59 +281,202 @@
 				</div>
 			</div>
             
-            <div id="localInstalacaoAparente-popup" class="popup">
-                    <ul class="new-project">
-                        <li>
+            <!-- POSSIBILIDADE DE INSTALAÇÃO -->
+            <div id="localInstalacaoAparente-popup" class="popup" style="display:none;">
+                    <!-- APARENTE -->
+                    <ul>
+                        <li id="eletroduto" style="display:none;">
                             Eletroduto:<br>
-                            <a href=''> <img
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO)'> <img
                                 src="img/dimensionamento/aparente/Eletroduto_noflam.jpg" border="0" />
                             </a><br>
                         </li>
-                        <li>
+                        <li id="bandeja_perfurada" style="display:none;">
                             Bandeja Perfurada:<br>
-                            <a href=''>
-                                <img src="img/dimensionamento/aparente/BandejaPerfurada.jpg"
-                                border="0" /></a><br>
+                            <a href='javascript:updateInstalacaoCabo(BANDEJA_PERFURADA)'>
+                                <img src="img/dimensionamento/aparente/BandejaPerfurada.jpg" border="0" /></a><br>
                         </li>
-                        <li>
+                        <li id="leito" style="display:none;">
                             Leito (Escada para cabos):<br>
-                            <a href=''> <img
+                            <a href='javascript:updateInstalacaoCabo(LEITO)'> <img
                                 src="img/dimensionamento/aparente/Leito.jpg" border="0" /> </a><br>
                         </li>
-                        <li>
+                        <li id="bandeja_nao_perfurada" style="display:none;">
                             Bandeja não Perfurada (Prateleira):<br>
-                            <a href=''>
+                            <a href='javascript:updateInstalacaoCabo(BANDEJA_NAO_PERFURADA)'>
                                 <img src="img/dimensionamento/aparente/BandejaNaoPerfurada.jpg"
                                 border="0" /> </a><br>
                         </li>
-                        <li>
+                        <li id="suportes" style="display:none;">
                             Suportes:<br>
-                            <a href=''><img src="img/dimensionamento/aparente/Suporte.jpg" border="0" /> </a><br>
+                            <a href='javascript:updateInstalacaoCabo(SUPORTES)'>
+                                <img src="img/dimensionamento/aparente/Suporte.jpg" border="0" /> </a><br>
                         </li>
-                        <li>
+                        <li id="em_parede" style="display:none;">
                             Em Paredes:<br>
-                            <a href=''> <img src="img/dimensionamento/aparente/Parede.jpg" border="0" /> </a><br>
+                            <a href='javascript:updateInstalacaoCabo(PAREDES)'>
+                                <img src="img/dimensionamento/aparente/Parede.jpg" border="0" /> </a><br>
                         </li>
+                        
+                        <li id="teto" style="display:none;">
+                            Teto (Fixação Direta):<br>
+                            <a href='javascript:updateInstalacaoCabo(TETO)'>
+                                <img src="img/dimensionamento/aparente/Teto.jpg" border="0" /> </a><br>
+                        </li>
+                    </ul>
+                
+                    <!-- EMBUTIDA -->
+                    <ul>
+                        <li id="id_eletrocalha_fechada" style="display:none;">
+                            Eletrocalha Fechada:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO)'> <img
+                                src="img/dimensionamento/aparente/Eletroduto.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_eletroduto_circular_naval" style="display:none;">
+                            Eletroduto Circular:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoCircularNaval.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_eletroduto_parede_term_isolante" style="display:none;">
+                            Eletroduto em parede termicamente isolante:<br>
+                            <a href='javascript:updateInstalacaoCabo(CAIXILHO_PORTA_PAREDE)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoParede_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_caixilho_porta_janela" style="display:none;">
+                            Caixilho de porta ou janela:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_PAREDE)'> <img
+                                src="img/dimensionamento/embutida/CaixilhoPorta.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id='li_eletroduto_circular_embutido' style="display:none;">
+                            <br><br>Eletroduto circular embutido<br>
+                        </li>
+                        <li id='li_eletroduto_circular_alvenaria' style="display:none;">
+                            <br><br>Eletroduto circular em alvenaria<br>
+                        </li>
+                        <li id="id_eletroduto_circular" style="display:none;">
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_CIRCULAR_ALVENARIA)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoCircular_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_caixilho_porta_janela" style="display:none;">
+                            Moldura:<br>
+                            <a href='javascript:updateInstalacaoCabo(MOLDURA)'> <img
+                                src="img/dimensionamento/aparente/Moldura.jpg" border="0" />
+                            </a><br>
+                        </li>
+                    </ul>
+                
+                    <ul>
                         <li>
                             Selecione:<br>
-                            <select id="locaisInstalacao" class="small-select">
+                            <select id="localInstalacao" class="small-select">
                                 <option value="0">Selecione</option>
                             </select>
-                            <button id="specification-popup-cancel">cancelar</button>
-                            <button id="specification-popup-continue">continuar</button>
+                            <button id="localInstalacaoAparente-popup-cancel">cancelar</button>
+                            <button id="localInstalacaoAparente-popup-continue">continuar</button>
                         </li>
                     </ul>
             </div>
-			<div id="localInstalacaoContinuar-popup" class="popup">
-				<div class="popup-body">
-					Selecione:<br>
-					<select id="locaisInstalacao" class="small-select">
-                        <option value="0">Selecione</option>
-					</select>
-					<button id="specification-popup-cancel">cancelar</button>
-					<button id="specification-popup-continue">continuar</button>
-				</div>
-			</div>
+            
+            <!-- POSSIBILIDADE CABOS -->
+            <div id="possibilidadeCabos-popup" class="popup">
+				<!--<div id="ttt">-->
+                    <ul>
+                        <li id="li_eletrodutoMetalico" style="display:none;">
+                            <br><br>Eletroduto Metálico?<br>
+                        </li>
+                        <li id='li_eletrodutoMetalico_embutida_naval' style="display:none;">
+                            <br><br>Eletroduto ou Eletrocalha Metálica?<br>
+                        </li>
+                        <li id="id_eletrodutoMetalico" style="display:none;">
+                            <select id="eletrodutoMetalico" class="small-select">
+                                <option value="0">Selecione</option>
+                                <option value="1">Sim</option>
+                                <option value="2">Não</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_metalQuestion' style="display:none;">
+                            <br><br>Informe o número de circuitos ou cabos multipolares agrupados em feixe ou dentro do eletroduto:<br>
+                        </li>
+                        <li id='li_unipolar' style="display:none;">
+                            <br><br>Informe o número de circuitos por camada:<br>
+                        </li>
+                        <li id='li_numeroCircuitos' style="display:none;">
+                            <br><br>Informe o número de circuitos:<br>
+                        </li>
+                        <li id='li_num_cabos' style="display:none;">
+                            <br><br>Informe o número de cabos multipolar por camada:<br>
+                        </li>
+                        <li id='li_numeroCircuitos_naval' style="display:none;">
+                            <br><br>Número de circuitos ou cabos multipolares agrupados em feixe:<br>
+                        </li>
+                        <li id="numeroCircuitoCamadas" style="display:none;">
+                            <select id="numeroCircuitos" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_numeroCamadas' style="display:none;">
+                            <br><br>Informe o número de camadas:<br>
+                        </li>
+                        <li id='li_numeroCamadas_embutida' style="display:none;">
+                            <br><br>Número de eletrodutos:<br>
+                        </li>
+                        <li id="id_numeroCamadas" style="display:none;">
+                            <select id="numeroCamadas" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_distancia_eletrodutos' style="display:none;">
+                            <br><br>Informe a distância entre eletrodutos:<br>
+                        </li>
+                        <li id='li_distancia_cabos' style="display:none;">
+                            <br><br>Informe a distância entre os cabos:<br>
+                        </li>
+                        <li id="id_distanciaEntreCabos" style="display:none;">
+                            <select id="distanciaEntreCabos" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_posicionamentoCabos' style="display:none;">
+                            <br><br>Posicionamento dos Cabos:<br>
+                        </li>
+                        <li id="id_posicionamentoCabos" style="display:none;">
+                            <select id="posicionamentoCabos" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_relacaoCaboDuto' style="display:none;">
+                            <br><br>Relação de tamanho Cabo X Duto?<br>
+                        </li>
+                        <li id="id_relacaoCaboDuto" style="display:none;">
+                            <select id="relacaoCaboDuto" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li>
+                            <br><br>
+                            <button id="possibilidadeCabos-popup-cancel">cancelar</button>
+                            <button id="possibilidadeCabos-popup-continue">continuar</button>
+                            <button id="possibilidadeCabos-popup-back">voltar</button>
+                        </li>
+                    </ul>
+				<!--</div>-->
+            </div>
 			
 			<div id="end-popup" class="popup">
 				<div class="popup-body">
@@ -332,10 +494,13 @@
         <script type="text/javascript" src="js/enums.js"></script>
         <script type="text/javascript" src="js/functionsDimensioning.js"></script>
         <script type="text/javascript" src="js/beans/simulacao/DimensionamentoBean.js"></script>
+        <script type="text/javascript" src="js/functionsPossibilidadeInstalacao.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript">
             app.initialize();
 			initNewProject();
 			document.addEventListener('deviceready', function() {
+				//new iScroll('ttt');
 				getUserData();
 				
 				var result = $("#page-projectdescription select");

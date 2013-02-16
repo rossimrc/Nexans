@@ -119,7 +119,7 @@ function preventDefault(e) {
 
 function showPopup(name) {
 	$("#"+name).show();
-	document.body.addEventListener('touchmove', preventDefault, false);
+	//document.body.addEventListener('touchmove', preventDefault, false);
 	$("*").bind("blur",function(){window.scrollBy(0,-500);});
 	document.activeElement.blur();
 	window.scrollBy(0,-500);
@@ -128,7 +128,7 @@ function showPopup(name) {
 function closePopup(name) {
 	$("#"+name).hide();
 	$("*").unbind("blur");
-	document.body.removeEventListener('touchmove', preventDefault);
+	//document.body.removeEventListener('touchmove', preventDefault);
 }
 
 function checkEmptyElement(e) {
@@ -360,7 +360,7 @@ function loadCableInfo(c) {
 			//$("#cableinfo").html("<div class='cable-name'>" + rs.rows.item(0).nome + "</div>" + "<br><img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img><br><div class='cable-description'>"+rs.rows.item(0).descricao+"</div>");
 			//$(".cable-name").html(rs.rows.item(0).nome);
 			//$(".cable-photo").html("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
-                      alert("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
+                      //alert("<img class='img-cabo' src='"+rs.rows.item(0).imagem+"'></img>");
 			//$(".cable-description").html(rs.rows.item(0).descricao);
 		});
 	},errorCB,nextPage);
@@ -984,7 +984,6 @@ function successCB() {
 }
                   
 $("#cableConstruction").change(function(){
-                               alert("Entrou cableConstruction");
     var nivelTensao = $("#systemVoltage").val(); //dimensionamento.nivelTensao
     getTiposCabo(nivelTensao);
 });
@@ -1056,9 +1055,16 @@ $("#caboSelecionado").change(function(){
 });
                   
 $("#possibilidadeInstalacao").change(function(){
-                                     alert("Entrou possibilidadeInstalacao");
     possibilidadeInstalacaoOnChange();
     getLocaisInstalacao()
+});
+                  
+$("#numeroCamadas").change(function(){
+    updateNumeroCamadas();
+});
+                  
+$("#numeroCircuitos").change(function(){
+    updateNumeroCircuitos();
 });
                   
 react3("#cableConstruction","#cableList","#systemVoltage",myquery3("construcao_do_cabo","tipo_x_tensao_x_construcao"));
@@ -1163,6 +1169,41 @@ $("#specification-popup2-continue").click(function(){
 	
 	closePopup("specification-popup2");
 });
+   
+//INTERATIVIDADE POSSIBILIDADE INSTALAÇÃO
+    $("#localInstalacaoAparente-popup-continue").click(function()
+    {
+        var localInstalacao = $("#localInstalacao").val();
+        if(localInstalacao == 0)
+        {
+            navigator.notification.alert("Selecione o local de instalação",null,"");
+            return
+        }
+        else
+        {
+            submitPossibilidadeInstalacao();
+                                                       
+            //closePopup("localInstalacaoAparente-popup");
+            //showPopup("possibilidadeCabos-popup");
+        }
+    });
+                  
+    $("#localInstalacaoAparente-popup-cancel").click(function()
+    {
+        $("#localInstalacao").val("0");
+        closePopup("localInstalacaoAparente-popup");
+    });
+                  
+    $("#possibilidadeCabos-popup-back").click(function()
+    {
+        closePopup("possibilidadeCabos-popup");
+        showPopup("localInstalacaoAparente-popup");                                              
+    });
+                  
+    $("#possibilidadeCabos-popup-continue").click(function()
+    {
+        closePopup("possibilidadeCabos-popup");
+    });
 
 function myquery2(p1, p2, p3) {
 	return 'SELECT a.id, a.nome FROM ' + p2 + ' b INNER JOIN ' + p3 + ' r ON b.id = r.id_1 INNER JOIN ' + p1 + ' a ON a.id = r.id_2 WHERE b.id = ?'
