@@ -106,8 +106,8 @@ ELETRODUTO_METALICO_SOLO = 15;
 POSSIBILIDADE_INSTALACAO = {
 	1	: {description : "Aparente"},
 	2	: {description : "Embutida"},
-	3	: {description : "Espao de construo"},
-	4	: {description : "Subterrnea"},
+	3	: {description : "Espaço de construção"},
+	4	: {description : "Subterrânea"},
 	5	: {description : "Suspensa"},
 	6	: {description : "Aparente ao Ar (Bandeja - Sem exposio solar)"},
 	7	: {description : "Banco de dutos no Solo"},
@@ -265,17 +265,17 @@ TIPO_INSTALACAO = {
 	18	: {description : "Condutores isolados"},
 	19	: {description : "Condutores isolados"},
 	20	: {description : "Condutores isolados"},
-	21	: {description : "Formao espaada"},
-	22	: {description : "Triflio"},
+	21	: {description : "Formação espaada"},
+	22	: {description : "Trifólio"},
 	23	: {description : "Plano justapostos"},
-	24	: {description : "Formao Espaada"},
-	25	: {description : "Formao Horizontal"},
-	26	: {description : "Formao Vertical"},
-	27	: {description : "Instalao em Bandejas"},
-	28	: {description : "Instalao Vertical"},
-	29	: {description : "No precisa aplicar fator de correo"},
+	24	: {description : "Formação Espaçada"},
+	25	: {description : "Formação Horizontal"},
+	26	: {description : "Forma;cão Vertical"},
+	27	: {description : "Instalação em Bandejas"},
+	28	: {description : "Instalação Vertical"},
+	29	: {description : "Não precisa aplicar fator de correção"},
 	242	: {description : "Um cabo por duto"},
-	222	: {description : "Trs cabos por duto"}
+	222	: {description : "Três cabos por duto"}
 };
 
 
@@ -380,12 +380,12 @@ TRIFASICO_SEM_NEUTRO = 5;
 TRIFASICO_COM_NEUTRO = 6;
 /////////////////////
 SISTEMA = {
-    1 : {description : "Monofsico a dois condutores"},
-    2 : {description : "Monofsico a trs condutores"},
+    1 : {description : "Monofásico a dois condutores"},
+    2 : {description : "Monofásico a três condutores"},
     3 : {description : "Duas fases sem neutro"},
     4 : {description : "Duas fases com neutro"},
-    5 : {description : "Trifsico sem neutro"},
-    6 : {description : "Trifsico com neutro"}
+    5 : {description : "Trifásico sem neutro"},
+    6 : {description : "Trifásico com neutro"}
 }
 
 /////////////////////
@@ -397,12 +397,12 @@ APLICACOES_ESPECIAIS = 5;
 OUTROS = 6;
 /////////////////////
 UTILIZACAO_CIRCUITO = {
-    1 : {description : "Circuito de Iluminao"},
-    2 : {description : "Circuito de Fora"},
-    3 : {description : "Circuito de Sinalizao"},
+    1 : {description : "Circuito de Iluminaçãoo"},
+    2 : {description : "Circuito de Força"},
+    3 : {description : "Circuito de Sinalização"},
     4 : {description : "Circuito de Controle"},
-    5 : {description : "Circuito de extrabaixa tenso para aplicaes especiais"},
-    6 : {description : "Para qualquer outra aplicao"}
+    5 : {description : "Circuito de extrabaixa tensão para aplicações especiais"},
+    6 : {description : "Para qualquer outra aplicação"}
 }
 
 /////////////////////

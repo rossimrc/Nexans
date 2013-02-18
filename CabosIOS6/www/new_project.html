@@ -29,6 +29,8 @@
         <title>Nexans - Cabos</title>
     </head>
     <body data-role="page">
+        <input type="hidden" name="step_posicionamentoCabo" id="step_posicionamentoCabo" value="" />
+        
         <input type="hidden" name="tipoInstalacao" id="tipoInstalacao" value="23" />
         <input type="hidden" name="posicionamentoCabo" id="posicionamentoCabo" value="0" />
         
@@ -43,7 +45,6 @@
         <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
         <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
         <input type="hidden" name="eletrodutoMetalico" id="eletrodutoMetalico" value="0" />
-        <input type="hidden" name="distanciaEntreCabos" id="distanciaEntreCabos" value="0" />
         <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
         <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
         
@@ -341,36 +342,112 @@
                             </a><br>
                         </li>
                         
+                        <li id="id_eletroduto_parede_term_isolante_noflam" style="display:none;">
+                            Eletroduto em parede termicamente isolante:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_PAREDE)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoParede_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
                         <li id="id_eletroduto_parede_term_isolante" style="display:none;">
                             Eletroduto em parede termicamente isolante:<br>
-                            <a href='javascript:updateInstalacaoCabo(CAIXILHO_PORTA_PAREDE)'> <img
-                                src="img/dimensionamento/embutida/EletrodutoParede_noflam.jpg" border="0" />
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_PAREDE)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoParede.jpg" border="0" />
                             </a><br>
                         </li>
                         
                         <li id="id_caixilho_porta_janela" style="display:none;">
                             Caixilho de porta ou janela:<br>
-                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_PAREDE)'> <img
+                            <a href='javascript:updateInstalacaoCabo(CAIXILHO_PORTA_PAREDE)'> <img
                                 src="img/dimensionamento/embutida/CaixilhoPorta.jpg" border="0" />
                             </a><br>
                         </li>
                         
                         <li id='li_eletroduto_circular_embutido' style="display:none;">
-                            <br><br>Eletroduto circular embutido<br>
+                            <<br>Eletroduto circular embutido<br>
                         </li>
                         <li id='li_eletroduto_circular_alvenaria' style="display:none;">
-                            <br><br>Eletroduto circular em alvenaria<br>
+                            <br>Eletroduto circular em alvenaria<br>
                         </li>
-                        <li id="id_eletroduto_circular" style="display:none;">
+                        <li id="id_eletroduto_circular_noflam" style="display:none;">
                             <a href='javascript:updateInstalacaoCabo(ELETRODUTO_CIRCULAR_ALVENARIA)'> <img
                                 src="img/dimensionamento/embutida/EletrodutoCircular_noflam.jpg" border="0" />
                             </a><br>
                         </li>
+                        <li id="id_eletroduto_circular" style="display:none;">
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_CIRCULAR_ALVENARIA)'> <img
+                                src="img/dimensionamento/embutida/EletrodutoCircular.jpg" border="0" />
+                            </a><br>
+                        </li>
                         
-                        <li id="id_caixilho_porta_janela" style="display:none;">
+                        <li id="id_moldura" style="display:none;">
                             Moldura:<br>
                             <a href='javascript:updateInstalacaoCabo(MOLDURA)'> <img
                                 src="img/dimensionamento/aparente/Moldura.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_parede_isolante_diretamente" style="display:none;">
+                            Em parede isolante diretamente:<br>
+                            <a href='javascript:updateInstalacaoCabo(PAREDE_ISOLANTE)'> <img
+                                src="img/dimensionamento/embutida/ParedeIsolante.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id='li_embutido_diretamente' style="display:none;">
+                            <br>Embutido diretamente<br>
+                        </li>
+                        <li id='li_em_alvenaria_diretamente' style="display:none;">
+                            <br>Em alvenaria diretamente<br><br>
+                        </li>
+                        <li id="id_embutida_alvenaria" style="display:none;">
+                            <a href='javascript:updateInstalacaoCabo(ALVENARIA)'> <img
+                                src="img/dimensionamento/embutida/Alvenaria.jpg" border="0" />
+                            </a><br>
+                        </li>
+                    </ul>
+                
+                    <!-- SUBTERRANEA -->
+                    <ul>
+                        <li id="id_eletroduto_subterranea" style="display:none;">
+                            Eletroduto:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO)'> <img
+                                src="img/dimensionamento/subterranea/Eletroduto.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_diretamente_enterrados" style="display:none;">
+                            Diretamente enterrados:<br>
+                            <a href='javascript:updateInstalacaoCabo(DIRETAMENTE_ENTERRADOS)'> <img
+                                src="img/dimensionamento/subterranea/DiretamenteEnterrados.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_canaleta_fechada" style="display:none;">
+                            Canaleta fechada:<br>
+                            <a href='javascript:updateInstalacaoCabo(CANALETA_FECHADA)'> <img
+                                src="img/dimensionamento/subterranea/CanaletaFechada.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_canaleta_ventilada" style="display:none;">
+                            Canaleta ventilada:<br>
+                            <a href='javascript:updateInstalacaoCabo(CANALETA_VENTILADA)'> <img
+                                src="img/dimensionamento/subterranea/CanaletaVentilada.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_canaleta_fechada_noflam" style="display:none;">
+                            Canaleta fechada:<br>
+                            <a href='javascript:updateInstalacaoCabo(CANALETA_FECHADA)'> <img
+                                src="img/dimensionamento/subterranea/CanaletaFechada_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_canaleta_ventilada_noflam" style="display:none;">
+                            Canaleta ventilada:<br>
+                            <a href='javascript:updateInstalacaoCabo(CANALETA_VENTILADA)'> <img
+                                src="img/dimensionamento/subterranea/CanaletaVentilada_noflam.jpg" border="0" />
                             </a><br>
                         </li>
                     </ul>
@@ -388,6 +465,7 @@
             </div>
             
             <!-- POSSIBILIDADE CABOS -->
+            <!-- POSICIONAMENTO CABOS - TRADUZIR AQUI O ARQUIVO -->
             <div id="possibilidadeCabos-popup" class="popup">
 				<!--<div id="ttt">-->
                     <ul>
@@ -453,6 +531,9 @@
                         <li id='li_posicionamentoCabos' style="display:none;">
                             <br><br>Posicionamento dos Cabos:<br>
                         </li>
+                        <li id='li_posicionamentoCabosPorDuto' style="display:none;">
+                            <br><br>Número de cabos por duto:<br>
+                        </li>
                         <li id="id_posicionamentoCabos" style="display:none;">
                             <select id="posicionamentoCabos" class="small-select">
                                 <option value="0">Selecione</option>
@@ -466,6 +547,79 @@
                             <select id="relacaoCaboDuto" class="small-select">
                                 <option value="0">Selecione</option>
                             </select><br><br>
+                        </li>
+                        
+                        <!-- MOSTRA AS IMAGENS DOS POSICIONAMENTO DOS CABOS -->
+                        <li id="id_unipolar_separado" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_ESPACADA)'>
+                                <img src="img/dimensionamento/Unipolar_Separado.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_unipolar_justapostos" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'>
+                                <img src="img/dimensionamento/Unipolar_Justapostos.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_unipolar_trifolio" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_TRIFOLIO)'>
+                                <img src="img/dimensionamento/Unipolar_Trifolio.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_tripolar_separado" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(<ww:property value="planoSeparadoID"/>)'>
+                                <img src="img/dimensionamento/Tripolar_Separado.jpg" border="0" /> </a><br>
+                        </li>
+                        
+                        <li id="id_tripolar_justapostos" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'>
+                                <img src="img/dimensionamento/Tripolar_Justapostos.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_1CaboDuto" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(_1_CABO)'>
+                                <img src="img/dimensionamento/bancoDutos/1CaboDuto.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_3CabosDuto" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(_3_CABOS)'>
+                                <img src="img/dimensionamento/bancoDutos/3CabosDuto.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_unipolar_separado_canaleta" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_ESPACADA)'>
+                                <img src="img/dimensionamento/Unipolar_Separado_Canaleta.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_unipolar_justapostos_canaleta" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'>
+                                <img src="img/dimensionamento/Unipolar_Justapostos_Canaleta.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_unipolar_trifolio_canaleta" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_TRIFOLIO)'>
+                                <img src="img/dimensionamento/Unipolar_Trifolio_Canaleta.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_tripolar_separado_canaleta" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_ESPACADA)'>
+                                <img src="img/dimensionamento/Tripolar_Separado_Canaleta.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_tripolar_justapostos_canaleta" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'>
+                                <img src="img/dimensionamento/Tripolar_Justapostos_Canaleta.jpg" border="0" /></a><br>
                         </li>
                         
                         <li>

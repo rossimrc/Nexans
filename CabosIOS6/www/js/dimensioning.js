@@ -1056,7 +1056,6 @@ $("#caboSelecionado").change(function(){
                   
 $("#possibilidadeInstalacao").change(function(){
     possibilidadeInstalacaoOnChange();
-    getLocaisInstalacao()
 });
                   
 $("#numeroCamadas").change(function(){
@@ -1155,8 +1154,8 @@ $("#specification-popup-continue").click(function(){
 		navigator.notification.alert("Escolha todos os campos",null,"");
 		return;
 	}
-	
-	closePopup("specification-popup");
+                                         
+    closePopup("specification-popup");
 });
 
 $("#specification-popup2-continue").click(function(){
@@ -1196,13 +1195,82 @@ $("#specification-popup2-continue").click(function(){
                   
     $("#possibilidadeCabos-popup-back").click(function()
     {
-        closePopup("possibilidadeCabos-popup");
-        showPopup("localInstalacaoAparente-popup");                                              
+        var step_posicionamentoCabo = $("#step_posicionamentoCabo").val();
+
+        if(step_posicionamentoCabo == "")
+        {
+            submitPossibilidadeInstalacao();
+        }
+        else
+        {
+            closePopup("possibilidadeCabos-popup");
+            showPopup("localInstalacaoAparente-popup");
+        }
     });
                   
     $("#possibilidadeCabos-popup-continue").click(function()
     {
-        closePopup("possibilidadeCabos-popup");
+        var step_posicionamentoCabo = $("#step_posicionamentoCabo").val();
+          
+        if(step_posicionamentoCabo == "")
+        {
+            closePopup("possibilidadeCabos-popup");
+        }
+        else if(step_posicionamentoCabo == "posicionamentoCabosSubterranea")
+        {
+            $("#step_posicionamentoCabo").val("submitPossibilidadeCabos");
+                                                  
+            escondeDivsSubterranea();
+                                                  
+            showPossibilidadeCabos();
+        }
+        else if(step_posicionamentoCabo == "submitPossibilidadeCabos")
+        {                            
+            //ROTINA PARA ENVIAR PARA OUTRAS ETAPAS
+            if (possibilidadeInstalacao == APARENTE_AR)
+            {
+                //var url = "opcoesInstalacao.sdf" + params;
+                if (localInstalacao == FORMACAO_ESPACADA)
+                {
+                    //form.action = url;
+                }
+                else if (localInstalacao == FORMACAO_JUSTAPOSTA)
+                {
+                    //form.action = url;
+                }
+                else if (localInstalacao == FORMACAO_TRIFOLIO)
+                {
+                //form.action = url;
+                }
+
+            }
+            else if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
+            {
+                //var url = "bancoDutos.sdf" + params;
+                //form.action = url;
+            }
+            else if (possibilidadeInstalacao == CANALETA_FECHADA_SOLO)
+            {
+                //form.action = "opcoesInstalacao.sdf" + params;
+            }
+            else if (possibilidadeInstalacao == DIRETAMENTE_SOLO)
+            {
+                //var url = "cabosSolo.sdf" + params;
+                //form.action = url;
+            }
+            else if (possibilidadeInstalacao == ELETRODUTO_SOLO)
+            {
+                //var url = "resistividadeTermica.sdf" + params;
+                //form.action = url;
+            }
+            else if (tipoInstalacao == CONDUTORES_ISOLADOS_G)
+            {
+                if (localInstalacao == FORMACAO_ESPACADA)
+                {
+                    //form.action = url;
+                }
+            }                                 
+        }
     });
 
 function myquery2(p1, p2, p3) {

@@ -1414,7 +1414,7 @@ function resetPossibilidadeInstalacao()
     //DWRUtil.setValue("dimensionamento.eletrodutoMetalico", "0");
     $("#eletrodutoMetalico").val("0");
     //DWRUtil.setValue("dimensionamento.distanciaEntreCabos", "0");
-    $("#distanciaEntreCabos").val("0");
+    //$("#distanciaEntreCabos").val("0");
     //DWRUtil.setValue("dimensionamento.relacaoCaboDuto", "");
     $("#relacaoCaboDuto").val("");
     //DWRUtil.setValue("dimensionamento.posicionamentoCabo", "0");
@@ -1893,6 +1893,129 @@ function getAplicacoes(nivelTensao)
     $('#cableFirePerformance option[value="'+aplcacao+'"]').attr({ selected : "selected" });
 }
 
+function escondeDivsSubterranea()
+{
+    //SUBTERRANEA
+    closePopup("id_eletroduto_subterranea");
+    closePopup("id_diretamente_enterrados");
+    closePopup("id_canaleta_fechada");
+    closePopup("id_canaleta_ventilada");
+    closePopup("id_canaleta_fechada_noflam");
+    closePopup("id_canaleta_ventilada_noflam");
+    closePopup("id_unipolar_separado");
+    closePopup("id_unipolar_justapostos");
+    closePopup("id_unipolar_trifolio");
+    closePopup("id_tripolar_separado");
+    closePopup("id_tripolar_justapostos");
+    closePopup("id_1CaboDuto");
+    closePopup("id_3CabosDuto");
+    closePopup("id_unipolar_separado_canaleta");
+    closePopup("id_unipolar_justapostos_canaleta");
+    closePopup("id_unipolar_trifolio_canaleta");
+    closePopup("id_tripolar_separado_canaleta");
+    closePopup("id_tripolar_justapostos_canaleta");
+    closePopup("li_posicionamentoCabosPorDuto");
+    closePopup("li_posicionamentoCabos");
+    closePopup("id_posicionamentoCabos");
+    closePopup("li_relacaoCaboDuto");
+    closePopup("id_relacaoCaboDuto");
+}
+
+function escondeDivs()
+{
+    //POSSIBILIDADE CABOS
+    closePopup("li_eletrodutoMetalico");
+    closePopup("li_eletrodutoMetalico_embutida_naval");
+    closePopup("id_eletrodutoMetalico");
+    closePopup("li_metalQuestion");
+    closePopup("li_unipolar");
+    closePopup("li_numeroCircuitos");
+    closePopup("li_num_cabos");
+    closePopup("li_numeroCircuitos_naval");
+    closePopup("numeroCircuitoCamadas");
+    closePopup("li_numeroCamadas");
+    closePopup("li_numeroCamadas_embutida");
+    closePopup("id_numeroCamadas");
+    closePopup("li_distancia_eletrodutos");
+    closePopup("li_distancia_cabos");
+    closePopup("id_distanciaEntreCabos");
+    closePopup("li_posicionamentoCabos");
+    closePopup("li_posicionamentoCabosPorDuto");
+    closePopup("id_posicionamentoCabos");
+    closePopup("li_relacaoCaboDuto");
+    closePopup("id_relacaoCaboDuto");
+    /*closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");*/
+    
+    //APARENTE
+    closePopup("eletroduto-popup");
+    closePopup("bandeja_perfurada");
+    closePopup("leito");
+    closePopup("bandeja_nao_perfurada");
+    closePopup("suportes");
+    closePopup("em_parede");
+    closePopup("teto");
+    closePopup("eletroduto");
+    
+    //EMBUTIDA
+    closePopup("id_eletrocalha_fechada");
+    closePopup("id_eletroduto_circular_naval");
+    closePopup("id_eletroduto_parede_term_isolante_noflam");
+    closePopup("id_eletroduto_parede_term_isolante");
+    closePopup("id_caixilho_porta_janela");
+    closePopup("li_eletroduto_circular_embutido");
+    closePopup("li_eletroduto_circular_alvenaria");
+    closePopup("id_eletroduto_circular");
+    closePopup("id_eletroduto_circular_noflam");
+    closePopup("id_caixilho_porta_janela");
+    closePopup("li_em_alvenaria_diretamente");
+    closePopup("li_embutido_diretamente");
+    closePopup("id_embutida_alvenaria");
+    
+    //SUBTERRANEA
+    closePopup("id_eletroduto_subterranea");
+    closePopup("id_diretamente_enterrados");
+    closePopup("id_canaleta_fechada");
+    closePopup("id_canaleta_ventilada");
+    closePopup("id_canaleta_fechada_noflam");
+    closePopup("id_canaleta_ventilada_noflam");
+    closePopup("id_unipolar_separado");
+    closePopup("id_unipolar_justapostos");
+    closePopup("id_unipolar_trifolio");
+    closePopup("id_tripolar_separado");
+    closePopup("id_tripolar_justapostos");
+    closePopup("id_1CaboDuto");
+    closePopup("id_3CabosDuto");
+    closePopup("id_unipolar_separado_canaleta");
+    closePopup("id_unipolar_justapostos_canaleta");
+    closePopup("id_unipolar_trifolio_canaleta");
+    closePopup("id_tripolar_separado_canaleta");
+    closePopup("id_tripolar_justapostos_canaleta");
+    closePopup("li_posicionamentoCabosPorDuto");
+    closePopup("li_posicionamentoCabos");
+    closePopup("id_posicionamentoCabos");
+    closePopup("li_relacaoCaboDuto");
+    closePopup("id_relacaoCaboDuto");
+    /*closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");*/
+}
+
 function possibilidadeInstalacaoOnChange()
 {
     updateTemperaturaArSolo();
@@ -1907,6 +2030,8 @@ function possibilidadeInstalacaoOnChange()
     var sistema = $("#system").val();
     var localInstalacao = $("#localInstalacao").val();
     var tipoProduto = $("#cableList").val();
+    
+    escondeDivs();
     
     //showPopup("localInstalacaoAparente-popup");
     //showPopup("localInstalacaoContinuar-popup");
@@ -1939,28 +2064,11 @@ function possibilidadeInstalacaoOnChange()
     
     var params = "?possibilidadeInstalacao=" + possibilidade + "&caboSelecionado=" + cabo + "&tipoProduto=" + tipoProduto;
     
-    closePopup("eletroduto-popup");
-    closePopup("bandeja_perfurada");
-    closePopup("leito");
-    closePopup("bandeja_nao_perfurada");
-    closePopup("suportes");
-    closePopup("em_parede");
-    closePopup("teto");
-    
-    closePopup("id_eletrocalha_fechada");
-    closePopup("id_eletroduto_circular_naval");
-    closePopup("id_eletroduto_parede_term_isolante");
-    closePopup("id_caixilho_porta_janela");
-    closePopup("li_eletroduto_circular_embutido");
-    closePopup("li_eletroduto_circular_alvenaria");
-    closePopup("id_eletroduto_circular");
-    closePopup("id_caixilho_porta_janela");
-    //closePopup("");
-    
     if (tensao == BAIXA)
     {
         if (possibilidade == APARENTE)
         {
+            getLocaisInstalacaoAparente();
             //pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
             
             if(isCabosEnergia())
@@ -1998,29 +2106,87 @@ function possibilidadeInstalacaoOnChange()
         }
         else if (possibilidade == EMBUTIDA)
         {
+            getLocaisInstalacaoEmbutida();
+            
             if(isNaval())
             {
+                //Eletrocalha Fechada
                 document.getElementById("id_eletrocalha_fechada").style.display = "";
+                
+                //Eletroduto Circular
                 document.getElementById("id_eletroduto_circular_naval").style.display = "";
             }
             else
             {
                 if(isAntiChama() || isAfitox750())
                 {
+                    //Eletroduto em parede termicamente isolante
+                    document.getElementById("id_eletroduto_parede_term_isolante_noflam").style.display = "";
+                    
+                    //Caixilho de porta ou janela
+                    document.getElementById("id_caixilho_porta_janela").style.display = "";
+                    
                     if(isNaval())
                     {
+                        //Eletroduto circular embutido
                         document.getElementById("li_eletroduto_circular_embutido").style.display = "";
                     }
                     else
                     {
+                        //Eletroduto circular em alvenaria
                         document.getElementById("li_eletroduto_circular_alvenaria").style.display = "";
                     }
-                    
-                    document.getElementById("id_eletroduto_circular").style.display = "";
+                    document.getElementById("id_eletroduto_circular_noflam").style.display = "";
                     
                     if(isExibirMoldura())
                     {
-                        
+                        //Moldura id_moldura
+                        document.getElementById("id_moldura").style.display = "";
+                    }
+                }
+                
+                if(!isAntiChama() && !isAfitox750())
+                {
+                    //Eletroduto em parede termicamente isolante
+                    document.getElementById("id_eletroduto_parede_term_isolante").style.display = "";
+                    
+                    //Caixilho de porta ou janela
+                    document.getElementById("id_caixilho_porta_janela").style.display = "";
+                    
+                    if(isNaval())
+                    {
+                        //Eletroduto circular embutido
+                        document.getElementById("li_eletroduto_circular_embutido").style.display = "";
+                    }
+                    else
+                    {
+                        //Eletroduto circular em alvenaria
+                        document.getElementById("li_eletroduto_circular_alvenaria").style.display = "";
+                    }
+                    document.getElementById("id_eletroduto_circular").style.display = "";
+                    
+                    if(getExibirParedeIsolante())
+                    {
+                        //Em parede isolante diretamente id_parede_isolante_diretamente
+                        document.getElementById("id_parede_isolante_diretamente").style.display = "";
+                    }
+                 
+                    if(isNaval())
+                    {
+                        //Embutido diretamente
+                        document.getElementById("li_embutido_diretamente").style.display = "";
+                    }
+                    else
+                    {
+                        //Em alvenaria diretamente
+                        document.getElementById("li_em_alvenaria_diretamente").style.display = "";
+                    }
+                    document.getElementById("id_embutida_alvenaria").style.display = "";
+                    
+                    if(isExibirMoldura())
+                    {
+                        //Moldura
+                        document.getElementById("id_moldura").style.display = "";
                     }
                 }
             }
@@ -2030,7 +2196,34 @@ function possibilidadeInstalacaoOnChange()
         }
         else if (possibilidade == SUBTERRANEA)
         {
+            getLocaisInstalacaoSubterranea();
+            
             //pagina = "instalacaoSubterranea.sdf" + params;
+            if(!isAntiChama() && !isAfitox750())
+            {
+                //Eletroduto
+                document.getElementById("id_eletroduto_subterranea").style.display = "";
+                
+                //Diretamente enterrados
+                document.getElementById("id_diretamente_enterrados").style.display = "";
+                
+                //Canaleta fechada
+                document.getElementById("id_canaleta_fechada").style.display = "";
+                
+                //Canaleta ventilada
+                document.getElementById("id_canaleta_ventilada").style.display = "";
+            }
+            else
+            {
+                //Canaleta fechada - else
+                document.getElementById("id_canaleta_fechada_noflam").style.display = "";
+                
+                //Canaleta ventilada - else
+                document.getElementById("id_canaleta_ventilada_noflam").style.display = "";
+            }
+            
+            //APRESENTA A DIV COM AS IMAGENS DAS POSSIBILIDADES DE INSTALAÇÃO
+            showPopup("localInstalacaoAparente-popup");
         }
         else if (possibilidade == SUSPENSA)
         {
