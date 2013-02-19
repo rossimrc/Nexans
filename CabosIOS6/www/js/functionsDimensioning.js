@@ -1,78 +1,3 @@
-/*function getTemperaturaMaximaCondutor(tipoProduto, nivelTensao, caboSelecionado, tensaoIsolamento, materialCondutor)
-{
-    $("#maximumTemperature").html("");
-    $("#maximumTemperature").append(new Option("Selecione","0", false, false));
-    
-    
-    //alert("Entrou na funcao");
-    //alert("tipoProduto: " + tipoProduto + " - nivelTensao: " + nivelTensao + " - caboSelecionado: " + caboSelecionado + " - tensaoIsolamento: " + tensaoIsolamento + " - materialCondutor: " + materialCondutor);
-    if(tipoProduto == CABOS_ENERGIA)
-    {
-        if(nivelTensao == BAIXA)
-        {
-            if(materialCondutor == ALUMINIO)
-            {
-                $("#maximumTemperature").append(new Option("70º","70", false, false));
-            }
-            else
-            {
-                if ((tensaoIsolamento == _450V_750V) || (caboSelecionado == AFITOX_750V) || (caboSelecionado == NOFLAN_ANTICHAMA_BWF_FLEXIVEL) || (caboSelecionado == VINIL) || (caboSelecionado == VINIL_FLEXIVEL) )
-                {
-                    $("#maximumTemperature").append(new Option("70º","70", false, false));
-                }
-                else if( (caboSelecionado == AFITOX_06_1KV) || (caboSelecionado == FITER_FLEX) )
-                {
-                    $("#maximumTemperature").append(new Option("90º","90", false, false));
-                }
-                else
-                {
-                    $("#maximumTemperature").append(new Option("70º","70", false, false));
-                    $("#maximumTemperature").append(new Option("90º","90", false, false));
-                }
-            }
-        }
-        else if(nivelTensao == MEDIA)
-        {
-            if(caboSelecionado == EP_DRY_105C)
-            {
-                $("#maximumTemperature").append(new Option("105º","105", false, false));
-            }
-            else if(caboSelecionado == "0")
-            {
-                $("#maximumTemperature").append(new Option("90º","90", false, false));
-                $("#maximumTemperature").append(new Option("105º","105", false, false));
-            }
-            else
-            {
-                $("#maximumTemperature").append(new Option("90º","90", false, false));
-            }
-            
-        }
-    }
-    else if(tipoProduto == CABOS_NAVAIS)
-    {
-        $("#maximumTemperature").append(new Option("70º","70", false, false));
-        $("#maximumTemperature").append(new Option("85º","85", false, false));
-        $("#maximumTemperature").append(new Option("90º","90", false, false));
-    }
-    //alert("Saiu da funcao");
-}*/
-
-function getNiveisTensao(tipoProduto)
-{
-    $("#systemVoltage").html("");
-    $("#systemVoltage").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_NAVAIS)
-    {
-        $("#systemVoltage").append(new Option(NIVEL_TENSAO[BAIXA].description,BAIXA, false, false));
-        $("#systemVoltage").append(new Option(NIVEL_TENSAO[MEDIA_NAVAL].description,MEDIA_NAVAL, false, false));
-    } else if (tipoProduto == CABOS_ENERGIA) {
-        $("#systemVoltage").append(new Option(NIVEL_TENSAO[BAIXA].description,BAIXA, false, false));
-        $("#systemVoltage").append(new Option(NIVEL_TENSAO[MEDIA].description,MEDIA, false, false));
-    }
-}
-
 function updateNivelTensao()
 {
     var tipoProduto = $("#cableList").val();
@@ -90,116 +15,6 @@ function updateUnidadeTensao() {
     } else {
         $("#unidadeTensao").html("[kV]");
     }
-}
-
-function getUtilizacaoCircuito(tipoProduto, nivelTensao, materialCondutor)
-{
-    $("#circuitUsage").html("");
-    $("#circuitUsage").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if (materialCondutor == ALUMINIO)
-            {
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[ILUMINACAO].description,ILUMINACAO, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
-            }
-            else
-            {
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[ILUMINACAO].description,ILUMINACAO, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[SINALIZACAO].description,SINALIZACAO, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[CONTROLE].description,CONTROLE, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[APLICACOES_ESPECIAIS].description,APLICACOES_ESPECIAIS, false, false));
-                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[OUTROS].description,OUTROS, false, false));
-            }
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
-        }
-    }
-    else if (tipoProduto == CABOS_NAVAIS)
-    {
-        $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
-    }
-}
-
-function getMaterialCondutor(tipoProduto, nivelTensao)
-{
-    $("#cableMaterial").html("");
-    $("#cableMaterial").append(new Option("Selecione","0", false, false));
-    
-    //TIPO_PRODUTO
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
-            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[ALUMINIO].description,ALUMINIO, false, false));
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
-            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[ALUMINIO].description,ALUMINIO, false, false));
-        }
-        
-    } else if (tipoProduto == CABOS_NAVAIS) {
-        $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
-    }
-}
-
-function getNumeroCondutores(tipoProduto, nivelTensao, tipoCabo, aplicacao)
-{
-    //alert("tipoProduto: " + tipoProduto + ", nivelTensao: " + nivelTensao + ", tipoCabo: " + tipoCabo + ", aplicacao: " + aplicacao);
-    var numeroCondutor = $("#conductorNumber").val();
-    
-    $("#conductorNumber").html("");
-    $("#conductorNumber").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_NAVAIS)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if ((tipoCabo == CABO_ARMADO_ACO) || (aplicacao == SEGURANCA_MAXIMA))
-            {
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
-            }
-            else
-            {
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
-                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
-            }
-        }
-        else
-        {
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
-        }
-    }
-    else if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
-            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
-        }
-    }
-    
-    $('#conductorNumber option[value="'+numeroCondutor+'"]').attr({ selected : "selected" });
 }
 
 // Tensão de isolamento - Update.
@@ -228,108 +43,6 @@ function updateTensaoIsolamento()
     getUtilizacaoCircuito(tipoProduto, nivelTensao, materialCondutor);
     
     updateUnidadeTensao();
-}
-
-function getTensaoIsolamento(tipoProduto, nivelTensao, tensaoServico, numeroCondutores, materialCondutor)
-{
-    //alert("tipoProduto: " + tipoProduto + ", nivelTensao: " + nivelTensao + ", tensaoServico: " + tensaoServico + ", numeroCondutores: " + numeroCondutores + ", materialCondutor : " + materialCondutor);
-    
-    $("#isolationVoltage").html("");
-    $("#isolationVoltage").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if (tensaoServico >= 0.001 && tensaoServico <= 0.750)
-            {
-                if (materialCondutor != ALUMINIO && numeroCondutores == NCUNIPOLAR)
-                {
-                    $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_450V_750V].description,_450V_750V, false, false));
-                }
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
-            }
-            else if ( (tensaoServico > 0.6 && tensaoServico <= 1) || (numeroCondutores == NCTRIPOLAR) || (materialCondutor == ALUMINIO) )
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
-            }
-            
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            if (tensaoServico >= 1 && tensaoServico <= 6)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_3_6KV_6KV].description,_3_6KV_6KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-            else if (tensaoServico > 6 && tensaoServico <= 10)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-            else if (tensaoServico > 10 && tensaoServico <= 15)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-            else if (tensaoServico > 15 && tensaoServico <= 20)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-            else if (tensaoServico > 20 && tensaoServico <= 25)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-            else if (tensaoServico > 25 && tensaoServico <= 35)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
-            }
-        }
-    }
-    else if (tipoProduto == CABOS_NAVAIS)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            if (tensaoServico >= 1 && tensaoServico <= 6)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_3_6KV_6KV].description,_3_6KV_6KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-            }
-            else if (tensaoServico > 6 && tensaoServico <= 10)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-            }
-            else if (tensaoServico > 10 && tensaoServico <= 15)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-            }
-            else if (tensaoServico > 15 && tensaoServico <= 20)
-            {
-                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
-            }
-        }
-    }
 }
 
 //ALTERAR IMPLEMENTACAO DO METODO
@@ -408,85 +121,6 @@ function updateSistema()
     var numeroCondutores = $("#conductorNumber").val();
     
     getSistema(tipoProduto, nivelTensao, numeroCondutores);
-}
-
-function getSistema(tipoProduto, nivelTensao, numeroCondutores)
-{
-    $("#system").html("");
-    $("#system").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if (numeroCondutores == NCUNIPOLAR)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == NCBIPOLAR)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == NCTRIPOLAR)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == NCTETRAPOLAR)
-            {
-                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
-            }            
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
-            $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-        }
-    }
-    else
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if (numeroCondutores == 1)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == 2)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == 3)
-            {
-                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
-                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
-                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-            }
-            else if (numeroCondutores == 4)
-            {
-                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
-            }
-        }
-        else
-        {
-            if (numeroCondutores == 1 || numeroCondutores == 3)
-            {
-                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
-            }
-        }
-    }
 }
 
 // Cabo selecionado - Update.
@@ -1159,110 +793,12 @@ function updateTemperaturaMaximaCondutor()
     getTemperaturaMaximaCondutor(tipoProduto, nivelTensao, caboSelecionado, tensaoIsolamento, materialCondutor);
 }
 
-function getTemperaturaMaximaCondutor(tipoProduto, nivelTensao, caboEscolhido, tensaoIsolamento, materialCondutor)
-{
-    var valorTemperatura = $("#maximumTemperature").val();
-    
-    $("#maximumTemperature").html("");
-    $("#maximumTemperature").append(new Option("Selecione","0", false, false));
-    
-    //alert("Entrou da funcao: getTemperaturaMaximaCondutor");
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            if (materialCondutor == ALUMINIO)
-            {
-                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
-            }
-            else
-            {
-                if ((tensaoIsolamento == _450V_750V) || (caboEscolhido == AFITOX_750V) || (caboEscolhido == NOFLAN_ANTICHAMA_BWF_FLEXIVEL) || (caboEscolhido == VINIL) || (caboEscolhido == VINIL_FLEXIVEL) ) {
-                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
-                }
-                else if ( (caboEscolhido == AFITOX_06_1KV) || (caboEscolhido == FITER_FLEX) )
-                {
-                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
-                }
-                else
-                {
-                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
-                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
-                }
-            }
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            if (caboEscolhido == EP_DRY_105C)
-            {
-                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_105C].description,_105C, false, false));
-            }
-            else if (caboEscolhido == 0)
-            {
-                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
-                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_105C].description,_105C, false, false));
-            }
-            else
-            {
-                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
-            }
-        }
-        
-    }
-    else if (tipoProduto == CABOS_NAVAIS)
-    {
-        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
-        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_85C].description,_85C, false, false));
-        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
-    }
-    
-    $('#maximumTemperature option[value="'+valorTemperatura+'"]').attr({ selected : "selected" });
-    //alert("Saiu da funcao: getTemperaturaMaximaCondutor");
-}
-
 function updatePossibilidadeInstalacao()
 {
     var tipoProduto = $("#cableList").val();
     var nivelTensao = $("#systemVoltage").val();
     
     getPossibilidadeInstalacao(tipoProduto, nivelTensao);
-}
-
-function getPossibilidadeInstalacao(tipoProduto, nivelTensao)
-{
-    $("#possibilidadeInstalacao").html("");
-    $("#possibilidadeInstalacao").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        if (nivelTensao == BAIXA)
-        {
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE].description,APARENTE, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[EMBUTIDA].description,EMBUTIDA, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ESPACO_CONSTRUCAO].description,ESPACO_CONSTRUCAO, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[SUBTERRANEA].description,SUBTERRANEA, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[SUSPENSA].description,SUSPENSA, false, false));            
-        }
-        else if (nivelTensao == MEDIA)
-        {
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE_AR].description,APARENTE_AR, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[BANCO_DUTOS_SOLO].description,BANCO_DUTOS_SOLO, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[CANALETA_FECHADA_SOLO].description,CANALETA_FECHADA_SOLO, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[DIRETAMENTE_SOLO].description,DIRETAMENTE_SOLO, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_NAO_METALICO_APARENTE_AR].description,ELETRODUTO_NAO_METALICO_APARENTE_AR, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_METALICO_APARENTE_AR].description,ELETRODUTO_METALICO_APARENTE_AR, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_NAO_METALICO_SOLO].description,ELETRODUTO_NAO_METALICO_SOLO, false, false));
-            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_METALICO_SOLO].description,ELETRODUTO_METALICO_SOLO, false, false));
-        }
-        
-    }
-    else if (tipoProduto == CABOS_NAVAIS)
-    {
-        $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE].description,APARENTE, false, false));
-        $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[EMBUTIDA].description,EMBUTIDA, false, false));
-    }
-    
-    //alert("Saiu da funcao: getPossibilidadeInstalacao");
 }
 
 function updateTemperaturaArSolo()
@@ -1296,40 +832,6 @@ function updateTemperaturaArSolo()
             $("#temperaturaArSolo").val(_30C_AS);
             //DWRUtil.setValue("dimensionamento.temperaturaArSolo", <%=TemperaturaArSolo._30C.getValue()%>);
         }
-    }
-}
-
-function getTemperaturaArSolo(tipoProduto, temperaturaCondutor, nivelTensao, instalacao)
-{
-    $("#temperaturaArSolo").html("");
-    $("#temperaturaArSolo").append(new Option("Selecione","0", false, false));
-    
-    if (tipoProduto == CABOS_ENERGIA)
-    {
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_10C_AS].description,_10C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_15C_AS].description,_15C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_20C_AS].description,_20C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_25C_AS].description,_25C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_30C_AS].description,_30C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_35C_AS].description,_35C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_40C_AS].description,_40C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_45C_AS].description,_45C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_50C_AS].description,_50C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_55C_AS].description,_55C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_60C_AS].description,_60C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_65C_AS].description,_65C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_70C_AS].description,_70C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_75C_AS].description,_75C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_80C_AS].description,_80C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_85C_AS].description,_85C_AS, false, false));
-    }
-    else if (tipoProduto == CABOS_NAVAIS)
-    {
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_35C_AS].description,_35C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_40C_AS].description,_40C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_45C_AS].description,_45C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_50C_AS].description,_50C_AS, false, false));
-        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_55C_AS].description,_55C_AS, false, false));
     }
 }
 
@@ -1382,7 +884,7 @@ function tipoProdutoOnChange()
 
 function resetPossibilidadeInstalacao()
 {
-    document.getElementById("div_localInstalacao").style.display = "none";
+    //document.getElementById("div_localInstalacao").style.display = "none";
     closePopup("localInstalacaoAparente-popup");
     
     //DWRUtil.setValue("dimensionamento.localInstalacao", "0");
@@ -1414,7 +916,7 @@ function resetPossibilidadeInstalacao()
     //DWRUtil.setValue("dimensionamento.eletrodutoMetalico", "0");
     $("#eletrodutoMetalico").val("0");
     //DWRUtil.setValue("dimensionamento.distanciaEntreCabos", "0");
-    //$("#distanciaEntreCabos").val("0");
+    $("#distanciaEntreCabos").val("0");
     //DWRUtil.setValue("dimensionamento.relacaoCaboDuto", "");
     $("#relacaoCaboDuto").val("");
     //DWRUtil.setValue("dimensionamento.posicionamentoCabo", "0");
@@ -1559,9 +1061,7 @@ function tensaoServicoOnChange()
 }
 
 function correnteProjetoOnChange()
-{
-    alert("Entrou correnteProjetoOnChange");
-    
+{    
     var corrente = $("#correnteProjeto").val();
     var tensao = $("#serviceVoltage").val();
     var unidade = $("#voltageUnit").val();
@@ -1583,13 +1083,10 @@ function correnteProjetoOnChange()
         var potencia = corrente * tensao * Math.sqrt(3);
         $("#potenciaAparente").val(potencia.toFixed(1));
     }
-        alert("Saiu correnteProjetoOnChange");
 }
 
 function potenciaAparenteOnChange()
 {
-    alert("Entrou potenciaAparenteOnChange");
-    
     var potencia = $("#potenciaAparente").val();
     var tensao = $("#serviceVoltage").val();
     var unidade = $("#voltageUnit").val();
@@ -1611,8 +1108,6 @@ function potenciaAparenteOnChange()
         var corrente = (potencia / tensao) / Math.sqrt(3);
         $("#correnteProjeto").val(corrente.toFixed(1));
     }
-    
-    alert("Saiu potenciaAparenteOnChange");
 }
 
 function tensaoIsolamentoOnChange()
@@ -1944,14 +1439,48 @@ function escondeDivs()
     closePopup("id_posicionamentoCabos");
     closePopup("li_relacaoCaboDuto");
     closePopup("id_relacaoCaboDuto");
+    closePopup("li_resistencia_termica_solo");
+    closePopup("id_resistividadeTermica");
+    closePopup("li_orientacaoCabo");
+    closePopup("id_orientacaoCabo");
+    closePopup("id_orientacao_horizontal");
+    closePopup("id_orientacao_vertical");
+    closePopup("id_eletrocalha_ou_perfilado");
+    closePopup("id_isoladores");
+    closePopup("id_suportes");
+    closePopup("id_em_eletroduto_noflam");
+    closePopup("id_diretamente");
+    closePopup("id_em_eletroduto");
+    closePopup("li_posicionamento_dos_eletrodutos");
+    closePopup("id_eletroduto_ar_espacado");
+    closePopup("id_eletroduto_ar_espacado_tripolar");
+    closePopup("id_eletroduto_ar_justapostos");
+    closePopup("id_eletroduto_ar_justapostos_tripolar");
+    closePopup("id_tripolar_separados_bandeja");
+    closePopup("id_tripolar_justapostos_bandeja");
+    closePopup("id_unipolar_separados_bandeja");
+    closePopup("id_unipolar_justapostos_bandeja");
+    closePopup("id_unipolar_trifolio_bandeja");
+    closePopup("id_orientacaoFatorCorrecao");
+    closePopup("li_numero_de_bandejas");
+    closePopup("id_numeroBandejas");
+    closePopup("li_eletrodutos_bandeja");
+    closePopup("li_ternas_bandeja");
+    closePopup("li_cabos_bandeja");
+    closePopup("id_numeroTernasBandeja");
+    closePopup("id_tripolar_separados_vertical");
+    closePopup("id_tripolar_justapostos_vertical");
+    closePopup("id_unipolar_separados_vertical");
+    closePopup("id_unipolar_justapostos_vertical");
+    closePopup("id_unipolar_trifolio_vertical");
+    closePopup("id_orientacaoFatorCorrecaoVertical");
+    closePopup("id_numeroBandejasVertical");
+    closePopup("id_numeroTernasVertical");
+    closePopup("id_tripolar_separados_semCorrecao");
+    closePopup("id_unipolar_separados_semCorrecao");
+    closePopup("id_unipolar_trifolio_semCorrecao");
+    closePopup("id_orientacaoFatorCorrecaoSemFator");
     /*closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
     closePopup("");
     closePopup("");
     closePopup("");
@@ -2066,199 +1595,54 @@ function possibilidadeInstalacaoOnChange()
     
     if (tensao == BAIXA)
     {
-        if (possibilidade == APARENTE)
+        if (possibilidade == APARENTE) //CONCLUIDO
         {
-            getLocaisInstalacaoAparente();
-            //pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
-            
-            if(isCabosEnergia())
-            {
-                if(isAntiChama() || isAfitox750())
-                {
-                    document.getElementById("eletroduto").style.display = "";
-                }
-                else
-                {
-                    if((!isAntiChama()) || (!isAfitox750()))
-                    {
-                        document.getElementById("eletroduto").style.display = "";
-                        document.getElementById("bandeja_perfurada").style.display = "";
-                        document.getElementById("leito").style.display = "";
-                        document.getElementById("bandeja_nao_perfurada").style.display = "";
-                        document.getElementById("suportes").style.display = "";
-                        document.getElementById("em_parede").style.display = "";
-                        document.getElementById("teto").style.display = "";
-                    }
-                }
-            }
-            else
-            {
-                document.getElementById("bandeja_perfurada").style.display = "";
-                document.getElementById("leito").style.display = "";
-                document.getElementById("bandeja_nao_perfurada").style.display = "";
-                document.getElementById("suportes").style.display = "";
-                document.getElementById("em_parede").style.display = "";
-                document.getElementById("teto").style.display = "";
-            }
-            
-            showPopup("localInstalacaoAparente-popup");
-            //$("#cableConstruction").focus();
+            showPossibilidadeAparente();
         }
-        else if (possibilidade == EMBUTIDA)
+        else if (possibilidade == EMBUTIDA) //CONCLUIDO
         {
-            getLocaisInstalacaoEmbutida();
-            
-            if(isNaval())
-            {
-                //Eletrocalha Fechada
-                document.getElementById("id_eletrocalha_fechada").style.display = "";
-                
-                //Eletroduto Circular
-                document.getElementById("id_eletroduto_circular_naval").style.display = "";
-            }
-            else
-            {
-                if(isAntiChama() || isAfitox750())
-                {
-                    //Eletroduto em parede termicamente isolante
-                    document.getElementById("id_eletroduto_parede_term_isolante_noflam").style.display = "";
-                    
-                    //Caixilho de porta ou janela
-                    document.getElementById("id_caixilho_porta_janela").style.display = "";
-                    
-                    if(isNaval())
-                    {
-                        //Eletroduto circular embutido
-                        document.getElementById("li_eletroduto_circular_embutido").style.display = "";
-                    }
-                    else
-                    {
-                        //Eletroduto circular em alvenaria
-                        document.getElementById("li_eletroduto_circular_alvenaria").style.display = "";
-                    }
-                    document.getElementById("id_eletroduto_circular_noflam").style.display = "";
-                    
-                    if(isExibirMoldura())
-                    {
-                        //Moldura id_moldura
-                        document.getElementById("id_moldura").style.display = "";
-                    }
-                }
-                
-                if(!isAntiChama() && !isAfitox750())
-                {
-                    //Eletroduto em parede termicamente isolante
-                    document.getElementById("id_eletroduto_parede_term_isolante").style.display = "";
-                    
-                    //Caixilho de porta ou janela
-                    document.getElementById("id_caixilho_porta_janela").style.display = "";
-                    
-                    if(isNaval())
-                    {
-                        //Eletroduto circular embutido
-                        document.getElementById("li_eletroduto_circular_embutido").style.display = "";
-                    }
-                    else
-                    {
-                        //Eletroduto circular em alvenaria
-                        document.getElementById("li_eletroduto_circular_alvenaria").style.display = "";
-                    }
-                    document.getElementById("id_eletroduto_circular").style.display = "";
-                    
-                    if(getExibirParedeIsolante())
-                    {
-                        //Em parede isolante diretamente id_parede_isolante_diretamente
-                        document.getElementById("id_parede_isolante_diretamente").style.display = "";
-                    }
-                 
-                    if(isNaval())
-                    {
-                        //Embutido diretamente
-                        document.getElementById("li_embutido_diretamente").style.display = "";
-                    }
-                    else
-                    {
-                        //Em alvenaria diretamente
-                        document.getElementById("li_em_alvenaria_diretamente").style.display = "";
-                    }
-                    document.getElementById("id_embutida_alvenaria").style.display = "";
-                    
-                    if(isExibirMoldura())
-                    {
-                        //Moldura
-                        document.getElementById("id_moldura").style.display = "";
-                    }
-                }
-            }
-            
-            showPopup("localInstalacaoAparente-popup");
-            //pagina = "instalacaoEmbutida.sdf" + params + "&numeroCondutores=" + numeroCondutores;
+            showPossibilidadeEmbutida();
         }
-        else if (possibilidade == SUBTERRANEA)
+        else if (possibilidade == SUBTERRANEA) //CONCLUIDO
         {
-            getLocaisInstalacaoSubterranea();
-            
-            //pagina = "instalacaoSubterranea.sdf" + params;
-            if(!isAntiChama() && !isAfitox750())
-            {
-                //Eletroduto
-                document.getElementById("id_eletroduto_subterranea").style.display = "";
-                
-                //Diretamente enterrados
-                document.getElementById("id_diretamente_enterrados").style.display = "";
-                
-                //Canaleta fechada
-                document.getElementById("id_canaleta_fechada").style.display = "";
-                
-                //Canaleta ventilada
-                document.getElementById("id_canaleta_ventilada").style.display = "";
-            }
-            else
-            {
-                //Canaleta fechada - else
-                document.getElementById("id_canaleta_fechada_noflam").style.display = "";
-                
-                //Canaleta ventilada - else
-                document.getElementById("id_canaleta_ventilada_noflam").style.display = "";
-            }
-            
-            //APRESENTA A DIV COM AS IMAGENS DAS POSSIBILIDADES DE INSTALAÇÃO
-            showPopup("localInstalacaoAparente-popup");
+            showPossibilidadeSubterranea();
         }
-        else if (possibilidade == SUSPENSA)
+        else if (possibilidade == SUSPENSA) //CONCLUIDO
         {
-            //pagina = "instalacaoSuspensa.sdf" + params + "&sistema=" + sistema;
+            showPossibilidadeSuspensa();
         }
-        else if (possibilidade == ESPACO_CONSTRUCAO)
+        else if (possibilidade == ESPACO_CONSTRUCAO) //CONCLUIDO
         {
-            //pagina = "instalacaoEspacoConstrucao.sdf" + params;
-        }
-        
+            showPossibilidadeEspacoConstrucao();
+        }        
     }
-    //alert("Saiu em possibilidadeInstalacaoOnChange");
-    /*else if (tensao == MEDIA)
+    else if (tensao == MEDIA)
     {
-        var url = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
-        "&nivelTensao=" + tensao;
+        /*var url = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
+        "&nivelTensao=" + tensao;*/
         
         if (possibilidade == APARENTE)
         {
-            pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
+            //pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
+            showPossibilidadeAparente();
         }
         else if (possibilidade == APARENTE_AR)
         {
-            pagina = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + <%=PossibilidadeInstalacao.APARENTE_AR.getValue()%>;
+            showPosicionamentoCabos();
         }
         else if (possibilidade == EMBUTIDA)
         {
-            pagina = "instalacaoEmbutida.sdf" + params + "&numeroCondutores=" + numeroCondutores;
+            //pagina = "instalacaoEmbutida.sdf" + params + "&numeroCondutores=" + numeroCondutores;
+            showPossibilidadeEmbutida();
         }
         else if (possibilidade == ELETRODUTO_APARENTE_AR || possibilidade == ELETRODUTO_NAO_METALICO_APARENTE_AR || possibilidade == ELETRODUTO_METALICO_APARENTE_AR)
         {
-            pagina = "eletrodutoAr.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;;
+            //pagina = "eletrodutoAr.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;;
             
+            showEletrodutoAr();
+            alert("Depois showEletrodutoAr");
         }
-        else if (possibilidade == BANCO_DUTOS_SOLO)
+        /*else if (possibilidade == BANCO_DUTOS_SOLO)
         {
             if (numeroCondutores == UNIPOLAR)
             {
@@ -2304,11 +1688,451 @@ function possibilidadeInstalacaoOnChange()
                 pagina = "possibilidadeCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
                 "&nivelTensao=" + tensao + "&closeWindow=1";
             }
-        }
+        }*/
     }
     
-    if (pagina != "")
+    /*if (pagina != "")
     {
         openWindow("dimensionamento/" + pagina, paginaH, paginaW);
     }*/
+}
+
+function isUndefinedOrNotZero(elementID) {
+	var result = true;
+	var element = document.getElementById(elementID);
+	if (element != null) {
+		result = element.value > 0;
+	}
+    
+	return result;
+}
+
+function submitPossibilidadeInstalacao()
+{
+    var numeroCondutores = $("#conductorNumber").val();
+    var local = $("#localInstalacao").val();
+    var possibilidade = $("#possibilidadeInstalacao").val();
+    
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    var posicionamentoCabo = $("#posicionamentoCabo").val();
+    var nivelTensao = $("#systemVoltage").val();
+    var tensaoIsolamento = $("#isolationVoltage").val();
+    
+    if (local == "0")
+    {
+        alert("Selecione o local de instalação.");
+        return;
+    }
+    else
+    {
+        if(possibilidade == SUBTERRANEA)
+        {
+            if (nivelTensao == BAIXA && numeroCondutores == NCUNIPOLAR &&  tensaoIsolamento == _06KV_1KV && local == ELETRODUTO)
+            {
+                $("#step_posicionamentoCabo").val("posicionamentoCabosSubterranea");
+                showPosicionamentoCabos();
+            }
+            else
+            {
+                showPossibilidadeCabos();
+            }
+        }
+        else if(possibilidade == SUSPENSA)
+        {
+            var local = $("#localInstalacao").val();
+            
+            if (local == "0")
+            {
+                alert("Selecione o local de instalação.");
+                return false;
+            }
+            
+            if (local == ISOLADORES)
+            {
+                $("#step_posicionamentoCabo").val("suspensaOrientacaoCabo");
+                //objForm.action = "orientacaoCabo.sdf";
+                showOrientacaoCabo();
+            }
+            else
+            {
+                $("#step_posicionamentoCabo").val("suspensaPossibilidadeCabos");
+                showPossibilidadeCabos();
+            }
+            
+        }
+        else if(possibilidade == ESPACO_CONSTRUCAO)
+        {
+            $("#step_posicionamentoCabo").val("submitFinal");
+            showPossibilidadeCabos();
+        }
+        else if (possibilidade == ELETRODUTO_APARENTE_AR || possibilidade == ELETRODUTO_NAO_METALICO_APARENTE_AR || possibilidade == ELETRODUTO_METALICO_APARENTE_AR)
+        {
+            alert("Entrou ELETRODUTO_APARENTE_AR");
+            //objForm.action = "opcoesInstalacao.sdf";
+            showOpcoesInstalacao();
+        }
+        else
+        {
+            if(isCabosEnergia())
+            {
+                showPossibilidadeCabos();
+                //show possibilidadeCabos
+            }
+            else
+            {
+                if ((local == BANDEJA_PERFURADA || local == LEITO || local == SUPORTES) && (numeroCondutores == 1 || numeroCondutores == 3))
+                {
+                    showPosicionamentoCabos();
+                }
+                else
+                {
+                    showPossibilidadeCabos();
+                    //show possibilidadeCabos
+                }
+            }
+        }
+    }
+}
+
+function submitPosicionamentoCabos()
+{
+    var objPosicionamentoCabo = $("#posicionamentoCabos").val();
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    var localInstalacao = $("#localInstalacao").val();
+    var tipoInstalacao = $("#tipoInstalacao").val();
+    
+    if (objPosicionamentoCabo == 0)
+    {
+        if(isEletrodutoSolo() || isBancoDutos())
+        {
+            alert('Informe o Número de Cabos!');
+            return false;
+        }
+        else
+        {
+            alert('Informe o Posicionamento do Cabo!');
+            return false;
+        }
+    }
+    else
+    {
+        if(isCabosEnergia())
+        {
+            var tipoInstalacao = $("#tipoInstalacao").val();
+            if(tipoInstalacao == CONDUTORES_ISOLADOS_G || isColunaF())
+            {
+                closePopup("possibilidadeCabos-popup");
+            }
+            else
+            {
+                if(isExibirCabosDuto())
+                {
+                    showPossibilidadeCabos()
+                }
+                
+                var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+                
+                if ((objPosicionamentoCabo == FORMACAO_ESPACADA) && (possibilidadeInstalacao != BANCO_DUTOS_SOLO)  && (possibilidadeInstalacao != DIRETAMENTE_SOLO)  && (!isEletrodutoSolo())) {
+                    
+                    var objNivelTensao = $("#systemVoltage").val();
+                    if (objNivelTensao == MEDIA)
+                    {
+                        //objForm.action = 'opcoesInstalacao.sdf?';
+                        showOpcoesInstalacao();
+                    }
+                    else
+                    {
+                        showOrientacaoCabo();
+                        //objForm.action = 'orientacaoCabo.sdf';
+                    }
+                }
+                else if (isEletrodutoSolo())
+                {
+                    showPossibilidadeCabos();
+                }
+                else
+                {
+                    alert("possibilidadeInstalacao: " + possibilidadeInstalacao + ", localInstalacao: " + localInstalacao);
+                    if (possibilidadeInstalacao == APARENTE_AR)
+                    {
+                        //var url = "opcoesInstalacao.sdf" + params;
+                        if (objPosicionamentoCabo == FORMACAO_ESPACADA)
+                        {
+                            alert("Entrou FORMACAO_ESPACADA");
+                            showOpcoesInstalacao();
+                        }
+                        else if (objPosicionamentoCabo == FORMACAO_JUSTAPOSTA)
+                        {
+                            alert("Entrou FORMACAO_JUSTAPOSTA");
+                            showOpcoesInstalacao();
+                        }
+                        else if (objPosicionamentoCabo == FORMACAO_TRIFOLIO)
+                        {
+                            alert("Entrou FORMACAO_TRIFOLIO");
+                            showOpcoesInstalacao();
+                        }
+                    }
+                    else if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
+                    {
+                        //var url = "bancoDutos.sdf" + params;
+                    }
+                    else if (possibilidadeInstalacao == CANALETA_FECHADA_SOLO)
+                    {
+                        //form.action = "opcoesInstalacao.sdf" + params;
+                        showOpcoesInstalacao();
+                    }
+                    else if (possibilidadeInstalacao == DIRETAMENTE_SOLO)
+                    {
+                        //var url = "cabosSolo.sdf" + params;
+                    }
+                    else if (possibilidadeInstalacao == ELETRODUTO_SOLO)
+                    {
+                        //var url = "resistividadeTermica.sdf" + params;
+                        showResistividadeTermica();
+                    }
+                    else if (tipoInstalacao == CONDUTORES_ISOLADOS_G)
+                    {
+                        if (localInstalacao == FORMACAO_ESPACADA)
+                        {
+                            //form.action = url;
+                            showOpcoesInstalacao();
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            var numeroCondutores = $("#conductorNumber").val();
+            
+            if (objPosicionamentoCabo == FORMACAO_ESPACADA && numeroCondutores == 1)
+            {
+                //objForm.action = 'orientacaoCabo.sdf';
+                showOrientacaoCabo();
+            }
+            else
+            {
+                //objForm.action = 'opcoesInstalacao.sdf';
+                showOpcoesInstalacao();
+            }
+        }
+    }
+}
+
+function submitPossibilidadeCabos()
+{
+    /*var numeroCondutores = $("#conductorNumber").val();
+     var local = $("#localInstalacao").val();
+     var possibilidade = $("#possibilidadeInstalacao").val();
+     
+     var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+     var posicionamentoCabo = $("#posicionamentoCabo").val();
+     var nivelTensao = $("#systemVoltage").val();
+     var tensaoIsolamento = $("#isolationVoltage").val();*/
+    
+    var objNumeroCamadas = document.getElementById('numeroCamadas');
+    var objNumeroCircuitos = document.getElementById('numeroCircuitos');
+    var eletrodutoMetalico = document.getElementById('eletrodutoMetalico');
+    var distanciaEntreCabos = document.getElementById('');
+    var posicionamentoCabos = document.getElementById('posicionamentoCabo');
+    
+    /*if (isUndefinedOrNotZero("numeroCircuitos") != true)
+     {
+     if(!isUnipolar())
+     {
+     alert("Selecione a opção de números de cabos multipolar por camada.");
+     return false;
+     }
+     else
+     {
+     alert("Selecione a opção de número de circuitos.");
+     return false;
+     }
+     }
+     
+     if (isUndefinedOrNotZero("eletrodutoMetalico") != true)
+     {
+     alert("Selecione a opção de eletroduto metálico.");
+     return false;
+     }
+     
+     alert("isUndefinedOrNotZero numeroCamadas: " + isUndefinedOrNotZero("numeroCamadas"));
+     alert("numeroCamadas: " + $("#numeroCamadas").val());
+     if (isUndefinedOrNotZero("numeroCamadas") != true)
+     {
+     alert("Selecione a opção de número de camadas.");
+     //return false;
+     }
+     
+     if (objNumeroCircuitos != undefined)
+     {
+     if(isColunaCEF())
+     {
+     if ((objNumeroCamadas != undefined))
+     {
+     if ((objNumeroCamadas.value == 2) && (objNumeroCircuitos.value < 2))
+     {
+     alert("Para essa modalidade de instalação e número de camadas, o número de circuitos deve ser maior ou igual a 2.");
+     return false;
+     }
+     }
+     }
+     }
+     
+     if (isUndefinedOrNotZero("comboRelacaoCaboXDuto") != true)
+     {
+     alert("Selecione a opção de relação de tamanho Cabo X Duto.");
+     return false;
+     }
+     
+     if (isUndefinedOrNotZero("distanciaEntreCabos") != true)
+     {
+     if (document.getElementById("distanciaEntreCabos").disabled == "")
+     {
+     if(isEletrodutoSolo() || isEletroduto())
+     {
+     alert("Selecione a distância entre os eletrodutos.");
+     return false;
+     }
+     else
+     {
+     alert("Selecione a distância entre os cabos.");
+     return false;
+     }
+     }
+     }*/
+    
+    if(isExibirPosicionamentoCabosSeparadoTrifolio() == true)
+    {
+        showPosicionamentoCabos();
+        //form.action = 'posicionamentoCabos.sdf?' +
+    }
+    else
+    {
+        if(isExibirResistividadeTermica() == true)
+        {
+            $("#step_posicionamentoCabo").val("submitFinal");
+            showResistividadeTermica();
+            
+            //form.action = 'resistividadeTermica.sdf?' +
+        }
+        else
+        {
+            alert("Entrou Else isExibirResistividadeTermica");
+        }
+    }
+}
+
+function updateNumeroCircuitos()
+{
+    var circuitos = $("#numeroCircuitos").val();
+    $("#quantidadeCircuitos").val(circuitos);
+    
+    if(isSubterranea() && isDiretamenteEnterradosOuEletroduto() || isEletrodutoSolo())
+    {
+        var distanciaEntreCabos = $("#distanciaEntreCabos").val(circuitos);
+        
+        if (circuitos == 1)
+        {
+            document.getElementById("distanciaEntreCabos").disabled = "disabled";
+        }
+        else
+        {
+            document.getElementById("distanciaEntreCabos").disabled = "";
+        }
+    }
+}
+
+function updateInstalacaoCabo(localInstalacao)
+{
+    $('#localInstalacao option[value="'+localInstalacao+'"]').attr({ selected : "selected" });
+}
+
+function updatePosicionamentoCabo(localInstalacao)
+{
+    $('#posicionamentoCabos option[value="'+localInstalacao+'"]').attr({ selected : "selected" });
+    
+    //$("#posicionamentoCabos").val(localInstalacao); -- posicionamentoCabos
+    
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    var numeroCondutores = $("#conductorNumber").val();
+    var tipoInstalacao = $("#tipoInstalacao").val();
+    
+    var params = "?localInstalacao=" + localInstalacao +
+    "&numeroCondutores=" + numeroCondutores +
+    "&possibilidadeInstalacao=" + possibilidadeInstalacao;
+}
+
+function orientacaoChange(selectedValue)
+{
+    var numeroBandejas = document.getElementById("numeroBandejas");
+    var numeroTernasBandeja = document.getElementById("numeroTernasBandeja");
+    var numeroBandejasVertical = document.getElementById("numeroBandejasVertical");
+    var numeroTernasBandejaVertical = document.getElementById("numeroTernasBandejaVertical");
+    
+    if (selectedValue == HORIZONTAL)
+    {
+        if (numeroBandejas != null)
+        {
+            numeroBandejas.disabled = false;
+        }
+        
+        if (numeroTernasBandeja != null)
+        {
+            numeroTernasBandeja.disabled = false;
+        }
+        
+        if (numeroBandejasVertical != null)
+        {
+            numeroBandejasVertical.disabled = true;
+        }
+        
+        if (numeroTernasBandejaVertical != null)
+        {
+            numeroTernasBandejaVertical.disabled = true;
+        }
+        
+    }
+    else if (selectedValue == VERTICAL)
+    {
+        if (numeroBandejas != null)
+        {
+            numeroBandejas.disabled = true;
+        }
+        
+        if (numeroTernasBandeja != null)
+        {
+            numeroTernasBandeja.disabled = true;
+        }
+        
+        if (numeroBandejasVertical != null)
+        {
+            numeroBandejasVertical.disabled = false;
+        }
+        
+        if (numeroTernasBandejaVertical != null)
+        {
+            numeroTernasBandejaVertical.disabled = false;
+        }
+    }
+    else if (selectedValue == SEM_FATOR)
+    {
+        if (numeroBandejas != null)
+        {
+            numeroBandejas.disabled = true;
+        }
+        
+        if (numeroTernasBandeja != null)
+        {
+            numeroTernasBandeja.disabled = true;
+        }
+        
+        if (numeroBandejasVertical != null) {
+            numeroBandejasVertical.disabled = true;
+        }
+        
+        if (numeroTernasBandejaVertical != null) {
+            numeroTernasBandejaVertical.disabled = true;
+        }
+    }
 }

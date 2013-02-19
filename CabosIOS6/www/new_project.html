@@ -31,7 +31,7 @@
     <body data-role="page">
         <input type="hidden" name="step_posicionamentoCabo" id="step_posicionamentoCabo" value="" />
         
-        <input type="hidden" name="tipoInstalacao" id="tipoInstalacao" value="23" />
+        <!--<input type="hidden" name="tipoInstalacao" id="tipoInstalacao" value="23" />
         <input type="hidden" name="posicionamentoCabo" id="posicionamentoCabo" value="0" />
         
         <input type="hidden" name="resistividadeTermica" id="resistividadeTermica" value="5" />
@@ -44,11 +44,18 @@
         <input type="hidden" name="orientacaoFatorCorrecao" id="orientacaoFatorCorrecao" value="0" />
         <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
         <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
-        <input type="hidden" name="eletrodutoMetalico" id="eletrodutoMetalico" value="0" />
         <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
         <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
         
-        <input type="hidden" name="aplicacao" id="aplicacao" value="0" />
+        <input type="hidden" name="aplicacao" id="aplicacao" value="0" />-->
+
+        <input type="hidden" name="posicaoCabosSolo" id="posicaoCabosSolo" value="0" />
+        <input type="hidden" name="formacaoBancoDutos" id="formacaoBancoDutos" value="0" />
+        <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
+        <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
+        <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
+        <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
+        
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
 			<div id="page-newproject">
@@ -204,8 +211,8 @@
                 	</li>
                 	<li id="div_localInstalacao">
 						Local da Instalação:<br>
-                    	<input type="text" class="input2" id="localInstalacaoDesc" readonly="readonly"
-                        style="width:340px;" value="" />
+                    	<input type="text" class="small-select" id="localInstalacaoDesc" readonly="readonly"
+                        style="width:200px;" value="" />
                 	</li>
                 	<li>
 						Temperatura Ambiente (Ao Ar/Solo):
@@ -452,6 +459,86 @@
                         </li>
                     </ul>
                 
+                    <!-- SUSPENSA -->
+                    <ul>
+                        <li id="id_eletrocalha_ou_perfilado" style="display:none;">
+                            Eletrocalha ou perfilado:<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETROCALHA_PERFILADO)'> <img
+                                src="img/dimensionamento/suspensa/EletrocalhaPerfilado.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_isoladores" style="display:none;">
+                            Isoladores:<br>
+                            <a href='javascript:updateInstalacaoCabo(ISOLADORES)'> <img
+                                src="img/dimensionamento/suspensa/Isoladores.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_suportes" style="display:none;">
+                            Suportes:<br>
+                            <a href='javascript:updateInstalacaoCabo(SUPORTES)'> <img
+                                src="img/dimensionamento/suspensa/Suporte.jpg" border="0" />
+                            </a><br>
+                        </li>
+                    </ul>
+                
+                    <!-- ESPACO CONSTRUCAO -->
+                    <ul>
+                        <li id="id_em_eletroduto_noflam" style="display:none;">
+                            Em eletroduto (Seção circular):<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_SECAO_CIRCULAR)'> <img
+                                src="img/dimensionamento/espacoConstrucao/Eletroduto_noflam.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_diretamente" style="display:none;">
+                            Diretamente:<br>
+                            <a href='javascript:updateInstalacaoCabo(DIRETAMENTE)'> <img
+                                src="img/dimensionamento/espacoConstrucao/Diretamente.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_em_eletroduto" style="display:none;">
+                            Em eletroduto (Seção circular):<br>
+                            <a href='javascript:updateInstalacaoCabo(ELETRODUTO_SECAO_CIRCULAR)'> <img
+                                src="img/dimensionamento/espacoConstrucao/Eletroduto.jpg" border="0" />
+                            </a><br>
+                        </li>
+                    </ul>
+                
+                
+                    <!-- ELETRODUTO AR -->
+                    <ul>
+                        <li id="id_eletroduto_ar_espacado" style="display:none;">
+                            <br>
+                            <a href='javascript:updateInstalacaoCabo(FORMACAO_ESPACADA)'> <img
+                                src="img/dimensionamento/eletroduto/espacado.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_eletroduto_ar_espacado_tripolar" style="display:none;">
+                            <br>
+                            <a href='javascript:updateInstalacaoCabo(FORMACAO_ESPACADA)'> <img
+                                src="img/dimensionamento/eletroduto/espacado_tripolar.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_eletroduto_ar_justapostos" style="display:none;">
+                            <br>
+                            <a href='javascript:updateInstalacaoCabo(FORMACAO_JUSTAPOSTA)'> <img
+                                src="img/dimensionamento/eletroduto/justapostos.jpg" border="0" />
+                            </a><br>
+                        </li>
+                        
+                        <li id="id_eletroduto_ar_justapostos_tripolar" style="display:none;">
+                            <br>
+                            <a href='javascript:updateInstalacaoCabo(FORMACAO_JUSTAPOSTA)'> <img
+                                src="img/dimensionamento/eletroduto/justapostos_tripolar.jpg" border="0" />
+                            </a><br>
+                        </li>
+                    </ul>
+                    
                     <ul>
                         <li>
                             Selecione:<br>
@@ -462,7 +549,7 @@
                             <button id="localInstalacaoAparente-popup-continue">continuar</button>
                         </li>
                     </ul>
-            </div>
+                </div>
             
             <!-- POSSIBILIDADE CABOS -->
             <!-- POSICIONAMENTO CABOS - TRADUZIR AQUI O ARQUIVO -->
@@ -533,6 +620,9 @@
                         </li>
                         <li id='li_posicionamentoCabosPorDuto' style="display:none;">
                             <br><br>Número de cabos por duto:<br>
+                        </li>
+                        <li id='li_posicionamento_dos_eletrodutos' style="display:none;">
+                            <br><br>Posicionamento dos Eletrodutos:<br>
                         </li>
                         <li id="id_posicionamentoCabos" style="display:none;">
                             <select id="posicionamentoCabos" class="small-select">
@@ -622,11 +712,182 @@
                                 <img src="img/dimensionamento/Tripolar_Justapostos_Canaleta.jpg" border="0" /></a><br>
                         </li>
                         
+                        <!-- RESISTENCIA TERMICA -->
+                        <li id='li_resistencia_termica_solo' style="display:none;">
+                            <br><br>Resistividade térmica do solo<br>
+                        </li>
+                        <li id="id_resistividadeTermica" style="display:none;">
+                            <select id="resistividadeTermica" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <!-- ORIENTACAO CABO -->
+                        <li id='li_orientacaoCabo' style="display:none;">
+                            <br><br>Posicionamento dos Cabos:<br>
+                        </li>
+                        <li id="id_orientacaoCabo" style="display:none;">
+                            <select id="orientacaoCabo" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id="id_orientacao_horizontal" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(OCHORIZONTAL)'>
+                                <img src="img/dimensionamento/Orientacao_Horizontal.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <li id="id_orientacao_vertical" style="display:none;">
+                            <br>
+                            <a href='javascript:updatePosicionamentoCabo(OCVERTICAL)'>
+                                <img src="img/dimensionamento/Orientacao_Vertical.jpg" border="0" /></a><br>
+                        </li>
+                        
+                        <!-- OPCOES INSTALACOES -->
+                        <li id="id_tripolar_separados_bandeja" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Tripolar_Separados_Bandeja.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_tripolar_justapostos_bandeja" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Tripolar_Justapostos_Bandeja.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_separados_bandeja" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Separados_Bandeja.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_justapostos_bandeja" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Justapostos_Bandeja.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_trifolio_bandeja" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Trifolio_ Bandeja.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_orientacaoFatorCorrecao" style="display:none;">
+                            <br>
+                            <input type="radio" name="orientacaoFatorCorrecao" value="2"
+                            onclick="orientacaoChange(HORIZONTAL);" checked="checked" />
+                            <br>Instalação horizontal
+                            <br>
+                        </li>
+                        
+                        <li id='li_numero_de_bandejas' style="display:none;">
+                            <br><br>Número de bandejas:<br>
+                        </li>
+                        <li id="id_numeroBandejas" style="display:none;">
+                            <select id="numeroBandejas" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_eletrodutos_bandeja' style="display:none;">
+                            <br><br>Número de eletrodutos por bandeja:<br>
+                        </li>
+                        <li id='li_ternas_bandeja' style="display:none;">
+                            <br><br>Número de ternas por bandeja:<br>
+                        </li>
+                        <li id='li_cabos_bandeja' style="display:none;">
+                            <br><br>Número de cabos por bandeja:<br>
+                        </li>
+                        <li id="id_numeroTernasBandeja" style="display:none;">
+                            <select id="numeroTernasBandeja" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id="id_tripolar_separados_vertical" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Tripolar_Separados_Vertical.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_tripolar_justapostos_vertical" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Tripolar_Justapostos_Vertical.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_separados_vertical" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Separados_Vertical.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_justapostos_vertical" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Justapostos_Vertical.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_trifolio_vertical" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Trifolio_Vertical.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_orientacaoFatorCorrecaoVertical" style="display:none;">
+                            <br>
+                            <input type="radio" name="orientacaoFatorCorrecao" value="3"
+                            onclick="orientacaoChange(VERTICAL);" checked="checked" />
+                            <br>Instalação vertical
+                            <br>
+                        </li>
+                        
+                        <li id="id_numeroBandejasVertical" style="display:none;">
+                            <select id="numeroBandejasVertical" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id="id_numeroTernasVertical" style="display:none;">
+                            <select id="numeroTernasBandejaVertical" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id="id_tripolar_separados_semCorrecao" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Tripolar_Separados_SemCorrecao.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_separados_semCorrecao" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Separados_SemCorrecao.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_unipolar_trifolio_semCorrecao" style="display:none;">
+                            <br>
+                            <img src="img/dimensionamento/aparenteAr/Unipolar_Trifolio_SemCorrecao.jpg" border="0" />
+                            <br>
+                        </li>
+                        
+                        <li id="id_orientacaoFatorCorrecaoSemFator" style="display:none;">
+                            <br>
+                            <input type="radio" name="orientacaoFatorCorrecao" value="1"
+                            onclick="orientacaoChange(SEM_FATOR);" checked="checked" /><br>
+                            Não Necessita Aplicar Fator de Correção
+                            <br>
+                        </li>                        
+                        
                         <li>
                             <br><br>
-                            <button id="possibilidadeCabos-popup-cancel">cancelar</button>
                             <button id="possibilidadeCabos-popup-continue">continuar</button>
                             <button id="possibilidadeCabos-popup-back">voltar</button>
+                            <button id="possibilidadeCabos-popup-cancel">cancelar</button>                            
                         </li>
                     </ul>
 				<!--</div>-->
@@ -649,6 +910,7 @@
         <script type="text/javascript" src="js/functionsDimensioning.js"></script>
         <script type="text/javascript" src="js/beans/simulacao/DimensionamentoBean.js"></script>
         <script type="text/javascript" src="js/functionsPossibilidadeInstalacao.js"></script>
+        <script type="text/javascript" src="js/functionsShowPossibilidades.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript">
             app.initialize();

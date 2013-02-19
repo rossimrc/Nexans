@@ -97,7 +97,7 @@ function initCurrentPage(p) {
 }
 
 function errorCB(err) {
-	alert("Erro Banco: " + err.code + " " +err.message);
+	//alert("Erro Banco: " + err.code + " " +err.message);
 	for(var e in  err)
 		console.log(e);
 }
@@ -1180,10 +1180,8 @@ $("#specification-popup2-continue").click(function(){
         }
         else
         {
+            $("#step_posicionamentoCabo").val("");
             submitPossibilidadeInstalacao();
-                                                       
-            //closePopup("localInstalacaoAparente-popup");
-            //showPopup("possibilidadeCabos-popup");
         }
     });
                   
@@ -1211,65 +1209,37 @@ $("#specification-popup2-continue").click(function(){
     $("#possibilidadeCabos-popup-continue").click(function()
     {
         var step_posicionamentoCabo = $("#step_posicionamentoCabo").val();
+        alert("step_posicionamentoCabo: " + step_posicionamentoCabo);
           
         if(step_posicionamentoCabo == "")
         {
-            closePopup("possibilidadeCabos-popup");
+            closePopup("possibilidadeCabos-popup");                                                  
+            $("#step_posicionamentoCabo").val("submitFinal");
+            //closePopup("possibilidadeCabos-popup");
+                                                  
+            //$("#localInstalacaoDesc").val($('#localInstalacao :selected').html());
+            submitPosicionamentoCabos();
+        }
+        else if(step_posicionamentoCabo == "suspensaPossibilidadeCabos")
+        {
+            $("#step_posicionamentoCabo").val("");
+            submitPossibilidadeCabos();
         }
         else if(step_posicionamentoCabo == "posicionamentoCabosSubterranea")
         {
             $("#step_posicionamentoCabo").val("submitPossibilidadeCabos");
                                                   
-            escondeDivsSubterranea();
-                                                  
-            showPossibilidadeCabos();
+            submitPosicionamentoCabos();
         }
         else if(step_posicionamentoCabo == "submitPossibilidadeCabos")
-        {                            
-            //ROTINA PARA ENVIAR PARA OUTRAS ETAPAS
-            if (possibilidadeInstalacao == APARENTE_AR)
-            {
-                //var url = "opcoesInstalacao.sdf" + params;
-                if (localInstalacao == FORMACAO_ESPACADA)
-                {
-                    //form.action = url;
-                }
-                else if (localInstalacao == FORMACAO_JUSTAPOSTA)
-                {
-                    //form.action = url;
-                }
-                else if (localInstalacao == FORMACAO_TRIFOLIO)
-                {
-                //form.action = url;
-                }
-
-            }
-            else if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
-            {
-                //var url = "bancoDutos.sdf" + params;
-                //form.action = url;
-            }
-            else if (possibilidadeInstalacao == CANALETA_FECHADA_SOLO)
-            {
-                //form.action = "opcoesInstalacao.sdf" + params;
-            }
-            else if (possibilidadeInstalacao == DIRETAMENTE_SOLO)
-            {
-                //var url = "cabosSolo.sdf" + params;
-                //form.action = url;
-            }
-            else if (possibilidadeInstalacao == ELETRODUTO_SOLO)
-            {
-                //var url = "resistividadeTermica.sdf" + params;
-                //form.action = url;
-            }
-            else if (tipoInstalacao == CONDUTORES_ISOLADOS_G)
-            {
-                if (localInstalacao == FORMACAO_ESPACADA)
-                {
-                    //form.action = url;
-                }
-            }                                 
+        {
+            $("#step_posicionamentoCabo").val("submitFinal");
+            submitPossibilidadeCabos();
+        }                                                  
+        else if(step_posicionamentoCabo == "submitFinal")
+        {
+            $("#localInstalacaoDesc").val($('#localInstalacao :selected').html());
+            closePopup("possibilidadeCabos-popup");
         }
     });
 

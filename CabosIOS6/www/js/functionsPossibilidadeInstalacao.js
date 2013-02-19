@@ -1,3 +1,11 @@
+function getPosicionamentoEletrodutoAr()
+{
+    $("#posicionamentoCabos").html("");
+    $("#posicionamentoCabos").append(new Option("Selecione","0", false, false));
+    
+    $("#posicionamentoCabos").append(new Option(TIPO_INSTALACAO[FORMACAO_ESPACADA].description,FORMACAO_ESPACADA, false, false));
+    $("#posicionamentoCabos").append(new Option(TIPO_INSTALACAO[FORMACAO_JUSTAPOSTA].description,FORMACAO_JUSTAPOSTA, false, false));
+}
 
 function getLocaisInstalacaoAparente()
 {
@@ -85,70 +93,41 @@ function getLocaisInstalacaoSubterranea()
     $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[CANALETA_VENTILADA].description,CANALETA_VENTILADA, false, false));
 }
 
-function updateInstalacaoCabo(localInstalacao)
+function getLocaisInstalacaoSuspensa()
 {
-    $('#localInstalacao option[value="'+localInstalacao+'"]').attr({ selected : "selected" });
+    $("#localInstalacao").html("");
+    $("#localInstalacao").append(new Option("Selecione","0", false, false));
+    
+    // TODO Pq o nome do mÈtodo È exibir suporte se ele exibe os isoladores ?
+    if (isExibirSuporte())
+    {
+        $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[ELETROCALHA_PERFILADO].description,ELETROCALHA_PERFILADO, false, false));
+        
+        if (isExibirIsoladores())
+        {
+            $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[ISOLADORES].description,ISOLADORES, false, false));
+        }
+    }
+    else
+    {
+        $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[ELETROCALHA_PERFILADO].description,ELETROCALHA_PERFILADO, false, false));
+        $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[SUPORTES].description,SUPORTES, false, false));
+    }
 }
 
-function updatePosicionamentoCabo(localInstalacao)
+function getLocaisInstalacaoEspacoConstrucao()
 {
-    $('#posicionamentoCabos option[value="'+localInstalacao+'"]').attr({ selected : "selected" });
+    var caboSelecionado = $("#caboSelecionado").val();
     
-    //$("#posicionamentoCabos").val(localInstalacao); -- posicionamentoCabos
+    $("#localInstalacao").html("");
+    $("#localInstalacao").append(new Option("Selecione","0", false, false));
     
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    var numeroCondutores = $("#conductorNumber").val();
-    var tipoInstalacao = $("#tipoInstalacao").val();
+    if ((caboSelecionado != NOFLAN_ANTICHAMA_BWF_FLEXIVEL) && (caboSelecionado != AFITOX_750V))
+    {
+        $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[DIRETAMENTE].description,DIRETAMENTE, false, false));
+    }
     
-    var params = "?localInstalacao=" + localInstalacao +
-    "&numeroCondutores=" + numeroCondutores +
-    "&possibilidadeInstalacao=" + possibilidadeInstalacao;
-    
-    //var objForm = document.getElementById('form');
-    
-    if (possibilidadeInstalacao == APARENTE_AR)
-    {
-        //var url = "opcoesInstalacao.sdf" + params;
-        if (localInstalacao == FORMACAO_ESPACADA)
-        {
-            //form.action = url;
-        }
-        else if (localInstalacao == FORMACAO_JUSTAPOSTA)
-        {
-            //form.action = url;
-        }
-        else if (localInstalacao == FORMACAO_TRIFOLIO)
-        {
-            //form.action = url;
-        }
-        
-    }
-    else if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
-    {
-        //var url = "bancoDutos.sdf" + params;
-        //form.action = url;
-    }
-    else if (possibilidadeInstalacao == CANALETA_FECHADA_SOLO)
-    {
-        //form.action = "opcoesInstalacao.sdf" + params;
-    }
-    else if (possibilidadeInstalacao == DIRETAMENTE_SOLO)
-    {
-        //var url = "cabosSolo.sdf" + params;
-        //form.action = url;
-    }
-    else if (possibilidadeInstalacao == ELETRODUTO_SOLO)
-    {
-        //var url = "resistividadeTermica.sdf" + params;
-        //form.action = url;
-    }
-    else if (tipoInstalacao == CONDUTORES_ISOLADOS_G)
-    {
-        if (localInstalacao == FORMACAO_ESPACADA)
-        {
-            //form.action = url;
-        }
-    }
+    $("#localInstalacao").append(new Option(LOCAL_INSTALACAO[ELETRODUTO_SECAO_CIRCULAR].description,ELETRODUTO_SECAO_CIRCULAR, false, false));
 }
 
 function updateNumeroCamadas()
@@ -157,13 +136,27 @@ function updateNumeroCamadas()
     $("#quantidadeCamadas").val(camadas);
 }
 
+function isMetalQuestionResistividade()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    
+    if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 function isMetalQuestion()
 {
     var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
     var localInstalacao = $("#localInstalacao").val();
     var nivelTensao = $("#systemVoltage").val();
     var numeroCondutores = $("#conductorNumber").val();
-    var posicionamentoCabo = $("#posicionamentoCabo").val();
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
     
     var a = localInstalacao == ELETRODUTO_PAREDE;
     var b = localInstalacao == ELETRODUTO_CIRCULAR_ALVENARIA;
@@ -310,12 +303,6 @@ function isAlvenaria()
     return (localInstalacao == ALVENARIA);
 }
 
-function isSubterranea()
-{
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    return (possibilidadeInstalacao == SUBTERRANEA);
-}
-
 function isSuspensa()
 {
     var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();    
@@ -384,6 +371,21 @@ function isEspacoConstrucao()
 {
     var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
     return (possibilidadeInstalacao == ESPACO_CONSTRUCAO);
+}
+
+function isMetalFixedResistividade()
+{
+    var tipoInstalacao = $("#tipoInstalacao").val();
+    var numeroCondutores = $("#conductorNumber").val();
+    
+    if (tipoInstalacao == _1_CABO && numeroCondutores == 1 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 function isMetalFixed()
@@ -505,6 +507,51 @@ function isBancoDutos()
     return (possibilidadeInstalacao == BANCO_DUTOS_SOLO);
 }
 
+function isExibirResistividadeTermica()
+{
+    return ((isSubterranea() && isDiretamenteEnterrados()) || (isEletroduto() && isSubterranea()));
+}
+
+function isCanaletaFechada()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    return (possibilidadeInstalacao == CANALETA_FECHADA_SOLO);
+}
+
+function isDiretamenteEnterrado()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    return (possibilidadeInstalacao == DIRETAMENTE_SOLO);
+}
+
+function isColunaG()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    
+    dimensionamentoBean = new DimensionamentoBean();
+    dimensionamentoBean.setTipoProduto($("#cableList").val());
+    dimensionamentoBean.setNivelTensao($("#systemVoltage").val());
+    dimensionamentoBean.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamentoBean.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamentoBean.setlocalInstalacao($("#localInstalacao").val());
+    
+    return dimensionamentoBean.isColunaG();
+}
+
+function isColunaF()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    
+    dimensionamentoBean = new DimensionamentoBean();
+    dimensionamentoBean.setTipoProduto($("#cableList").val());
+    dimensionamentoBean.setNivelTensao($("#systemVoltage").val());
+    dimensionamentoBean.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamentoBean.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamentoBean.setlocalInstalacao($("#localInstalacao").val());
+    
+    return dimensionamentoBean.isColunaF();
+}
+
 function getPosicionamentoList()
 {
     var nivelTensao = $("#systemVoltage").val();
@@ -559,7 +606,7 @@ function getPosicionamentoList()
                 }
                 $("#posicionamentoCabos").append(new Option(TIPO_INSTALACAO[_3_CABOS].description,_3_CABOS, false, false));
             }
-            else if (numeroCondutores == NumeroCondutores.UNIPOLAR.getValue())
+            else if (numeroCondutores == NCUNIPOLAR)
             {
                 $("#posicionamentoCabos").append(new Option(TIPO_INSTALACAO[FORMACAO_ESPACADA].description,FORMACAO_ESPACADA, false, false));
                 
@@ -617,7 +664,7 @@ function getComboDistanciaEntreCabos()
 {
     var numeroCondutores = $("#conductorNumber").val();
     var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    var posicionamentoCabo = $("#posicionamentoCabo").val();
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
     var nivelTensao = $("#systemVoltage").val();
     
     $("#distanciaEntreCabos").html("");
@@ -685,906 +732,787 @@ function getComboRelacaoCaboXDuto()
     }
 }
 
-function updateNumeroCircuitos()
+function getNiveisTensao(tipoProduto)
 {
-    var circuitos = $("#numeroCircuitos").val();
-    $("#quantidadeCircuitos").val(circuitos);
+    $("#systemVoltage").html("");
+    $("#systemVoltage").append(new Option("Selecione","0", false, false));
     
-    if(isSubterranea() && isDiretamenteEnterradosOuEletroduto() || isEletrodutoSolo())
+    if (tipoProduto == CABOS_NAVAIS)
     {
-        var distanciaEntreCabos = $("#distanciaEntreCabos").val(circuitos);
-        
-        if (circuitos == 1)
+        $("#systemVoltage").append(new Option(NIVEL_TENSAO[BAIXA].description,BAIXA, false, false));
+        $("#systemVoltage").append(new Option(NIVEL_TENSAO[MEDIA_NAVAL].description,MEDIA_NAVAL, false, false));
+    } else if (tipoProduto == CABOS_ENERGIA) {
+        $("#systemVoltage").append(new Option(NIVEL_TENSAO[BAIXA].description,BAIXA, false, false));
+        $("#systemVoltage").append(new Option(NIVEL_TENSAO[MEDIA].description,MEDIA, false, false));
+    }
+}
+
+function getUtilizacaoCircuito(tipoProduto, nivelTensao, materialCondutor)
+{
+    $("#circuitUsage").html("");
+    $("#circuitUsage").append(new Option("Selecione","0", false, false));
+    
+    if (tipoProduto == CABOS_ENERGIA)
+    {
+        if (nivelTensao == BAIXA)
         {
-            document.getElementById("distanciaEntreCabos").disabled = "disabled";
+            if (materialCondutor == ALUMINIO)
+            {
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[ILUMINACAO].description,ILUMINACAO, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
+            }
+            else
+            {
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[ILUMINACAO].description,ILUMINACAO, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[SINALIZACAO].description,SINALIZACAO, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[CONTROLE].description,CONTROLE, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[APLICACOES_ESPECIAIS].description,APLICACOES_ESPECIAIS, false, false));
+                $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[OUTROS].description,OUTROS, false, false));
+            }
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
+        }
+    }
+    else if (tipoProduto == CABOS_NAVAIS)
+    {
+        $("#circuitUsage").append(new Option(UTILIZACAO_CIRCUITO[FORCA].description,FORCA, false, false));
+    }
+}
+
+function getMaterialCondutor(tipoProduto, nivelTensao)
+{
+    $("#cableMaterial").html("");
+    $("#cableMaterial").append(new Option("Selecione","0", false, false));
+    
+    //TIPO_PRODUTO
+    if (tipoProduto == CABOS_ENERGIA)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
+            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[ALUMINIO].description,ALUMINIO, false, false));
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
+            $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[ALUMINIO].description,ALUMINIO, false, false));
+        }
+        
+    } else if (tipoProduto == CABOS_NAVAIS) {
+        $("#cableMaterial").append(new Option(MATERIAL_CONDUTOR[COBRE].description,COBRE, false, false));
+    }
+}
+
+function getNumeroCondutores(tipoProduto, nivelTensao, tipoCabo, aplicacao)
+{
+    //alert("tipoProduto: " + tipoProduto + ", nivelTensao: " + nivelTensao + ", tipoCabo: " + tipoCabo + ", aplicacao: " + aplicacao);
+    var numeroCondutor = $("#conductorNumber").val();
+    
+    $("#conductorNumber").html("");
+    $("#conductorNumber").append(new Option("Selecione","0", false, false));
+    
+    if (tipoProduto == CABOS_NAVAIS)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            if ((tipoCabo == CABO_ARMADO_ACO) || (aplicacao == SEGURANCA_MAXIMA))
+            {
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
+            }
+            else
+            {
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
+                $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
+            }
         }
         else
         {
-            document.getElementById("distanciaEntreCabos").disabled = "";
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
+        }
+    }
+    else if (tipoProduto == CABOS_ENERGIA)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCBIPOLAR].description,NCBIPOLAR, false, false));
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTETRAPOLAR].description,NCTETRAPOLAR, false, false));
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCUNIPOLAR].description,NCUNIPOLAR, false, false));
+            $("#conductorNumber").append(new Option(NUMERO_CONDUTORES[NCTRIPOLAR].description,NCTRIPOLAR, false, false));
+        }
+    }
+    
+    $('#conductorNumber option[value="'+numeroCondutor+'"]').attr({ selected : "selected" });
+}
+
+function getTensaoIsolamento(tipoProduto, nivelTensao, tensaoServico, numeroCondutores, materialCondutor)
+{
+    //alert("tipoProduto: " + tipoProduto + ", nivelTensao: " + nivelTensao + ", tensaoServico: " + tensaoServico + ", numeroCondutores: " + numeroCondutores + ", materialCondutor : " + materialCondutor);
+    
+    $("#isolationVoltage").html("");
+    $("#isolationVoltage").append(new Option("Selecione","0", false, false));
+    
+    if (tipoProduto == CABOS_ENERGIA)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            if (tensaoServico >= 0.001 && tensaoServico <= 0.750)
+            {
+                if (materialCondutor != ALUMINIO && numeroCondutores == NCUNIPOLAR)
+                {
+                    $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_450V_750V].description,_450V_750V, false, false));
+                }
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
+            }
+            else if ( (tensaoServico > 0.6 && tensaoServico <= 1) || (numeroCondutores == NCTRIPOLAR) || (materialCondutor == ALUMINIO) )
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
+            }
+            
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            if (tensaoServico >= 1 && tensaoServico <= 6)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_3_6KV_6KV].description,_3_6KV_6KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+            else if (tensaoServico > 6 && tensaoServico <= 10)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+            else if (tensaoServico > 10 && tensaoServico <= 15)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+            else if (tensaoServico > 15 && tensaoServico <= 20)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+            else if (tensaoServico > 20 && tensaoServico <= 25)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_15KV_25KV].description,_15KV_25KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+            else if (tensaoServico > 25 && tensaoServico <= 35)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_20KV_35KV].description,_20KV_35KV, false, false));
+            }
+        }
+    }
+    else if (tipoProduto == CABOS_NAVAIS)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            if (tensaoServico >= 1 && tensaoServico <= 6)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_3_6KV_6KV].description,_3_6KV_6KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+            }
+            else if (tensaoServico > 6 && tensaoServico <= 10)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_6KV_10KV].description,_6KV_10KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+            }
+            else if (tensaoServico > 10 && tensaoServico <= 15)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_8_7KV_15KV].description,_8_7KV_15KV, false, false));
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+            }
+            else if (tensaoServico > 15 && tensaoServico <= 20)
+            {
+                $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_12KV_20KV].description,_12KV_20KV, false, false));
+            }
         }
     }
 }
 
-function submitPossibilidadeInstalacao()
+function getSistema(tipoProduto, nivelTensao, numeroCondutores)
 {
-    var numeroCondutores = $("#conductorNumber").val();
-    var local = $("#localInstalacao").val();
-    var possibilidade = $("#possibilidadeInstalacao").val();
+    $("#system").html("");
+    $("#system").append(new Option("Selecione","0", false, false));
     
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    var posicionamentoCabo = $("#posicionamentoCabo").val();
-    var nivelTensao = $("#systemVoltage").val();
-    var tensaoIsolamento = $("#isolationVoltage").val();
-    
-    if (local == "0")
+    if (tipoProduto == CABOS_ENERGIA)
     {
-        alert("Selecione o local de instalação.");
-        return;
+        if (nivelTensao == BAIXA)
+        {
+            if (numeroCondutores == NCUNIPOLAR)
+            {
+                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
+            }
+            else if (numeroCondutores == NCBIPOLAR)
+            {
+                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
+            }
+            else if (numeroCondutores == NCTRIPOLAR)
+            {
+                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
+            }
+            else if (numeroCondutores == NCTETRAPOLAR)
+            {
+                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
+            }
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
+            $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
+        }
     }
     else
     {
-        if(possibilidade == SUBTERRANEA)
+        if (nivelTensao == BAIXA)
         {
-            if (nivelTensao == BAIXA && numeroCondutores == NCUNIPOLAR &&  tensaoIsolamento == _06KV_1KV && local == ELETRODUTO)
+            if (numeroCondutores == 1)
             {
-                $("#step_posicionamentoCabo").val("posicionamentoCabosSubterranea");
-                showPosicionamentoCabos();
+                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
             }
-            else
+            else if (numeroCondutores == 2)
             {
-                showPossibilidadeCabos();
+                $("#system").append(new Option(SISTEMA[MONOFASICO_DOIS_CONDUTORES].description,MONOFASICO_DOIS_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_SEM_NEUTRO].description,DUAS_FASES_SEM_NEUTRO, false, false));
+            }
+            else if (numeroCondutores == 3)
+            {
+                $("#system").append(new Option(SISTEMA[MONOFASICO_TRES_CONDUTORES].description,MONOFASICO_TRES_CONDUTORES, false, false));
+                $("#system").append(new Option(SISTEMA[DUAS_FASES_COM_NEUTRO].description,DUAS_FASES_COM_NEUTRO, false, false));
+                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
+            }
+            else if (numeroCondutores == 4)
+            {
+                $("#system").append(new Option(SISTEMA[TRIFASICO_COM_NEUTRO].description,TRIFASICO_COM_NEUTRO, false, false));
             }
         }
         else
         {
-            if(isCabosEnergia())
+            if (numeroCondutores == 1 || numeroCondutores == 3)
             {
-                showPossibilidadeCabos();
-                //show possibilidadeCabos
-            }
-            else
-            {
-                if ((local == BANDEJA_PERFURADA || local == LEITO || local == SUPORTES) && (numeroCondutores == 1 || numeroCondutores == 3))
-                {
-                    //showPosicionamentoCabos();
-                }
-                else
-                {
-                    showPossibilidadeCabos();
-                    //show possibilidadeCabos
-                }
+                $("#system").append(new Option(SISTEMA[TRIFASICO_SEM_NEUTRO].description,TRIFASICO_SEM_NEUTRO, false, false));
             }
         }
     }
 }
 
-/*function submitPossibilidadeCabos()
+function getTemperaturaMaximaCondutor(tipoProduto, nivelTensao, caboEscolhido, tensaoIsolamento, materialCondutor)
 {
-    var objNumeroCamadas = document.getElementById('numeroCamadas');
-    var objNumeroCircuitos = document.getElementById('numeroCircuitos');
-    var eletrodutoMetalico = document.getElementById('eletrodutoMetalico');
-    var distanciaEntreCabos = document.getElementById('');
-    var posicionamentoCabos = document.getElementById('posicionamentoCabos');
+    var valorTemperatura = $("#maximumTemperature").val();
     
-    if (!isUndefinedOrNotZero("numeroCircuitos")) {
-        <ww:if test="!unipolar">
-            alert("Selecione a opção de números de cabos multipolar por camada.");
-        return false;
-        </ww:if>
-            <ww:else>
-            	alert("Selecione a opção de número de circuitos.");
-        return false;
-        </ww:else>
-            }
+    $("#maximumTemperature").html("");
+    $("#maximumTemperature").append(new Option("Selecione","0", false, false));
     
-    if (!isUndefinedOrNotZero("eletrodutoMetalico")) {
-        alert("Selecione a opção de eletroduto metálico.");
-        return false;
-    }
-    
-    if (!isUndefinedOrNotZero("numeroCamadas")) {
-        alert("Selecione a opção de número de camadas.");
-        return false;
-    }
-    
-    if (objNumeroCircuitos != undefined) {
-        <ww:if test="colunaCEF">
-            if ((objNumeroCamadas != undefined)) {
-                if ((objNumeroCamadas.value == 2) && (objNumeroCircuitos.value < 2)) {
-                    alert("Para essa modalidade de instalação e número de camadas, o número de circuitos deve ser maior ou igual a 2.");
-                    return false;
-                }
-            }
-        </ww:if>
-            }
-    
-    if (!isUndefinedOrNotZero("comboRelacaoCaboXDuto")) {
-        alert("Selecione a opção de relação de tamanho Cabo X Duto.");
-        return false;
-    }
-    
-    if (!isUndefinedOrNotZero("distanciaEntreCabos")) {
-        if (document.getElementById("distanciaEntreCabos").disabled == "") {
-            <ww:if test="eletrodutoSolo || eletroduto">
-                alert("Selecione a distância entre os eletrodutos.");
-            return false;
-            </ww:if>
-	            <ww:else>
-		            alert("Selecione a distância entre os cabos.");
-            return false;
-            </ww:else>
-                }
-    }
-    
-    <ww:if test="exibirPosicionamentoCabosSeparadoTrifolio">
-        form.action = 'posicionamentoCabos.sdf?' +
-        'sistema=' + <ww:property value="sistema" /> +
-        '&possibilidadeInstalacao=' + <ww:property value="possibilidadeInstalacao" /> +
-        '&localInstalacao=' + <ww:property value="localInstalacao" /> +
-        '&numeroCondutores=' + <ww:property value="numeroCondutores" /> +
-        '&caboEscolhido=' + <ww:property value="caboEscolhido" /> +
-        '&tipoProduto=' + <ww:property value="tipoProduto" /> +
-        '&nivelTensao=' + <ww:property value="nivelTensao" />;
-    form.submit();
-    </ww:if>
-        <ww:else>
-            <ww:if test="exibirResistividadeTermica">
-                form.action = 'resistividadeTermica.sdf?' +
-                'sistema=' + <ww:property value="sistema" /> +
-                '&possibilidadeInstalacao=' + <ww:property value="possibilidadeInstalacao" /> +
-                '&localInstalacao=' + <ww:property value="localInstalacao" /> +
-                '&numeroCondutores=' + <ww:property value="numeroCondutores" /> +
-                '&caboEscolhido=' + <ww:property value="caboEscolhido" /> +
-                '&tipoProduto=' + <ww:property value="tipoProduto" /> +
-                '&nivelTensao=' + <ww:property value="nivelTensao" />;
-    form.submit();
-    </ww:if>
-        <ww:else>
-            
-            opener.windowCloseHandler();
-    window.close();
-    </ww:else>
-        </ww:else>
-}*/
-
-function isCanaletaFechada()
-{
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    return (possibilidadeInstalacao == CANALETA_FECHADA_SOLO);
-}
-
-function isDiretamenteEnterrado()
-{
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    return (possibilidadeInstalacao == DIRETAMENTE_SOLO);
-}
-
-function isColunaG()
-{
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    
-    dimensionamentoBean = new DimensionamentoBean();
-    dimensionamentoBean.setTipoProduto($("#cableList").val());
-    dimensionamentoBean.setNivelTensao($("#systemVoltage").val());
-    dimensionamentoBean.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamentoBean.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamentoBean.setlocalInstalacao($("#localInstalacao").val());
-    
-    return dimensionamentoBean.isColunaG();
-}
-
-function isColunaF()
-{
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    
-    dimensionamentoBean = new DimensionamentoBean();
-    dimensionamentoBean.setTipoProduto($("#cableList").val());
-    dimensionamentoBean.setNivelTensao($("#systemVoltage").val());
-    dimensionamentoBean.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamentoBean.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamentoBean.setlocalInstalacao($("#localInstalacao").val());
-    
-    return dimensionamentoBean.isColunaF();
-}
-
-function showPosicionamentoCabos()
-{
-    escondeDivs();
-    
-    var numeroCondutores = $("#conductorNumber").val();
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    var posicionamentoCabo = $("#posicionamentoCabo").val();
-    var nivelTensao = $("#systemVoltage").val();
-    
-    if(isEletrodutoSolo || isBancoDutos())
+    //alert("Entrou da funcao: getTemperaturaMaximaCondutor");
+    if (tipoProduto == CABOS_ENERGIA)
     {
-        document.getElementById("li_posicionamentoCabosPorDuto").style.display = "";
-        document.getElementById("id_posicionamentoCabos").style.display = "";
+        if (nivelTensao == BAIXA)
+        {
+            if (materialCondutor == ALUMINIO)
+            {
+                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
+            }
+            else
+            {
+                if ((tensaoIsolamento == _450V_750V) || (caboEscolhido == AFITOX_750V) || (caboEscolhido == NOFLAN_ANTICHAMA_BWF_FLEXIVEL) || (caboEscolhido == VINIL) || (caboEscolhido == VINIL_FLEXIVEL) ) {
+                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
+                }
+                else if ( (caboEscolhido == AFITOX_06_1KV) || (caboEscolhido == FITER_FLEX) )
+                {
+                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
+                }
+                else
+                {
+                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
+                    $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
+                }
+            }
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            if (caboEscolhido == EP_DRY_105C)
+            {
+                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_105C].description,_105C, false, false));
+            }
+            else if (caboEscolhido == 0)
+            {
+                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
+                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_105C].description,_105C, false, false));
+            }
+            else
+            {
+                $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
+            }
+        }
+        
+    }
+    else if (tipoProduto == CABOS_NAVAIS)
+    {
+        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_70C].description,_70C, false, false));
+        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_85C].description,_85C, false, false));
+        $("#maximumTemperature").append(new Option(TEMPERATURAMAXIMA[_90C].description,_90C, false, false));
+    }
+    
+    $('#maximumTemperature option[value="'+valorTemperatura+'"]').attr({ selected : "selected" });
+    //alert("Saiu da funcao: getTemperaturaMaximaCondutor");
+}
+
+function getPossibilidadeInstalacao(tipoProduto, nivelTensao)
+{
+    $("#possibilidadeInstalacao").html("");
+    $("#possibilidadeInstalacao").append(new Option("Selecione","0", false, false));
+    
+    if (tipoProduto == CABOS_ENERGIA)
+    {
+        if (nivelTensao == BAIXA)
+        {
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE].description,APARENTE, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[EMBUTIDA].description,EMBUTIDA, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ESPACO_CONSTRUCAO].description,ESPACO_CONSTRUCAO, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[SUBTERRANEA].description,SUBTERRANEA, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[SUSPENSA].description,SUSPENSA, false, false));
+        }
+        else if (nivelTensao == MEDIA)
+        {
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE_AR].description,APARENTE_AR, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[BANCO_DUTOS_SOLO].description,BANCO_DUTOS_SOLO, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[CANALETA_FECHADA_SOLO].description,CANALETA_FECHADA_SOLO, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[DIRETAMENTE_SOLO].description,DIRETAMENTE_SOLO, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_NAO_METALICO_APARENTE_AR].description,ELETRODUTO_NAO_METALICO_APARENTE_AR, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_METALICO_APARENTE_AR].description,ELETRODUTO_METALICO_APARENTE_AR, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_NAO_METALICO_SOLO].description,ELETRODUTO_NAO_METALICO_SOLO, false, false));
+            $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[ELETRODUTO_METALICO_SOLO].description,ELETRODUTO_METALICO_SOLO, false, false));
+        }
+        
+    }
+    else if (tipoProduto == CABOS_NAVAIS)
+    {
+        $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[APARENTE].description,APARENTE, false, false));
+        $("#possibilidadeInstalacao").append(new Option(POSSIBILIDADE_INSTALACAO[EMBUTIDA].description,EMBUTIDA, false, false));
+    }
+    
+    //alert("Saiu da funcao: getPossibilidadeInstalacao");
+}
+
+function getTemperaturaArSolo(tipoProduto, temperaturaCondutor, nivelTensao, instalacao)
+{
+    $("#temperaturaArSolo").html("");
+    $("#temperaturaArSolo").append(new Option("Selecione","0", false, false));
+    
+    if (tipoProduto == CABOS_ENERGIA)
+    {
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_10C_AS].description,_10C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_15C_AS].description,_15C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_20C_AS].description,_20C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_25C_AS].description,_25C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_30C_AS].description,_30C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_35C_AS].description,_35C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_40C_AS].description,_40C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_45C_AS].description,_45C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_50C_AS].description,_50C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_55C_AS].description,_55C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_60C_AS].description,_60C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_65C_AS].description,_65C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_70C_AS].description,_70C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_75C_AS].description,_75C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_80C_AS].description,_80C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_85C_AS].description,_85C_AS, false, false));
+    }
+    else if (tipoProduto == CABOS_NAVAIS)
+    {
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_35C_AS].description,_35C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_40C_AS].description,_40C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_45C_AS].description,_45C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_50C_AS].description,_50C_AS, false, false));
+        $("#temperaturaArSolo").append(new Option(TEMPERATURA_AR_SOLO[_55C_AS].description,_55C_AS, false, false));
+    }
+}
+
+function getResistividade()
+{
+    $("#resistividadeTermica").html("");
+    $("#resistividadeTermica").append(new Option("Selecione","0", false, false));
+    
+    $("#resistividadeTermica").append(new Option(RESISTIVIDADE_TERMICA[_1].description,_1, false, false));
+    $("#resistividadeTermica").append(new Option(RESISTIVIDADE_TERMICA[_1_5].description,_1_5, false, false));
+    $("#resistividadeTermica").append(new Option(RESISTIVIDADE_TERMICA[_2].description,_2, false, false));
+    $("#resistividadeTermica").append(new Option(RESISTIVIDADE_TERMICA[_2_5].description,_2_5, false, false));
+    $("#resistividadeTermica").append(new Option(RESISTIVIDADE_TERMICA[_3].description,_3, false, false));
+}
+
+function isExibirSuporte()
+{
+    var caboSelecionado = $("#caboSelecionado").val();
+    
+    var a = caboSelecionado == AFITOX_750V;
+    var b = caboSelecionado == NOFLAN_ANTICHAMA_BWF_FLEXIVEL;
+    
+    return a || b;
+}
+
+function isExibirIsoladores()
+{
+    return true;
+}
+
+function getOrientacao()
+{
+    $("#orientacaoCabo").html("");
+    $("#orientacaoCabo").append(new Option("Selecione","0", false, false));
+    
+    $("#orientacaoCabo").append(new Option(ORIENTACAO_CABO[OCHORIZONTAL].description,OCHORIZONTAL, false, false));
+    $("#orientacaoCabo").append(new Option(ORIENTACAO_CABO[OCVERTICAL].description,OCVERTICAL, false, false));
+}
+
+function isUnipolarEletroduoAr()
+{
+    var numeroCondutores = $("#conductorNumber").val();
+    return numeroCondutores == 1;
+}
+
+function isEletrodutoAparenteAr()
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    
+    return possibilidadeInstalacao == ELETRODUTO_METALICO_APARENTE_AR || possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_APARENTE_AR;
+}
+
+function isSeparados()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
+    return (posicionamentoCabo == FORMACAO_ESPACADA);
+}
+
+function isJustapostos()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
+    return (posicionamentoCabo == FORMACAO_JUSTAPOSTA);
+}
+
+function isTrifolio()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
+    return (posicionamentoCabo == FORMACAO_TRIFOLIO);
+}
+
+function getNumeroBandejasVertical()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
+    
+    dimensionamento = new DimensionamentoBean();
+    dimensionamento.setTipoProduto($("#cableList").val());
+    dimensionamento.setNivelTensao($("#systemVoltage").val());
+    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    
+    $("#numeroBandejasVertical").html("");
+    $("#numeroBandejasVertical").append(new Option("Selecione","0", false, false));
+    
+    if (!isCabosNavais())
+    {
+        if (posicionamentoCabo == FORMACAO_ESPACADA)
+        {
+            return getNumeroBandejas();
+            
+        }
+        else if (posicionamentoCabo == FORMACAO_JUSTAPOSTA)
+        {
+            $("#numeroBandejasVertical").append(new Option("1","1", false, false));
+            $("#numeroBandejasVertical").append(new Option("2","2", false, false));
+        }
     }
     else
     {
-        document.getElementById("li_posicionamentoCabos").style.display = "";
-        document.getElementById("id_posicionamentoCabos").style.display = "";
-    }
-    getPosicionamentoList();
-    
-    //aqui
-    if(isAparente())
-    {
-        if(isUnipolar())
+        if (dimensionamento.isColunaF())
         {
-            if(isShowEspacado())
+            $("#numeroBandejasVertical").append(new Option("1","1", false, false));
+            $("#numeroBandejasVertical").append(new Option("2","2", false, false));
+        }
+        else if (dimensionamento.isColunaE())
+        {
+            if (isJustapostos() || isSeparados())
             {
-                document.getElementById("id_unipolar_separado").style.display = "";
-            }
-            
-            document.getElementById("id_unipolar_justapostos").style.display = "";
-            
-            if(isTrifasico())
-            {
-                document.getElementById("id_unipolar_trifolio").style.display = "";
+                $("#numeroBandejasVertical").append(new Option("1","1", false, false));
+                $("#numeroBandejasVertical").append(new Option("2","2", false, false));
             }
         }
-        else if(isTripolar())
-        {
-            if(isShowEspacado())
-            {
-                document.getElementById("id_tripolar_separado").style.display = "";
-            }
-            document.getElementById("id_tripolar_justapostos").style.display = "";
-        }
     }
-    else if(isAparenteAr())
-    {
-        if(isUnipolar())
-        {
-            document.getElementById("id_unipolar_separado").style.display = "";
-            document.getElementById("id_unipolar_justapostos").style.display = "";
-            document.getElementById("id_unipolar_trifolio").style.display = "";
-        }
-        else if(isTripolar())
-        {
-            document.getElementById("id_tripolar_separado").style.display = "";
-            document.getElementById("id_tripolar_justapostos").style.display = "";            
-        }
-        
-    }
-    else if(isBancoDutos())
-    {
-        document.getElementById("id_1CaboDuto").style.display = "";
-        document.getElementById("id_3CabosDuto").style.display = "";
-    }
-    else if(isCanaletaFechada())
-    {
-        if(isUnipolar())
-        {
-            document.getElementById("id_unipolar_separado_canaleta").style.display = "";
-            document.getElementById("id_unipolar_justapostos_canaleta").style.display = "";
-            document.getElementById("id_unipolar_trifolio_canaleta").style.display = "";
-        }
-        else if(isTripolar())
-        {
-            document.getElementById("id_tripolar_separado_canaleta").style.display = "";
-            document.getElementById("id_tripolar_justapostos_canaleta").style.display = "";
-        }
-    }
-    else if(isDiretamenteEnterrado())
-    {
-        if(isUnipolar())
-        {
-            document.getElementById("id_unipolar_separado").style.display = "";
-            document.getElementById("id_unipolar_justapostos").style.display = "";
-            document.getElementById("id_unipolar_trifolio").style.display = "";
-        }
-        else if(isTripolar())
-        {
-            document.getElementById("id_unipolar_separado").style.display = "";
-        }
-    }
-    else if(isEletrodutoSolo())
-    {
-        if(!isEletrodutoMetalico())
-        {
-            document.getElementById("id_1CaboDuto").style.display = "";
-        }
-        document.getElementById("id_3CabosDuto").style.display = "";
-    }
-    else if(isSuspensa && isSuportes())
-    {
-        if(isUnipolar())
-        {
-            if(isShowEspacado())
-            {
-                document.getElementById("id_unipolar_separado").style.display = "";
-            }
-            
-            document.getElementById("id_unipolar_justapostos").style.display = "";
-            
-            if(isTrifasico())
-            {
-                document.getElementById("id_unipolar_trifolio").style.display = "";
-            }
-        }
-        else if(isTripolar())
-        {
-            if(isShowEspacado())
-            {
-                document.getElementById("id_tripolar_separado").style.display = "";
-            }
-            
-            document.getElementById("id_tripolar_justapostos").style.display = "";
-        }
-    }
-    else if(isColunaG())
-    {
-        document.getElementById("id_unipolar_separado").style.display = "";
-        document.getElementById("id_unipolar_justapostos").style.display = "";
-    }
-    else if(isColunaF())
-    {
-        document.getElementById("id_unipolar_justapostos").style.display = "";
-        document.getElementById("id_unipolar_trifolio").style.display = "";
-    }
-    else if(isExibirCabosDuto())
-    {
-        document.getElementById("id_1CaboDuto").style.display = "";
-        document.getElementById("id_3CabosDuto").style.display = "";
-    }
-    
-    closePopup("localInstalacaoAparente-popup");
-    showPopup("possibilidadeCabos-popup");
 }
 
-function showPossibilidadeCabos()
+function getNumeroTernasBandeja(id)
 {
-    escondeDivs();    
-    
-    alert("Entrou showPossibilidadeCabos");
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
     var numeroCondutores = $("#conductorNumber").val();
-    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
-    var posicionamentoCabo = $("#posicionamentoCabo").val();
-    var nivelTensao = $("#systemVoltage").val();
     
-    if(isAparente())
+    dimensionamento = new DimensionamentoBean();
+    dimensionamento.setTipoProduto($("#cableList").val());
+    dimensionamento.setNivelTensao($("#systemVoltage").val());
+    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    
+    $(id).html("");
+    $(id).append(new Option("Selecione","0", false, false));
+    
+    if (!isCabosNavais())
     {
-        if(!isCabosNavais())
+        if (isEletrodutoAparenteAr())
         {
-            if(isMetalQuestion())
+            $(id).append(new Option("1","1", false, false));
+            $(id).append(new Option("2","2", false, false));
+            $(id).append(new Option("3","3", false, false));
+            
+            if (isJustapostos())
             {
-                //alert("Eletroduto Metálico ? / NUMERO DE CIRCUITOS POR CAMADA");
-                //Eletroduto Metálico ?
-                //NUMERO DE CIRCUITOS POR CAMADA
-                document.getElementById("li_eletrodutoMetalico").style.display = "";
-                document.getElementById("id_eletrodutoMetalico").style.display = "";
+                $(id).append(new Option("4","4", false, false));
+            }
+            
+            $(id).append(new Option("6","6", false, false));
+            $(id).append(new Option("9","9", false, false));
+        }
+        else if (numeroCondutores == NCUNIPOLAR)
+        {
+            $(id).append(new Option("1","1", false, false));
+            $(id).append(new Option("2","2", false, false));
+            $(id).append(new Option("3","3", false, false));
+        }
+        else if (numeroCondutores == NCTRIPOLAR)
+        {
+            $(id).append(new Option("1","1", false, false));
+            $(id).append(new Option("2","2", false, false));
+            $(id).append(new Option("3","3", false, false));
+            $(id).append(new Option("6","6", false, false));
+            $(id).append(new Option("9","9", false, false));
+        }
+    }
+    else
+    {
+        if (dimensionamento.isColunaF())
+        {
+            $(id).append(new Option("1","1", false, false));
+            $(id).append(new Option("2","2", false, false));
+            $(id).append(new Option("3","3", false, false));
+        }
+        else if (isColunaE())
+        {
+            if (isJustapostos())
+            {
+                $(id).append(new Option("1","1", false, false));
+                $(id).append(new Option("2","2", false, false));
+                $(id).append(new Option("3","3", false, false));
+                $(id).append(new Option("4","4", false, false));
+                $(id).append(new Option("6","6", false, false));
+                $(id).append(new Option("9","9", false, false));
+            }
+            else if (isSeparados())
+            {
+                $(id).append(new Option("1","1", false, false));
+                $(id).append(new Option("2","2", false, false));
+                $(id).append(new Option("3","3", false, false));
+                $(id).append(new Option("4","4", false, false));
+                $(id).append(new Option("6","6", false, false));
+            }
+        }
+    }
+}
 
-                document.getElementById("li_metalQuestion").style.display = ""; 
-                document.getElementById("numeroCircuitoCamadas").style.display = "";
-                
-                $("#numeroCircuitos").html("");
-                $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-                $("#numeroCircuitos").append(new Option("1","1", false, false));
-                $("#numeroCircuitos").append(new Option("2","2", false, false));
-                $("#numeroCircuitos").append(new Option("3","3", false, false));
-                $("#numeroCircuitos").append(new Option("4","4", false, false));
-                $("#numeroCircuitos").append(new Option("5","5", false, false));
-                $("#numeroCircuitos").append(new Option("6","6", false, false));
-                $("#numeroCircuitos").append(new Option("7","7", false, false));
-                $("#numeroCircuitos").append(new Option("8","8", false, false));
-                $("#numeroCircuitos").append(new Option("9","9", false, false));
-                $("#numeroCircuitos").append(new Option("10","10", false, false));
-                $("#numeroCircuitos").append(new Option("11","11", false, false));
-                $("#numeroCircuitos").append(new Option("12","12", false, false));
-                $("#numeroCircuitos").append(new Option("13","13", false, false));
-                $("#numeroCircuitos").append(new Option("14","14", false, false));
-                $("#numeroCircuitos").append(new Option("15","15", false, false));
-                $("#numeroCircuitos").append(new Option("16","16", false, false));
-                $("#numeroCircuitos").append(new Option("17","17", false, false));
-                $("#numeroCircuitos").append(new Option("18","18", false, false));
-                $("#numeroCircuitos").append(new Option("19","19", false, false));
-                $("#numeroCircuitos").append(new Option("20","20", false, false));
-            }
-            else if(isUnipolar())
+function getNumeroTernasVertical()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
+    var numeroCondutores = $("#conductorNumber").val();
+    
+    dimensionamento = new DimensionamentoBean();
+    dimensionamento.setTipoProduto($("#cableList").val());
+    dimensionamento.setNivelTensao($("#systemVoltage").val());
+    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    
+    $("#numeroTernasBandejaVertical").html("");
+    $("#numeroTernasBandejaVertical").append(new Option("Selecione","0", false, false));
+    
+    if (!isCabosNavais())
+    {
+        if (posicionamentoCabo == FORMACAO_ESPACADA || posicionamentoCabo == FORMACAO_TRIFOLIO)
+        {
+            return getNumeroTernasBandeja("#numeroTernasBandejaVertical");
+        }
+        else if (posicionamentoCabo == FORMACAO_JUSTAPOSTA)
+        {
+            
+            if (isEletrodutoAparenteAr())
             {
-                //alert("NUMERO DE CIRCUITOS POR CAMADA");
-                //NUMERO DE CIRCUITOS POR CAMADA
-                document.getElementById("li_unipolar").style.display = "";                
-                document.getElementById("numeroCircuitoCamadas").style.display = "";
+                $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("3","3", false, false));
                 
-                $("#numeroCircuitos").html("");
-                $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-                $("#numeroCircuitos").append(new Option("1","1", false, false));
-                $("#numeroCircuitos").append(new Option("2","2", false, false));
-                $("#numeroCircuitos").append(new Option("3","3", false, false));
-                $("#numeroCircuitos").append(new Option("4","4", false, false));
-                $("#numeroCircuitos").append(new Option("5","5", false, false));
-                $("#numeroCircuitos").append(new Option("6","6", false, false));
-                $("#numeroCircuitos").append(new Option("7","7", false, false));
-                $("#numeroCircuitos").append(new Option("8","8", false, false));
-                $("#numeroCircuitos").append(new Option("9","9", false, false));
-                $("#numeroCircuitos").append(new Option("10","10", false, false));
-                $("#numeroCircuitos").append(new Option("11","11", false, false));
-                $("#numeroCircuitos").append(new Option("12","12", false, false));
-                $("#numeroCircuitos").append(new Option("13","13", false, false));
-                $("#numeroCircuitos").append(new Option("14","14", false, false));
-                $("#numeroCircuitos").append(new Option("15","15", false, false));
-                $("#numeroCircuitos").append(new Option("16","16", false, false));
-                $("#numeroCircuitos").append(new Option("17","17", false, false));
-                $("#numeroCircuitos").append(new Option("18","18", false, false));
-                $("#numeroCircuitos").append(new Option("19","19", false, false));
-                $("#numeroCircuitos").append(new Option("20","20", false, false));
+                if (isJustapostos())
+                {
+                    $("#numeroTernasBandejaVertical").append(new Option("4","4", false, false));
+                }
+                
+                $("#numeroTernasBandejaVertical").append(new Option("6","6", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("9","9", false, false));
             }
-            else
+            else if (numeroCondutores == NCUNIPOLAR)
             {
-                //alert("NUMERO DE CIRCUITOS POR CAMADA");
-                //NUMERO DE CIRCUITOS POR CAMADA
-                document.getElementById("li_num_cabos").style.display = "";                
-                document.getElementById("numeroCircuitoCamadas").style.display = "";
-                
-                $("#numeroCircuitos").html("");
-                $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-                $("#numeroCircuitos").append(new Option("1","1", false, false));
-                $("#numeroCircuitos").append(new Option("2","2", false, false));
-                $("#numeroCircuitos").append(new Option("3","3", false, false));
-                $("#numeroCircuitos").append(new Option("4","4", false, false));
-                $("#numeroCircuitos").append(new Option("5","5", false, false));
-                $("#numeroCircuitos").append(new Option("6","6", false, false));
-                $("#numeroCircuitos").append(new Option("7","7", false, false));
-                $("#numeroCircuitos").append(new Option("8","8", false, false));
-                $("#numeroCircuitos").append(new Option("9","9", false, false));
-                $("#numeroCircuitos").append(new Option("10","10", false, false));
-                $("#numeroCircuitos").append(new Option("11","11", false, false));
-                $("#numeroCircuitos").append(new Option("12","12", false, false));
-                $("#numeroCircuitos").append(new Option("13","13", false, false));
-                $("#numeroCircuitos").append(new Option("14","14", false, false));
-                $("#numeroCircuitos").append(new Option("15","15", false, false));
-                $("#numeroCircuitos").append(new Option("16","16", false, false));
-                $("#numeroCircuitos").append(new Option("17","17", false, false));
-                $("#numeroCircuitos").append(new Option("18","18", false, false));
-                $("#numeroCircuitos").append(new Option("19","19", false, false));
-                $("#numeroCircuitos").append(new Option("20","20", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
             }
+            else if (numeroCondutores == NCTRIPOLAR)
+            {
+                $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("3","3", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("6","6", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("9","9", false, false));
+            }
+        }
+    }
+    else
+    {
+        if (dimensionamento.isColunaF())
+        {
+            $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+            $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
+            $("#numeroTernasBandejaVertical").append(new Option("3","3", false, false));
+        }
+        else if (dimensionamento.isColunaE())
+        {
+            if (isJustapostos())
+            {
+                $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("3","3", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("4","4", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("6","6", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("9","9", false, false));
+            }
+            else if (isSeparados())
+            {
+                $("#numeroTernasBandejaVertical").append(new Option("1","1", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("2","2", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("3","3", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("4","4", false, false));
+                $("#numeroTernasBandejaVertical").append(new Option("6","6", false, false));
+            }
+        }
+    }
+}
 
-            if(isColunaCEF())
-            {
-                //Informe o número de camadas
-                if(isEletrodutoOrMoldura())
-                {
-                    //alert("Informe o número de camadas: isEletrodutoOrMoldura");
-                    document.getElementById("li_numeroCamadas").style.display = "";                    
-                    document.getElementById("id_numeroCamadas").style.display = "";
-                    
-                    $("#numeroCamadas").html("");
-                    $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-                    $("#numeroCamadas").append(new Option("1","1", false, false));
-                    $('#numeroCamadas option[value="1"]').attr({ selected : "selected" });
-                }
-                else
-                {
-                    //alert("Informe o número de camadas: isEletrodutoOrMoldura else");
-                    document.getElementById("li_numeroCamadas").style.display = "";                    
-                    document.getElementById("id_numeroCamadas").style.display = "";
-                    
-                    $("#numeroCamadas").html("");
-                    $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-                    $("#numeroCamadas").append(new Option("1","1", false, false));
-                    $("#numeroCamadas").append(new Option("2","2", false, false));
-                    $("#numeroCamadas").append(new Option("3","3", false, false));
-                    $("#numeroCamadas").append(new Option("4","4", false, false));
-                    $("#numeroCamadas").append(new Option("5","5", false, false));
-                    $("#numeroCamadas").append(new Option("6","6", false, false));
-                    $("#numeroCamadas").append(new Option("7","7", false, false));
-                    $("#numeroCamadas").append(new Option("8","8", false, false));
-                    $("#numeroCamadas").append(new Option("9","9", false, false));
-                }
-            }
-        }
-        else //CABOS NAVAIS
-        {
-            //alert("Número de circuitos ou cabos multipolares agrupados em feixe");
-            //Número de circuitos ou cabos multipolares agrupados em feixe
-            document.getElementById("li_numeroCircuitos_naval").style.display = "";            
-            document.getElementById("numeroCircuitoCamadas").style.display = "";
-            
-            $("#numeroCircuitos").html("");
-            $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-            $("#numeroCircuitos").append(new Option("1","1", false, false));
-            $("#numeroCircuitos").append(new Option("2","2", false, false));
-            $("#numeroCircuitos").append(new Option("3","3", false, false));
-            $("#numeroCircuitos").append(new Option("4","4", false, false));
-            $("#numeroCircuitos").append(new Option("5","5", false, false));
-            $("#numeroCircuitos").append(new Option("6","6", false, false));
-            $("#numeroCircuitos").append(new Option("7","7", false, false));
-            $("#numeroCircuitos").append(new Option("8","8", false, false));
-            $("#numeroCircuitos").append(new Option("9","9", false, false));
-            $("#numeroCircuitos").append(new Option("10","10", false, false));
-            $("#numeroCircuitos").append(new Option("11","11", false, false));
-            $("#numeroCircuitos").append(new Option("12","12", false, false));
-            $("#numeroCircuitos").append(new Option("13","13", false, false));
-            $("#numeroCircuitos").append(new Option("14","14", false, false));
-            $("#numeroCircuitos").append(new Option("15","15", false, false));
-            $("#numeroCircuitos").append(new Option("16","16", false, false));
-            $("#numeroCircuitos").append(new Option("17","17", false, false));
-            $("#numeroCircuitos").append(new Option("18","18", false, false));
-            $("#numeroCircuitos").append(new Option("19","19", false, false));
-            $("#numeroCircuitos").append(new Option("20","20", false, false));
-        }
-        
-        closePopup("localInstalacaoAparente-popup");
-        showPopup("possibilidadeCabos-popup");
-    }
-    
-    if(isEmbutida())
-    {
-        if(isMetalQuestion())
-        {
-            if(isCabosNavais())
-            {
-                //Eletroduto ou Eletrocalha Metálica?
-                document.getElementById("li_eletrodutoMetalico_embutida_naval").style.display = "";                
-                document.getElementById("id_eletrodutoMetalico").style.display = "";
-            }
-            else
-            {
-                //Eletroduto Metálico ?
-                document.getElementById("li_eletrodutoMetalico").style.display = "";                                
-                document.getElementById("id_eletrodutoMetalico").style.display = "";
-            }
-        }
-        
-        //Informar número de circuitos ou cabos multipolares agrupados em feixe ou dentro do eletroduto
-        document.getElementById("li_metalQuestion").style.display = "";
-        document.getElementById("numeroCircuitoCamadas").style.display = "";
-        
-        $("#numeroCircuitos").html("");
-        $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-        $("#numeroCircuitos").append(new Option("1","1", false, false));
-        $("#numeroCircuitos").append(new Option("2","2", false, false));
-        $("#numeroCircuitos").append(new Option("3","3", false, false));
-        $("#numeroCircuitos").append(new Option("4","4", false, false));
-        $("#numeroCircuitos").append(new Option("5","5", false, false));
-        $("#numeroCircuitos").append(new Option("6","6", false, false));
-        $("#numeroCircuitos").append(new Option("7","7", false, false));
-        $("#numeroCircuitos").append(new Option("8","8", false, false));
-        $("#numeroCircuitos").append(new Option("9","9", false, false));
-        $("#numeroCircuitos").append(new Option("10","10", false, false));
-        $("#numeroCircuitos").append(new Option("11","11", false, false));
-        $("#numeroCircuitos").append(new Option("12","12", false, false));
-        $("#numeroCircuitos").append(new Option("13","13", false, false));
-        $("#numeroCircuitos").append(new Option("14","14", false, false));
-        $("#numeroCircuitos").append(new Option("15","15", false, false));
-        $("#numeroCircuitos").append(new Option("16","16", false, false));
-        $("#numeroCircuitos").append(new Option("17","17", false, false));
-        $("#numeroCircuitos").append(new Option("18","18", false, false));
-        $("#numeroCircuitos").append(new Option("19","19", false, false));
-        $("#numeroCircuitos").append(new Option("20","20", false, false));
-        
-        if(isCabosEnergia())
-        {
-            //Número de eletrodutos
-            document.getElementById("li_numeroCamadas_embutida").style.display = "";            
-            document.getElementById("id_numeroCamadas").style.display = "";
+function getNumeroBandejas()
+{
+    var posicionamentoCabo = $("#posicionamentoCabos").val();
 
-            if(!isAlvenaria())
-            {
-                alert("Saiu isAlvenaria");
-                $("#numeroCamadas").html("");
-                $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-                $("#numeroCamadas").append(new Option("1","1", false, false));
-                $('#numeroCamadas option[value="1"]').attr({ selected : "selected" });
-            }
-            else
-            {
-                $("#numeroCamadas").html("");
-                $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-                $("#numeroCamadas").append(new Option("1","1", false, false));
-                $("#numeroCamadas").append(new Option("2","2", false, false));
-                $("#numeroCamadas").append(new Option("3","3", false, false));
-                $("#numeroCamadas").append(new Option("4","4", false, false));
-                $("#numeroCamadas").append(new Option("5","5", false, false));
-                $("#numeroCamadas").append(new Option("6","6", false, false));
-                $("#numeroCamadas").append(new Option("7","7", false, false));
-                $("#numeroCamadas").append(new Option("8","8", false, false));
-                $("#numeroCamadas").append(new Option("9","9", false, false));
-            }
-        }
-        
-        closePopup("localInstalacaoAparente-popup");
-        showPopup("possibilidadeCabos-popup");
-    }
+    dimensionamento = new DimensionamentoBean();
+    dimensionamento.setTipoProduto($("#cableList").val());
+    dimensionamento.setNivelTensao($("#systemVoltage").val());
+    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
     
-    if(isSubterranea())
-    {
-        if(isEletroduto())
-        {
-            if(isMetalQuestion())
-            {
-                //Eletroduto Metálico ?
-                document.getElementById("li_eletrodutoMetalico").style.display = "";
-                document.getElementById("id_eletrodutoMetalico").style.display = "";
-            }
-        }
-        
-        if(isDiretamenteEnterradosOuEletroduto())
-        {
-            if(isEletroduto())
-            {
-                //Informar número de circuitos ou cabos multipolares agrupados em feixe ou dentro do eletroduto
-                document.getElementById("li_metalQuestion").style.display = "";
-            }
-            else
-            {
-                //Informe o número de circuitos
-                document.getElementById("li_numeroCircuitos").style.display = "";
-            }
-            document.getElementById("numeroCircuitoCamadas").style.display = "";
-            
-            $("#numeroCircuitos").html("");
-            $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-            $("#numeroCircuitos").append(new Option("1","1", false, false));
-            $("#numeroCircuitos").append(new Option("2","2", false, false));
-            $("#numeroCircuitos").append(new Option("3","3", false, false));
-            $("#numeroCircuitos").append(new Option("4","4", false, false));
-            $("#numeroCircuitos").append(new Option("5","5", false, false));
-            $("#numeroCircuitos").append(new Option("6","6", false, false));
-            
-            
-            if(isEletroduto())
-            {
-                //Informe a distância entre eletrodutos
-                document.getElementById("li_distancia_eletrodutos").style.display = "";
-            }
-            else
-            {
-                //Informe a distância entre os cabos
-                document.getElementById("li_distancia_cabos").style.display = "";
-            }
-            
-            document.getElementById("id_distanciaEntreCabos").style.display = "";
-            getComboDistanciaEntreCabos();
-        }
-        else
-        {
-            //Informar número de circuitos ou cabos multipolares agrupados em feixe ou dentro do eletroduto
-            document.getElementById("li_metalQuestion").style.display = "";
-            document.getElementById("numeroCircuitoCamadas").style.display = "";
-            
-            $("#numeroCircuitos").html("");
-            $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-            $("#numeroCircuitos").append(new Option("1","1", false, false));
-            $("#numeroCircuitos").append(new Option("2","2", false, false));
-            $("#numeroCircuitos").append(new Option("3","3", false, false));
-            $("#numeroCircuitos").append(new Option("4","4", false, false));
-            $("#numeroCircuitos").append(new Option("5","5", false, false));
-            $("#numeroCircuitos").append(new Option("6","6", false, false));
-            $("#numeroCircuitos").append(new Option("7","7", false, false));
-            $("#numeroCircuitos").append(new Option("8","8", false, false));
-            $("#numeroCircuitos").append(new Option("9","9", false, false));
-            $("#numeroCircuitos").append(new Option("10","10", false, false));
-            $("#numeroCircuitos").append(new Option("11","11", false, false));
-            $("#numeroCircuitos").append(new Option("12","12", false, false));
-            $("#numeroCircuitos").append(new Option("13","13", false, false));
-            $("#numeroCircuitos").append(new Option("14","14", false, false));
-            $("#numeroCircuitos").append(new Option("15","15", false, false));
-            $("#numeroCircuitos").append(new Option("16","16", false, false));
-            $("#numeroCircuitos").append(new Option("17","17", false, false));
-            $("#numeroCircuitos").append(new Option("18","18", false, false));
-            $("#numeroCircuitos").append(new Option("19","19", false, false));
-            $("#numeroCircuitos").append(new Option("20","20", false, false));
-            
-            if(isColunaCEF())
-            {
-                if(isCanaletaVentida())
-                {
-                    //Número de eletrodutos
-                    document.getElementById("li_numeroCamadas_embutida").style.display = "";
-                }
-                else
-                {
-                    //Informe o número de camadas
-                    document.getElementById("li_numeroCamadas").style.display = "";
-                }
-                document.getElementById("id_numeroCamadas").style.display = "";
-                
-                $("#numeroCamadas").html("");
-                $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-                $("#numeroCamadas").append(new Option("1","1", false, false));
-                $('#numeroCamadas option[value="1"]').attr({ selected : "selected" });
-            }
-            
-            if(isExibirPosicionamentoCabosSeparadoTrifolio())
-            {
-                document.getElementById("li_posicionamentoCabos").style.display = "";
-                document.getElementById("id_posicionamentoCabos").style.display = "";
-                getPosicionamentoSeparadosTrifolio();
-            }
-            
-            if(isExibirPosicionamentoCabosSeparadoJustapostos())
-            {
-                document.getElementById("li_posicionamentoCabos").style.display = "";
-                document.getElementById("id_posicionamentoCabos").style.display = "";
-                getPosicionamentoJustapostaSeparada();
-            }
-        }
-        
-        closePopup("localInstalacaoAparente-popup");
-        showPopup("possibilidadeCabos-popup");
-    }
     
-    if(isSuspensa())
-    {
-        //PAREI EM <ww:if test="suspensa">
-        //INSERIR ROTINA PARA ESCONDER TODOS OS CAMPOS TODA VEZ QUE VOLTA PARA SELEÇÃO DE TIPO
-        if(isEletroduto())
-        {
-            if(isMetalQuestion())
-            {
-                //Eletroduto Metálico ?
-                document.getElementById("li_eletrodutoMetalico").style.display = "";
-                document.getElementById("id_eletrodutoMetalico").style.display = "";
-            }
-        }
-        
-        if(isSuportes())
-        {
-            //Informe o número de camadas
-            document.getElementById("li_numeroCamadas").style.display = "";
-            document.getElementById("id_numeroCamadas").style.display = "";
-            
-            $("#numeroCamadas").html("");
-            $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-            $("#numeroCamadas").append(new Option("1","1", false, false));
-            $("#numeroCamadas").append(new Option("2","2", false, false));
-            $("#numeroCamadas").append(new Option("3","3", false, false));
-            $("#numeroCamadas").append(new Option("4","4", false, false));
-            $("#numeroCamadas").append(new Option("5","5", false, false));
-            $("#numeroCamadas").append(new Option("6","6", false, false));
-            $("#numeroCamadas").append(new Option("7","7", false, false));
-            $("#numeroCamadas").append(new Option("8","8", false, false));
-            $("#numeroCamadas").append(new Option("9","9", false, false));
-        }
-        
-        if(isUnipolar())
-        {
-            //Informe o número de circuitos por camada
-            document.getElementById("li_unipolar").style.display = "";
-        }
-        else
-        {
-            //Informe o número de cabos multipolar por camada
-            document.getElementById("li_num_cabos").style.display = "";            
-        }
-        document.getElementById("numeroCircuitoCamadas").style.display = "";
-        
-        $("#numeroCircuitos").html("");
-        $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-        $("#numeroCircuitos").append(new Option("1","1", false, false));
-        $("#numeroCircuitos").append(new Option("2","2", false, false));
-        $("#numeroCircuitos").append(new Option("3","3", false, false));
-        $("#numeroCircuitos").append(new Option("4","4", false, false));
-        $("#numeroCircuitos").append(new Option("5","5", false, false));
-        $("#numeroCircuitos").append(new Option("6","6", false, false));
-        $("#numeroCircuitos").append(new Option("7","7", false, false));
-        $("#numeroCircuitos").append(new Option("8","8", false, false));
-        $("#numeroCircuitos").append(new Option("9","9", false, false));
-        $("#numeroCircuitos").append(new Option("10","10", false, false));
-        $("#numeroCircuitos").append(new Option("11","11", false, false));
-        $("#numeroCircuitos").append(new Option("12","12", false, false));
-        $("#numeroCircuitos").append(new Option("13","13", false, false));
-        $("#numeroCircuitos").append(new Option("14","14", false, false));
-        $("#numeroCircuitos").append(new Option("15","15", false, false));
-        $("#numeroCircuitos").append(new Option("16","16", false, false));
-        $("#numeroCircuitos").append(new Option("17","17", false, false));
-        $("#numeroCircuitos").append(new Option("18","18", false, false));
-        $("#numeroCircuitos").append(new Option("19","19", false, false));
-        $("#numeroCircuitos").append(new Option("20","20", false, false));
-        
-    }
+    $("#numeroBandejas").html("");
+    $("#numeroBandejas").append(new Option("Selecione","0", false, false));
     
-    if(isEspacoConstrucao())
+    if (!isCabosNavais())
     {
-        if(isMetalQuestion())
+        if (posicionamentoCabo == FORMACAO_ESPACADA || posicionamentoCabo == FORMACAO_TRIFOLIO)
         {
-            //Eletroduto Metálico?
-            document.getElementById("li_eletrodutoMetalico").style.display = "";
-            document.getElementById("id_eletrodutoMetalico").style.display = "";            
+            $("#numeroBandejas").append(new Option("1","1", false, false));
+            $("#numeroBandejas").append(new Option("2","2", false, false));
+            $("#numeroBandejas").append(new Option("3","3", false, false));
+            $("#numeroBandejas").append(new Option("6","6", false, false));
         }
-        
-        if(isUnipolar())
+        else if (posicionamentoCabo == FORMACAO_JUSTAPOSTA)
         {
-            //Informe o número de circuitos
-            document.getElementById("li_numeroCircuitos").style.display = "";
-        }
-        else
-        {
-            //Informe o número de circuitos ou cabos multipolares agrupados em feixe ou dentro do eletroduto
-            document.getElementById("li_metalQuestion").style.display = "";
-        }
-        document.getElementById("numeroCircuitoCamadas").style.display = "";
-        
-        $("#numeroCircuitos").html("");
-        $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-        $("#numeroCircuitos").append(new Option("1","1", false, false));
-        $("#numeroCircuitos").append(new Option("2","2", false, false));
-        $("#numeroCircuitos").append(new Option("3","3", false, false));
-        $("#numeroCircuitos").append(new Option("4","4", false, false));
-        $("#numeroCircuitos").append(new Option("5","5", false, false));
-        $("#numeroCircuitos").append(new Option("6","6", false, false));
-        
-        if(isColunaCEF())
-        {
-            document.getElementById("li_numeroCamadas").style.display = "";
-            document.getElementById("id_numeroCamadas").style.display = "";
-            
-            $("#numeroCamadas").html("");
-            $("#numeroCamadas").append(new Option("Selecione","0", false, false));
-            $("#numeroCamadas").append(new Option("1","1", false, false));
-            $('#numeroCamadas option[value="1"]').attr({ selected : "selected" });
-        }
-        
-        if(isAntiChama() || isAfitox750() || isDiretamente())
-        {
-            //relacaoCaboDuto
-            //Relação de tamanho Cabo X Duto?
- 
-            document.getElementById("li_relacaoCaboDuto").style.display = "";
-            document.getElementById("id_relacaoCaboDuto").style.display = "";
-            getComboRelacaoCaboXDuto();
+            $("#numeroBandejas").append(new Option("1","1", false, false));
+            $("#numeroBandejas").append(new Option("2","2", false, false));
+            $("#numeroBandejas").append(new Option("3","3", false, false));
         }
     }
+    else
+    {
+        if (dimensionamento.isColunaF())
+        {
+            $("#numeroBandejas").append(new Option("1","1", false, false));
+            $("#numeroBandejas").append(new Option("2","2", false, false));
+            $("#numeroBandejas").append(new Option("3","3", false, false));
+        }
+        else if (dimensionamento.isColunaE())
+        {
+            if (isJustapostos() || isSeparados())
+            {
+                $("#numeroBandejas").append(new Option("1","1", false, false));
+                $("#numeroBandejas").append(new Option("2","2", false, false));
+                $("#numeroBandejas").append(new Option("3","3", false, false));
+            }
+        }
+    }
+}
+
+function isExibirVertical()
+{
+    var localInstalacao = $("#localInstalacao").val();
     
-    if(isEletrodutoSolo())
-    {
-        if(isMetalFixed())
-        {
-            //Eletroduto Metálico?
-            document.getElementById("li_eletrodutoMetalico").style.display = "";
-            document.getElementById("id_eletrodutoMetalico").style.display = "";
-            
-            $("#eletrodutoMetalico").html("");
-            $("#eletrodutoMetalico").append(new Option("Selecione","0", false, false));
-            
-            if(isEletrodutoMetalico())
-            {
-                $("#eletrodutoMetalico").append(new Option("1","1", false, false));
-                $('#eletrodutoMetalico option[value="1"]').attr({ selected : "selected" }); 
-            }
-            else
-            {
-                $("#eletrodutoMetalico").append(new Option("2","2", false, false));
-                $('#eletrodutoMetalico option[value="2"]').attr({ selected : "selected" }); 
-            }
-        }
-        else
-        {
-            //Eletroduto Metálico ? -- SEM CONDICIONAL
-            document.getElementById("li_eletrodutoMetalico").style.display = "";
-            document.getElementById("id_eletrodutoMetalico").style.display = "";
-        }
-        
-        //Informe o número de circuitos
-        document.getElementById("li_numeroCircuitos").style.display = "";
-        document.getElementById("numeroCircuitoCamadas").style.display = "";
-        
-        $("#numeroCircuitos").html("");
-        $("#numeroCircuitos").append(new Option("Selecione","0", false, false));
-        $("#numeroCircuitos").append(new Option("1","1", false, false));
-        $("#numeroCircuitos").append(new Option("2","2", false, false));
-        $("#numeroCircuitos").append(new Option("3","3", false, false));
-        $("#numeroCircuitos").append(new Option("4","4", false, false));
-        $("#numeroCircuitos").append(new Option("5","5", false, false));
-        $("#numeroCircuitos").append(new Option("6","6", false, false));
-        
-        if(isEletrodutoSolo() || isEletroduto())
-        {
-            //Informe a distância entre os eletrodutos
-            document.getElementById("li_distancia_eletrodutos").style.display = "";
-        }
-        else
-        {
-            //Informe a distância entre os cabos
-            document.getElementById("li_distancia_cabos").style.display = "";
-        }
-        document.getElementById("id_distanciaEntreCabos").style.display = "";
-        getComboDistanciaEntreCabos();
-    }
+    dimensionamento = new DimensionamentoBean();
+    dimensionamento.setTipoProduto($("#cableList").val());
+    dimensionamento.setNivelTensao($("#systemVoltage").val());
+    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
+    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
+    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    
+    var a = dimensionamento.isCabosNavais();
+    var b = localInstalacao != BANDEJA_PERFURADA;
+    var c = dimensionamento.isColunaF() || dimensionamento.isColunaE();
+    
+    return !(a && b && c);
+}
+
+function isExibirSemFator()
+{
+    return !isCabosNavais() && !isJustapostos();
 }

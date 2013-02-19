@@ -280,15 +280,6 @@ TIPO_INSTALACAO = {
 
 
 /////////////////////
-HORIZONTAL = 1;
-VERTICAL = 2;
-/////////////////////
-ORIENTACAO_CABO = {
-	1 : {description : "Formao Horizontal"},
-	2 : {description : "Formao Vertical"}
-};
-
-/////////////////////
 UM_CIRCUITO = 1;
 DOIS_CIRCUITO = 2;
 TRES_CIRCUITO = 3;
@@ -435,8 +426,8 @@ RESISTIVIDADE_TERMICA = {
 }
 
 /////////////////////
-HORIZONTAL = 1;
-VERTICAL = 2;
+OCHORIZONTAL = 1;
+OCVERTICAL = 2;
 /////////////////////
 ORIENTACAO_CABO = {
 	1 : {description : "Formação Horizontal"},
