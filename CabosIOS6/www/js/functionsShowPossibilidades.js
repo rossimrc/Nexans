@@ -572,7 +572,7 @@ function showOpcoesInstalacao()
             {
                 alert("Entrou isUnipolar li_ternas_bandeja");
                 //Número de ternas por bandeja
-                document.getElementById("li_ternas_bandeja").style.display = "";
+                document.getElementById("li_ternas_bandeja_vertical").style.display = "";
             }
             else
             {

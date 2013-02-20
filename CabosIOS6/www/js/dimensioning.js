@@ -1217,7 +1217,7 @@ $("#specification-popup2-continue").click(function(){
             $("#step_posicionamentoCabo").val("submitFinal");
             //closePopup("possibilidadeCabos-popup");
                                                   
-            //$("#localInstalacaoDesc").val($('#localInstalacao :selected').html());
+            $("#localInstalacaoDesc").val($('#localInstalacao :selected').html());
             submitPosicionamentoCabos();
         }
         else if(step_posicionamentoCabo == "suspensaPossibilidadeCabos")
