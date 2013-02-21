@@ -1480,6 +1480,48 @@ function escondeDivs()
     closePopup("id_unipolar_separados_semCorrecao");
     closePopup("id_unipolar_trifolio_semCorrecao");
     closePopup("id_orientacaoFatorCorrecaoSemFator");
+    closePopup("li_numero_circuitos");
+    closePopup("id_formacao_Banco_Dutos");
+    closePopup("id_Unipolar_Linear_2x2");
+    closePopup("id_Unipolar_Linear_2x3");
+    closePopup("id_Unipolar_Linear_3x3");
+    closePopup("id_Unipolar_Trifolio_1_Circuito");
+    closePopup("id_Unipolar_Trifolio_2x2");
+    closePopup("id_Unipolar_Trifolio_2x3");
+    closePopup("id_Unipolar_Trifolio_3x3");
+    closePopup("id_Tripolar_Trifolio_1_Circuito");
+    closePopup("id_Tripolar_Trifolio_2x2");
+    closePopup("id_Tripolar_Trifolio_2x3");
+    closePopup("id_Tripolar_Trifolio_3x3");
+    closePopup("li_banco_dutos_variaveis_1");
+    closePopup("li_banco_dutos_variaveis_2");
+    closePopup("li_altura_canaleta");
+    closePopup("id_alturaCanaleta");
+    closePopup("li_largura_canaleta");
+    closePopup("id_larguraCanaleta");
+    closePopup("id_canaleta");
+    closePopup("id_posicaoCabos");
+    closePopup("id_Unipolar_Separados_1Circ");
+    closePopup("id_Unipolar_Separados_2Circ");
+    closePopup("id_Unipolar_Separados_3Circ");
+    closePopup("id_Unipolar_Justapostos_1Circ");
+    closePopup("id_Unipolar_Justapostos_2Circ");
+    closePopup("id_Unipolar_Justapostos_3Circ");
+    closePopup("id_Unipolar_Trifolio_1Circ");
+    closePopup("id_Unipolar_Trifolio_2Circ");
+    closePopup("id_Unipolar_Trifolio_3Circ");
+    closePopup("id_Unipolar_Trifolio_4Circ");
+    closePopup("id_Tripolar_Separados_1Circ");
+    closePopup("id_Tripolar_Separados_2Circ");
+    closePopup("id_Tripolar_Separados_3Circ");
+    closePopup("id_Tripolar_Separados_4Circ");
+    closePopup("li_profundidade");
+    closePopup("li_profundidade_70");
+    closePopup("li_profundidade_90");
+    closePopup("li_cm_espaco_entre_cabos");
+    closePopup("li_equivalente_2d");
+    closePopup("li_nulo");
+    closePopup("li_de_20cm");
     /*closePopup("");
     closePopup("");
     closePopup("");
@@ -1488,7 +1530,29 @@ function escondeDivs()
     closePopup("");
     closePopup("");
     closePopup("");
-    closePopup("");*/
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    /*closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    closePopup("");
+    /*closePopup("");*/
     
     //APARENTE
     closePopup("eletroduto-popup");
@@ -1621,16 +1685,16 @@ function possibilidadeInstalacaoOnChange()
         /*var url = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
         "&nivelTensao=" + tensao;*/
         
-        if (possibilidade == APARENTE)
+        if (possibilidade == APARENTE) //CONCLUIDO
         {
             //pagina = "instalacaoAparente.sdf" + params + "&sistema=" + sistema + "&numeroCondutores=" + numeroCondutores;
             showPossibilidadeAparente();
         }
-        else if (possibilidade == APARENTE_AR)
+        else if (possibilidade == APARENTE_AR) //CONCLUIDO
         {
             showPosicionamentoCabos();
         }
-        else if (possibilidade == EMBUTIDA)
+        else if (possibilidade == EMBUTIDA) //CONCLUIDO
         {
             //pagina = "instalacaoEmbutida.sdf" + params + "&numeroCondutores=" + numeroCondutores;
             showPossibilidadeEmbutida();
@@ -1638,35 +1702,38 @@ function possibilidadeInstalacaoOnChange()
         else if (possibilidade == ELETRODUTO_APARENTE_AR || possibilidade == ELETRODUTO_NAO_METALICO_APARENTE_AR || possibilidade == ELETRODUTO_METALICO_APARENTE_AR)
         {
             //pagina = "eletrodutoAr.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;;
-            
             showEletrodutoAr();
-            alert("Depois showEletrodutoAr");
         }
-        /*else if (possibilidade == BANCO_DUTOS_SOLO)
+        else if (possibilidade == BANCO_DUTOS_SOLO) //CONCLUIDO
         {
-            if (numeroCondutores == UNIPOLAR)
+            if (numeroCondutores == NCUNIPOLAR)
             {
-                pagina = url;
-            } else
+                showPosicionamentoCabos();
+            }
+            else
             {
-                $("#tipoInstalacao").val(_1_CABO);
-                var tipoInstalacao = $("#tipoInstalacao").val();
-                pagina = "bancoDutos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
-                "&localInstalacao=" + tipoInstalacao;
+                //pagina = "bancoDutos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
+                $("#step_posicionamentoCabo").val("submitBancoDutos");
+                showBancoDutos();
             }
             
         }
-        else if (possibilidade == CANALETA_FECHADA_SOLO)
+        else if (possibilidade == CANALETA_FECHADA_SOLO) //CONCLUIDO
         {
-            pagina = "canaleta.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;
+            //pagina = "canaleta.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;
+            $("#step_posicionamentoCabo").val("submitCanaleta");
+            showCanaleta();
         }
         else if (possibilidade == DIRETAMENTE_SOLO)
         {
             if (numeroCondutores == TRIPOLAR)
             {
-                $("#tipoInstalacao").val(FORMACAO_ESPACADA);
-                pagina = "cabosSolo.sdf" + params + "&localInstalacao=" + DWRUtil.getValue("dimensionamento.tipoInstalacao") +
-                "&numeroCondutores=" + numeroCondutores + "&closeWindow=1";
+                //$("#tipoInstalacao").val(FORMACAO_ESPACADA);
+                //pagina = "cabosSolo.sdf" + params + "&localInstalacao=" + DWRUtil.getValue("dimensionamento.tipoInstalacao") +
+                //"&numeroCondutores=" + numeroCondutores + "&closeWindow=1";
+                //cabosSolo.sdf
+                $("#step_posicionamentoCabo").val("submitCabosSolo");
+                showCabosSolo();
             }
             else
             {
@@ -1676,7 +1743,7 @@ function possibilidadeInstalacaoOnChange()
             paginaW = 688;
             
         }
-        else if (possibilidade == ELETRODUTO_SOLO || possibilidade == ELETRODUTO_METALICO_SOLO || possibilidade == ELETRODUTO_NAO_METALICO_SOLO)
+        /*else if (possibilidade == ELETRODUTO_SOLO || possibilidade == ELETRODUTO_METALICO_SOLO || possibilidade == ELETRODUTO_NAO_METALICO_SOLO)
         {
             if (numeroCondutores == UNIPOLAR)
             {
@@ -1794,6 +1861,32 @@ function submitPossibilidadeInstalacao()
     }
 }
 
+function submitCabosSolo()
+{
+    var possibilidade = $("#possibilidadeInstalacao").val();
+    
+    var posicaoCabos = $("#posicaoCabos").val()
+    
+    if (posicaoCabos == "" || posicaoCabos == "0")
+    {
+        alert("Selecione o número de circuitos");
+        return false;
+    }
+    
+    if(isJustapostos())
+    {
+        if (possibilidade == DIRETAMENTE_SOLO)
+        {
+            $("#distanciaEntreCabos").val(NULA);
+        }
+    }
+    
+    $("#quantidadeCircuitos").val(posicaoCabos);
+
+    $("#step_posicionamentoCabo").val("submitFinal");
+    showResistividadeTermica();
+}
+
 function submitPosicionamentoCabos()
 {
     var objPosicionamentoCabo = $("#posicionamentoCabos").val();
@@ -1875,6 +1968,8 @@ function submitPosicionamentoCabos()
                     else if (possibilidadeInstalacao == BANCO_DUTOS_SOLO)
                     {
                         //var url = "bancoDutos.sdf" + params;
+                        $("#step_posicionamentoCabo").val("submitBancoDutos");
+                        showBancoDutos();
                     }
                     else if (possibilidadeInstalacao == CANALETA_FECHADA_SOLO)
                     {
@@ -2043,9 +2138,19 @@ function updateNumeroCircuitos()
     }
 }
 
+function updatePosicaoCabos(formacao)
+{
+    $('#posicaoCabos option[value="'+formacao+'"]').attr({ selected : "selected" });    
+}
+
 function updateInstalacaoCabo(localInstalacao)
 {
     $('#localInstalacao option[value="'+localInstalacao+'"]').attr({ selected : "selected" });
+}
+
+function updateFormacaoBancoDutos(formacao)
+{
+    $('#formacaoBancoDutos option[value="'+formacao+'"]').attr({ selected : "selected" });
 }
 
 function updatePosicionamentoCabo(localInstalacao)

@@ -1,3 +1,56 @@
+function getPosicoesCircuito()
+{
+    $("#posicaoCabos").html("");
+    $("#posicaoCabos").append(new Option("Selecione","0", false, false));
+    
+    $("#posicaoCabos").append(new Option(POSICAO_CABOS[UM_CIRCUITO].description,UM_CIRCUITO, false, false));
+    $("#posicaoCabos").append(new Option(POSICAO_CABOS[DOIS_CIRCUITO].description,DOIS_CIRCUITO, false, false));
+    $("#posicaoCabos").append(new Option(POSICAO_CABOS[TRES_CIRCUITO].description,TRES_CIRCUITO, false, false));
+    
+    if ((isUnipolar() && isTrifolio()) || (isTripolar()))
+    {
+        $("#posicaoCabos").append(new Option(POSICAO_CABOS[QUATRO_CIRCUITO].description,QUATRO_CIRCUITO, false, false));
+    }
+}
+
+function getLarguras()
+{
+    $("#larguraCanaleta").html("");
+    $("#larguraCanaleta").append(new Option("Selecione","0", false, false));
+
+    $("#larguraCanaleta").append(new Option("0,50m","0.5", false, false));
+    $("#larguraCanaleta").append(new Option("0,70m","0.7", false, false));
+    $("#larguraCanaleta").append(new Option("1,00m","1.0", false, false));
+    $("#larguraCanaleta").append(new Option("1,20m","1.2", false, false));
+    $("#larguraCanaleta").append(new Option("1,60m","1.6", false, false));
+}
+
+function getAlturas()
+{
+    $("#alturaCanaleta").html("");
+    $("#alturaCanaleta").append(new Option("Selecione","0", false, false));
+    
+    $("#alturaCanaleta").append(new Option("0,50m","0.5", false, false));
+    $("#alturaCanaleta").append(new Option("0,90m","0.9", false, false));
+    $("#alturaCanaleta").append(new Option("1,20m","1.2", false, false));
+    $("#alturaCanaleta").append(new Option("1,60m","1.6", false, false)); 
+}
+
+function getFormacoes()
+{
+    $("#formacaoBancoDutos").html("");
+    $("#formacaoBancoDutos").append(new Option("Selecione","0", false, false));
+    
+    $("#formacaoBancoDutos").append(new Option(BANCO_DUTOS[_2X2].description,_2X2, false, false));
+    $("#formacaoBancoDutos").append(new Option(BANCO_DUTOS[_2X3].description,_2X3, false, false));
+    $("#formacaoBancoDutos").append(new Option(BANCO_DUTOS[_3X3].description,_3X3, false, false));
+        
+    if (isTripolar() || (!isTripolar() && !isSeparados()))
+    {
+        $("#formacaoBancoDutos").append(new Option(BANCO_DUTOS[_3X4].description,_3X4, false, false));
+    }
+}
+
 function getPosicionamentoEletrodutoAr()
 {
     $("#posicionamentoCabos").html("");

@@ -49,8 +49,6 @@
         
         <input type="hidden" name="aplicacao" id="aplicacao" value="0" />-->
 
-        <input type="hidden" name="posicaoCabosSolo" id="posicaoCabosSolo" value="0" />
-        <input type="hidden" name="formacaoBancoDutos" id="formacaoBancoDutos" value="0" />
         <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
         <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
         <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
@@ -507,38 +505,6 @@
                         </li>
                     </ul>
                 
-                
-                    <!-- ELETRODUTO AR -->
-                    <ul>
-                        <li id="id_eletroduto_ar_espacado" style="display:none;">
-                            <br>
-                            <a href='javascript:updateInstalacaoCabo(FORMACAO_ESPACADA)'> <img
-                                src="img/dimensionamento/eletroduto/espacado.jpg" border="0" />
-                            </a><br>
-                        </li>
-                        
-                        <li id="id_eletroduto_ar_espacado_tripolar" style="display:none;">
-                            <br>
-                            <a href='javascript:updateInstalacaoCabo(FORMACAO_ESPACADA)'> <img
-                                src="img/dimensionamento/eletroduto/espacado_tripolar.jpg" border="0" />
-                            </a><br>
-                        </li>
-                        
-                        <li id="id_eletroduto_ar_justapostos" style="display:none;">
-                            <br>
-                            <a href='javascript:updateInstalacaoCabo(FORMACAO_JUSTAPOSTA)'> <img
-                                src="img/dimensionamento/eletroduto/justapostos.jpg" border="0" />
-                            </a><br>
-                        </li>
-                        
-                        <li id="id_eletroduto_ar_justapostos_tripolar" style="display:none;">
-                            <br>
-                            <a href='javascript:updateInstalacaoCabo(FORMACAO_JUSTAPOSTA)'> <img
-                                src="img/dimensionamento/eletroduto/justapostos_tripolar.jpg" border="0" />
-                            </a><br>
-                        </li>
-                    </ul>
-                    
                     <ul>
                         <li>
                             Selecione:<br>
@@ -744,6 +710,37 @@
                                 <img src="img/dimensionamento/Orientacao_Vertical.jpg" border="0" /></a><br>
                         </li>
                         
+                        <!-- ELETRODUTO AR -->
+                        <ul>
+                            <li id="id_eletroduto_ar_espacado" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicionamentoCabo(FORMACAO_ESPACADA)'> <img
+                                    src="img/dimensionamento/eletroduto/espacado.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_eletroduto_ar_espacado_tripolar" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicionamentoCabo(FORMACAO_ESPACADA)'> <img
+                                    src="img/dimensionamento/eletroduto/espacado_tripolar.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_eletroduto_ar_justapostos" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'> <img
+                                    src="img/dimensionamento/eletroduto/justapostos.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_eletroduto_ar_justapostos_tripolar" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicionamentoCabo(FORMACAO_JUSTAPOSTA)'> <img
+                                    src="img/dimensionamento/eletroduto/justapostos_tripolar.jpg" border="0" />
+                                </a><br>
+                            </li>
+                        </ul>
+                        
                         <!-- OPCOES INSTALACOES -->
                         <li id="id_tripolar_separados_bandeja" style="display:none;">
                             <br>
@@ -884,7 +881,264 @@
                             onclick="orientacaoChange(SEM_FATOR);" checked="checked" /><br>
                             Não Necessita Aplicar Fator de Correção
                             <br>
-                        </li>                        
+                        </li>
+                        
+                        <!-- BANDO DUTOS -->
+                        <ul>
+                            <li id="id_Unipolar_Linear_2x2" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X2)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Linear_2x2.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Linear_2x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Linear_2x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Linear_3x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_3X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Linear_3x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_1_Circuito" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X2)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Trifolio_1_Circuito.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_2x2" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Trifolio_2x2.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_2x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_3X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Trifolio_2x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_3x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_3X4)'> <img
+                                    src="img/dimensionamento/bancoDutos/Unipolar_Trifolio_3x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Trifolio_1_Circuito" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X2)'> <img
+                                    src="img/dimensionamento/bancoDutos/Tripolar_Trifolio_1_Circuito.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Trifolio_2x2" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_2X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Tripolar_Trifolio_2x2.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Trifolio_2x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_3X3)'> <img
+                                    src="img/dimensionamento/bancoDutos/Tripolar_Trifolio_2x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Trifolio_3x3" style="display:none;">
+                                <br>
+                                <a href='javascript:updateFormacaoBancoDutos(_3X4)'> <img
+                                    src="img/dimensionamento/bancoDutos/Tripolar_Trifolio_3x3.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id='li_banco_dutos_variaveis_1' style="display:none;">
+                                <br><br>a = 76cm, b = 48cm, c = 20cm e d = 68cm.<br>
+                            </li>
+                            
+                            <li id='li_banco_dutos_variaveis_2' style="display:none;">
+                                <br><br>a = 76cm, b = 48cm e c = 20cm.<br>
+                            </li>
+                            
+                            <li id='li_numero_circuitos' style="display:none;">
+                                <br><br>Número de circuitos:<br>
+                            </li>
+                            <li id="id_formacao_Banco_Dutos" style="display:none;">
+                                <select id="formacaoBancoDutos" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select><br><br>
+                            </li>
+                        </ul>
+                        
+                        <!-- BANDO DUTOS -->
+                        <ul>
+                            <li id='li_altura_canaleta' style="display:none;">
+                                <br><br>Altura da canaleta (h):<br>
+                            </li>
+                            <li id="id_alturaCanaleta" style="display:none;">
+                                <select id="alturaCanaleta" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select><br><br>
+                            </li>
+                            
+                            <li id='li_largura_canaleta' style="display:none;">
+                                <br><br>Largura da canaleta (l):<br>
+                            </li>
+                            <li id="id_larguraCanaleta" style="display:none;">
+                                <select id="larguraCanaleta" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select><br><br>
+                            </li>
+                            
+                            <li id="id_canaleta" style="display:none;">
+                                <br>
+                                <img src="img/dimensionamento/canaleta/canaleta.jpg" border="0" />
+                                <br>
+                                Verifique se as dimensões informadas da canaleta são compatíveis com a distribuição dos cabos no interior da
+                                mesma, sendo estas de exclusiva responsabilidade do projetista.
+                            </li>
+                        </ul>
+
+                        <!-- CABOS SOLO -->
+                        <ul>
+                            <li id="id_posicaoCabos" style="display:none;">
+                                <select id="posicaoCabos" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select><br><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Separados_1Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(UM_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Separados_1Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Separados_2Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(DOIS_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Separados_2Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Separados_3Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(tresCircuitoID)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Separados_3Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Justapostos_1Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(UM_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Justapostos_1Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Justapostos_2Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(DOIS_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Justapostos_2Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Justapostos_3Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(TRES_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Justapostos_3Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_1Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(UM_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Trifolio_1Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_2Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(DOIS_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Trifolio_2Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_3Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(TRES_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Trifolio_3Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Unipolar_Trifolio_4Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(QUATRO_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Unipolar_Trifolio_4Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Separados_1Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(UM_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Tripolar_Separados_1Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Separados_2Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(DOIS_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Tripolar_Separados_2Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Separados_3Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(TRES_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Tripolar_Separados_3Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id="id_Tripolar_Separados_4Circ" style="display:none;">
+                                <br>
+                                <a href='javascript:updatePosicaoCabos(QUATRO_CIRCUITO)'> <img
+                                    src="img/dimensionamento/enterrado/Tripolar_Separados_4Circ.jpg" border="0" />
+                                </a><br>
+                            </li>
+                            
+                            <li id='li_profundidade' style="display:none;">
+                                <br><br>A profundidade é de<br>
+                            </li>
+                            <li id='li_profundidade_70' style="display:none;">
+                                <br><br>70<br>
+                            </li>
+                            <li id='li_profundidade_90' style="display:none;">
+                                <br><br>90<br>
+                            </li>
+                            
+                            <li id='li_cm_espaco_entre_cabos' style="display:none;">
+                                <br><br>cm e o espaço entre os cabos é<br>
+                            </li>
+                            <li id='li_equivalente_2d' style="display:none;">
+                                <br><br>equivalente a "2d".<br>
+                            </li>
+                            <li id='li_nulo' style="display:none;">
+                                <br><br>nulo.<br>
+                            </li>
+                            <li id='li_de_20cm' style="display:none;">
+                                <br><br>de 20cm.<br>
+                            </li>
+                            
+                        </ul>
                         
                         <li>
                             <br><br>

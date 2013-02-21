@@ -1235,12 +1235,33 @@ $("#specification-popup2-continue").click(function(){
         {
             $("#step_posicionamentoCabo").val("submitFinal");
             submitPossibilidadeCabos();
-        }                                                  
+        }
+        else if(step_posicionamentoCabo == "submitBancoDutos")
+        {
+            $("#step_posicionamentoCabo").val("submitFinal");
+            showResistividadeTermica();
+        }
+        else if(step_posicionamentoCabo == "submitCanaleta")
+        {
+            $("#step_posicionamentoCabo").val("");
+            showPosicionamentoCabos();
+        }
+        else if(step_posicionamentoCabo == "submitCabosSolo")
+        {
+            $("#step_posicionamentoCabo").val("");
+            submitCabosSolo();
+        }
         else if(step_posicionamentoCabo == "submitFinal")
         {
             $("#localInstalacaoDesc").val($('#localInstalacao :selected').html());
             closePopup("possibilidadeCabos-popup");
         }
+    });
+                  
+    $("#localInstalacaoAparente-popup-cancel").click(function()
+    {
+        $("#localInstalacao").val("0");
+        closePopup("possibilidadeCabos-popup");
     });
 
 function myquery2(p1, p2, p3) {

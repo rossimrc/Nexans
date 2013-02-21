@@ -1,9 +1,13 @@
 function showEletrodutoAr()
 {
+    escondeDivs();
+    
     //Posicionamento dos Eletrodutos
     document.getElementById("li_posicionamento_dos_eletrodutos").style.display = "";
     document.getElementById("id_posicionamentoCabos").style.display = "";
     getPosicionamentoEletrodutoAr();
+    
+    alert("Depois getPosicionamentoEletrodutoAr");
     
     if(isUnipolarEletroduoAr())
     {
@@ -22,6 +26,152 @@ function showEletrodutoAr()
     {
         document.getElementById("id_eletroduto_ar_justapostos_tripolar").style.display = "";
     }
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
+function showCabosSolo()
+{
+    escondeDivs();
+    
+    //Número de circuitos
+    document.getElementById("li_numero_circuitos").style.display = "";
+    document.getElementById("id_posicaoCabos").style.display = "";
+    getPosicoesCircuito();
+
+    if(isUnipolar())
+    {
+        if(isSeparados())
+        {
+            document.getElementById("id_Unipolar_Separados_1Circ").style.display = "";
+            document.getElementById("id_Unipolar_Separados_2Circ").style.display = "";
+            document.getElementById("id_Unipolar_Separados_3Circ").style.display = "";
+        }
+        else if(isJustapostos())
+        {
+            document.getElementById("id_Unipolar_Justapostos_1Circ").style.display = "";
+            document.getElementById("id_Unipolar_Justapostos_2Circ").style.display = "";
+            document.getElementById("id_Unipolar_Justapostos_3Circ").style.display = "";
+        }
+        else if(isTrifolio())
+        {
+            document.getElementById("id_Unipolar_Trifolio_1Circ").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_2Circ").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_3Circ").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_4Circ").style.display = "";
+        }
+    }
+    else if(isTripolar())
+    {
+        if(isSeparados())
+        {
+            document.getElementById("id_Tripolar_Separados_1Circ").style.display = "";
+            document.getElementById("id_Tripolar_Separados_2Circ").style.display = "";
+            document.getElementById("id_Tripolar_Separados_3Circ").style.display = "";
+            document.getElementById("id_Tripolar_Separados_4Circ").style.display = "";
+        }
+    }
+    
+    //A profundidade é de
+    document.getElementById("li_profundidade").style.display = "";
+    if(isJustapostos() && !isUnipolar())
+    {
+        //70
+        document.getElementById("li_profundidade_70").style.display = "";
+    }
+    else
+    {
+        //90
+        document.getElementById("li_profundidade_90").style.display = "";
+    }
+    
+    //cm e o espaço entre os cabos é
+    document.getElementById("li_cm_espaco_entre_cabos").style.display = "";
+    if(isDiretamenteEnterrado() && isTripolar())
+    {
+        //equivalente a "2d".
+        document.getElementById("li_equivalente_2d").style.display = "";
+    }
+    else if(isJustapostos())
+    {
+        //nulo.
+        document.getElementById("li_nulo").style.display = "";
+    }
+    else if(isTrifolio())
+    {
+        document.getElementById("li_equivalente_2d").style.display = "";
+    }
+    else if(isTripolar())
+    {
+        //de 20cm.
+        document.getElementById("li_de_20cm").style.display = "";
+    }
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
+function showCanaleta()
+{
+    escondeDivs();
+    
+    //Altura da canaleta (h):
+    document.getElementById("li_altura_canaleta").style.display = "";
+    document.getElementById("id_alturaCanaleta").style.display = "";
+    getAlturas();
+
+    //Largura da canaleta (l):
+    document.getElementById("li_largura_canaleta").style.display = "";
+    document.getElementById("id_larguraCanaleta").style.display = "";
+    getLarguras();
+    
+    document.getElementById("id_canaleta").style.display = "";
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
+function showBancoDutos()
+{
+    escondeDivs();
+    
+    //Número de circuitos
+    document.getElementById("li_numero_circuitos").style.display = "";
+    document.getElementById("id_formacao_Banco_Dutos").style.display = "";
+    getFormacoes();
+    
+    if(!isTripolar())
+    {
+        if(isSeparados())
+        {
+            document.getElementById("id_Unipolar_Linear_2x2").style.display = "";
+            document.getElementById("id_Unipolar_Linear_2x3").style.display = "";
+            document.getElementById("id_Unipolar_Linear_3x3").style.display = "";
+        }
+        else
+        {
+            document.getElementById("id_Unipolar_Trifolio_1_Circuito").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_2x2").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_2x3").style.display = "";
+            document.getElementById("id_Unipolar_Trifolio_3x3").style.display = "";            
+        }
+    }
+    else if(isTripolar())
+    {
+        document.getElementById("id_Tripolar_Trifolio_1_Circuito").style.display = "";
+        document.getElementById("id_Tripolar_Trifolio_2x2").style.display = "";
+        document.getElementById("id_Tripolar_Trifolio_2x3").style.display = "";
+        document.getElementById("id_Tripolar_Trifolio_3x3").style.display = "";
+    }
+    
+    if(!isTripolar() && isSeparados())
+    {
+        document.getElementById("li_banco_dutos_variaveis_1").style.display = "";
+    }
+    else
+    {
+        document.getElementById("li_banco_dutos_variaveis_2").style.display = "";
+    }
+    
+    showPopup("possibilidadeCabos-popup");    
 }
 
 function showPossibilidadeAparente()
