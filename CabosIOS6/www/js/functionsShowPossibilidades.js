@@ -1,3 +1,50 @@
+function showInformacaoCurto()
+{
+    escondeDivs();
+    
+    //Corrente de Curto-Circuito Trifásica do Sistema
+    document.getElementById("li_corrente_curto_circuito").style.display = "";
+    //Tempo de Atuação da Proteção na Condição de Curto-Circuito
+    document.getElementById("li_tempo_atuacao_curto_circuito").style.display = "";
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
+function showFixarNumeroCabos()
+{
+    escondeDivs();
+    
+    //Número de condutores por fase
+    document.getElementById("li_numero_condutores_fase").style.display = "";
+    document.getElementById("id_numeroCabos").style.display = "";
+    $("#numeroCabos").html("");
+    $("#numeroCabos").append(new Option("Selecione","0", false, false));
+    $("#numeroCabos").append(new Option("1","1", false, false));
+    $("#numeroCabos").append(new Option("2","2", false, false));
+    $("#numeroCabos").append(new Option("3","3", false, false));
+    $("#numeroCabos").append(new Option("4","4", false, false));
+    $("#numeroCabos").append(new Option("5","5", false, false));
+    $("#numeroCabos").append(new Option("6","6", false, false));
+    $("#numeroCabos").append(new Option("7","7", false, false));
+    $("#numeroCabos").append(new Option("8","8", false, false));
+    $("#numeroCabos").append(new Option("9","9", false, false));
+    $("#numeroCabos").append(new Option("10","10", false, false));
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
+function showFixarSecao()
+{
+    escondeDivs();
+    
+    //Seção do condutor
+    document.getElementById("li_secao_condutor").style.display = "";
+    document.getElementById("id_secaoCondutor").style.display = "";
+    getSecaoCondutorList();
+    
+    showPopup("possibilidadeCabos-popup");
+}
+
 function showEletrodutoAr()
 {
     escondeDivs();
@@ -432,7 +479,6 @@ function showPosicionamentoCabos()
     }
     else if(isAparenteAr())
     {
-        alert("Entrou isAparenteAr");
         if(isUnipolar())
         {
             document.getElementById("id_unipolar_separado").style.display = "";
@@ -553,7 +599,7 @@ function showResistividadeTermica()
             $("#eletrodutoMetalico").html("");
             $("#eletrodutoMetalico").append(new Option("Selecione","0", false, false));
             
-            $("#eletrodutoMetalico").append(new Option("2","2", false, false));
+            $("#eletrodutoMetalico").append(new Option("Não","2", false, false));
             $('#eletrodutoMetalico option[value="2"]').attr({ selected : "selected" });
         }
     }
@@ -580,8 +626,6 @@ function showOrientacaoCabo()
 
 function showOpcoesInstalacao()
 {
-    alert("Entrou showOpcoesInstalacao");
-    
     escondeDivs();
     
     if(isEletrodutoAparenteAr())
@@ -597,23 +641,18 @@ function showOpcoesInstalacao()
     }
     else
     {
-        alert("Entrou else isEletrodutoAparenteAr");
         if(isUnipolar())
         {
-            alert("Entrou isUnipolar");
             if(isSeparados())
             {
-                alert("Entrou isSeparados");
                 document.getElementById("id_unipolar_separados_bandeja").style.display = "";
             }
             else if(isJustapostos())
             {
-                alert("Entrou isJustapostos");
                 document.getElementById("id_unipolar_justapostos_bandeja").style.display = "";
             }
             else if(isTrifolio())
             {
-                alert("Entrou isTrifolio");
                 document.getElementById("id_unipolar_trifolio_bandeja").style.display = "";
             }
         }
@@ -646,7 +685,6 @@ function showOpcoesInstalacao()
     {
         if(isUnipolar())
         {
-            alert("Entrou isUnipolar li_ternas_bandeja");
             //Número de ternas por bandeja
             document.getElementById("li_ternas_bandeja").style.display = "";
         }
@@ -720,7 +758,6 @@ function showOpcoesInstalacao()
         {
             if(isUnipolar())
             {
-                alert("Entrou isUnipolar li_ternas_bandeja");
                 //Número de ternas por bandeja
                 document.getElementById("li_ternas_bandeja_vertical").style.display = "";
             }
@@ -1282,12 +1319,12 @@ function showPossibilidadeCabos()
             
             if(isEletrodutoMetalico())
             {
-                $("#eletrodutoMetalico").append(new Option("1","1", false, false));
+                $("#eletrodutoMetalico").append(new Option("Sim","1", false, false));
                 $('#eletrodutoMetalico option[value="1"]').attr({ selected : "selected" });
             }
             else
             {
-                $("#eletrodutoMetalico").append(new Option("2","2", false, false));
+                $("#eletrodutoMetalico").append(new Option("Não","2", false, false));
                 $('#eletrodutoMetalico option[value="2"]').attr({ selected : "selected" });
             }
         }

@@ -49,10 +49,14 @@
         
         <input type="hidden" name="aplicacao" id="aplicacao" value="0" />-->
 
+        <input type="hidden" name="secaoCondutorFixado" id="secaoCondutorFixado" value="0" />
         <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
         <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
         <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
         <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
+        <input type="hidden" name="numeroCabosFixado" id="numeroCabosFixado" value="0" />
+        <input type="hidden" name="correnteCurto" id="correnteCurto" value="0" />
+        <input type="hidden" name="tempoAtuacaoProtecao" id="tempoAtuacaoProtecao" value="0" />
         
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
@@ -207,11 +211,11 @@
 							<option selected>Selecione</option>
 						</select><br>
                 	</li>
-                	<li id="div_localInstalacao">
+                	<!--<li id="div_localInstalacao">
 						Local da Instalação:<br>
                     	<input type="text" class="small-select" id="localInstalacaoDesc" readonly="readonly"
                         style="width:200px;" value="" />
-                	</li>
+                	</li>-->
                 	<li>
 						Temperatura Ambiente (Ao Ar/Solo):
 						<select id="temperaturaArSolo" class="small-select">
@@ -221,41 +225,63 @@
 						<br style="clear:both;"/>
 					</li>
 					<li>
-						Comprimento do Circuito:
-						<input class="small-select"/>
+						Comprimento do Circuito:<br>
+						<input type="text" class="small-select" id="comprimentoCircuito" maxlength="7"
+                        style="width:50px;" value="" onkeyup="javascript:validNumber(this);" />
 						<div style="position:relative;float:left;color:black;padding-left:5px;">m</div>
 						<br style="clear:both;"/>
 					</li>
 					<li>
-						Queda de Tensão Máxima:
-						<input class="small-select2"/>
+						Queda de Tensão Máxima:<br>
+						<input type="text" class="small-select" id="quedaTensaoMaxima" maxlength="2"
+                        style="width:50px;" value="" onkeyup="javascript:validNumber(this);" />
 						<div style="position:relative;float:left;color:black;padding-left:5px;">%</div>
 						<div class="inline-faq">?</div>
 						<br style="clear:both;"/>
 					</li>
 					<li>
 						Fator de Potência:<br>
-						<input/>
+						<input type="text" class="small-select" id="fatorPotencia" maxlength="4"
+                        style="width:50px;" value="" onkeyup="javascript:validNumber(this);" />
 					</li>
 					<li>
 						Corrente do Projeto:<br>
-						<input id="correnteProjeto" class="small-select"/>
-						<div style="position:relative;float:left;color:black;padding-left:5px;">A</div>
+						<input type="text" class="small-select" id="correnteProjeto" maxlength="7"
+                        style="width:50px;" value="" onkeyup="javascript:validNumber(this);" />
+						<div style="position:relative;float:left;color:black;padding-left:5px;">[A]</div>
+                        
+                        <br>
+                        <div style="position:relative;float:left;color:black;padding-left:5px;">ou</div>
+                        <br>
 						
 						Potência Aparente:<br>
-						<input id="potenciaAparente" class="small-select2"/>
-						<div style="position:relative;float:left;color:black;padding-left:5px;">kVA</div>
+                        <input type="text" class="small-select" id="potenciaAparente" maxlength="7"
+                        style="width:50px;" value="" onkeyup="javascript:validNumber(this);" />
+						<div style="position:relative;float:left;color:black;padding-left:5px;">[kVA]</div>
 						<br style="clear:both"/>
 					</li>
 					<li>
-						Deseja Fixar a seção do condutor?<input type="checkbox">
+						Deseja Fixar a seção do condutor?<br>
+                    	<select id="fixarSecaoCondutor">
+							<option value="0">Não</option>
+							<option value="1">Sim</option>
+						</select>
 					</li>
 					<li>
-						<span>Deseja Fixar o número de cabos por fase?</span><input type="checkbox">
+						Deseja Fixar o número de cabos por fase?<br>
+                    	<select id="fixarNumeroCabos">
+							<option value="0">Não</option>
+							<option value="1">Sim</option>
+						</select>
 					</li>
 					<li>
-						<span>Possui informações de Curto-Circuito do Sistema?</span><input type="checkbox">
+						Possui informações de Curto-Circuito do Sistema?<br>
+                    	<select id="fixarInformacaoCurto">
+							<option value="0">Não</option>
+							<option value="1">Sim</option>
+						</select>
 					</li>
+
             	</ul>
 				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
 			</div>
@@ -1137,7 +1163,49 @@
                             <li id='li_de_20cm' style="display:none;">
                                 <br><br>de 20cm.<br>
                             </li>
+                        </ul>
+                        
+                        <!-- FIXAR SECAO -->
+                        <ul>
+                            <li id='li_secao_condutor' style="display:none;">
+                                <br><br>Seção do condutor:<br>
+                            </li>
+                            <li id="id_secaoCondutor" style="display:none;">
+                                <select id="secaoCondutor" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select>&nbsp;&nbsp;[mm²]<br><br>
+                            </li>
+                        </ul>
+                        
+                        <!-- FIXAR NUMERO CABOS -->
+                        <ul>
+                            <li id='li_numero_condutores_fase' style="display:none;">
+                                <br><br>Número de condutores por fase:<br>
+                            </li>
+                            <li id="id_numeroCabos" style="display:none;">
+                                <select id="numeroCabos" class="small-select">
+                                    <option value="0">Selecione</option>
+                                </select><br><br>
+                                <label><strong>NOTA:</strong> Para o caso do usuário <strong>fixar previamente o número de condutores por fase - "n"</strong>, a configuração das possibilidades de instalação (método de ref. da instalação) a ser informada nos dados de entrada, <strong><u>ser de um único circuito</u></strong>, pois em caso de optar por mais de um circuito, o sistema irá considerar para cada circuito o total de "n" condutores por fase.</label>
+                                <label>Para determinar o fator  de correção de agrupamento no caso da divisão da corrente de projeto por "n" condutores por fase, o sistema irá automaticamente fazer a distribuição dos condutores por fase considerando o método de instalação escolhido e o número de circuitos informados.</label>
+                            </li>
+                        </ul>
+                        
+                        <!-- INFORMACAO CURTO -->
+                        <ul>
+                            <li id='li_corrente_curto_circuito' style="display:none;">
+                                Corrente de Curto-Circuito Trifásica do Sistema:<br>
+                                <input type="text" name="correnteCurto" id="correnteCurto" class="small-select" maxlength="7"
+                                    style="width:50px;" onkeyup="javascript:validNumber(this);" onchange="return validar1()">&nbsp;&nbsp;[kA]
+                                <br>
+                            </li>
                             
+                            <li id='li_tempo_atuacao_curto_circuito' style="display:none;">
+                                Tempo de Atuação da Proteção na Condição de Curto-Circuito:<br>
+                                <input type="text" name="tempoAtuacao" id="tempoAtuacao" class="small-select" maxlength="6"
+                                    style="width:50px;" onkeyup="javascript:validNumber(this);" onchange="return validar2()">&nbsp;&nbsp;[s]
+                                <br>
+                            </li>
                         </ul>
                         
                         <li>
@@ -1149,6 +1217,14 @@
                     </ul>
 				<!--</div>-->
             </div>
+            
+			<div id="page_resultado_calculo" class="popup">
+				<div class="popup-body">
+					Página do Resultado do Cálculo:<br>
+					<button id="specification-popup2-cancel">cancelar</button>
+					<button id="specification-popup2-continue">continuar</button>
+				</div>
+			</div>
 			
 			<div id="end-popup" class="popup">
 				<div class="popup-body">
@@ -1168,6 +1244,7 @@
         <script type="text/javascript" src="js/beans/simulacao/DimensionamentoBean.js"></script>
         <script type="text/javascript" src="js/functionsPossibilidadeInstalacao.js"></script>
         <script type="text/javascript" src="js/functionsShowPossibilidades.js"></script>
+        <script type="text/javascript" src="js/functionsTabelaProduto.js"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript">
             app.initialize();

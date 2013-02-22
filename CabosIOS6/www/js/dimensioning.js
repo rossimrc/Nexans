@@ -12,7 +12,7 @@ function removeA(arr) {
     return arr;
 }
 
-var pages = ["page-newproject", "page-projectdescription", "page-cabledescription", "page-cableinfo", "page-dimension", "localInstalacaoAparente-popup"];
+var pages = ["page-newproject", "page-projectdescription", "page-cabledescription", "page-cableinfo", "page-dimension", "page_resultado_calculo"];
 var currentPage = 0;
 var db = window.openDatabase("a2", "1.0", "", 200000);
 
@@ -1054,16 +1054,36 @@ $("#caboSelecionado").change(function(){
     caboSelecionadoOnChange();
 });
                   
-$("#possibilidadeInstalacao").change(function(){
-    possibilidadeInstalacaoOnChange();
-});
-                  
 $("#numeroCamadas").change(function(){
     updateNumeroCamadas();
 });
                   
 $("#numeroCircuitos").change(function(){
     updateNumeroCircuitos();
+});
+                  
+$("#possibilidadeInstalacao").change(function(){
+    possibilidadeInstalacaoOnChange();
+});
+
+$("#correnteProjeto").change(function(){
+    correnteProjetoOnChange();
+});
+                  
+$("#potenciaAparente").change(function(){
+    potenciaAparenteOnChange();
+});
+                  
+$("#fixarSecaoCondutor").change(function(){
+    fixarSecaoOnChange();
+});
+                  
+$("#fixarNumeroCabos").change(function(){
+    fixarNumeroCabosOnChange();
+});
+                  
+$("#fixarInformacaoCurto").change(function(){
+    informacaoCurtoCircuitoOnChange();
 });
                   
 react3("#cableConstruction","#cableList","#systemVoltage",myquery3("construcao_do_cabo","tipo_x_tensao_x_construcao"));
@@ -1245,6 +1265,12 @@ $("#specification-popup2-continue").click(function(){
         {
             $("#step_posicionamentoCabo").val("");
             showPosicionamentoCabos();
+        }
+        else if(step_posicionamentoCabo == "submitEletrodutoAr")
+        {
+            $("#step_posicionamentoCabo").val("");
+            showOpcoesInstalacao();
+            //submitPossibilidadeInstalacao();
         }
         else if(step_posicionamentoCabo == "submitCabosSolo")
         {

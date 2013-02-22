@@ -1075,7 +1075,7 @@ function correnteProjetoOnChange()
     if ((!isNaN(corrente)) && (!isNaN(tensao)))
     {
         
-        if (unidade == "V")
+        if (unidade == "1")
         {
             tensao = tensao / 1000;
         }
@@ -1100,7 +1100,7 @@ function potenciaAparenteOnChange()
     if ((!isNaN(potencia)) && (!isNaN(tensao)))
     {
         
-        if (unidade == "V")
+        if (unidade == "1")
         {
             tensao = tensao / 1000;
         }
@@ -1522,11 +1522,11 @@ function escondeDivs()
     closePopup("li_equivalente_2d");
     closePopup("li_nulo");
     closePopup("li_de_20cm");
+    closePopup("li_secao_condutor");
+    closePopup("id_secaoCondutor");
+    closePopup("li_numero_condutores_fase");
+    closePopup("id_numeroCabos");
     /*closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
     closePopup("");
     closePopup("");
     closePopup("");
@@ -1701,7 +1701,8 @@ function possibilidadeInstalacaoOnChange()
         }
         else if (possibilidade == ELETRODUTO_APARENTE_AR || possibilidade == ELETRODUTO_NAO_METALICO_APARENTE_AR || possibilidade == ELETRODUTO_METALICO_APARENTE_AR)
         {
-            //pagina = "eletrodutoAr.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;;
+            //pagina = "eletrodutoAr.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade;
+            $("#step_posicionamentoCabo").val("submitEletrodutoAr");
             showEletrodutoAr();
         }
         else if (possibilidade == BANCO_DUTOS_SOLO) //CONCLUIDO
@@ -1743,19 +1744,21 @@ function possibilidadeInstalacaoOnChange()
             paginaW = 688;
             
         }
-        /*else if (possibilidade == ELETRODUTO_SOLO || possibilidade == ELETRODUTO_METALICO_SOLO || possibilidade == ELETRODUTO_NAO_METALICO_SOLO)
+        else if (possibilidade == ELETRODUTO_SOLO || possibilidade == ELETRODUTO_METALICO_SOLO || possibilidade == ELETRODUTO_NAO_METALICO_SOLO)
         {
             if (numeroCondutores == UNIPOLAR)
             {
-                pagina = url;
+                //pagina = url;
+                showPosicionamentoCabos();
             }
             else
             {
                 $("#tipoInstalacao").val(_3_CABOS);
-                pagina = "possibilidadeCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
-                "&nivelTensao=" + tensao + "&closeWindow=1";
+                //pagina = "possibilidadeCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
+                //"&nivelTensao=" + tensao + "&closeWindow=1";
+                showPossibilidadeCabos();
             }
-        }*/
+        }
     }
     
     /*if (pagina != "")
@@ -1834,7 +1837,6 @@ function submitPossibilidadeInstalacao()
         }
         else if (possibilidade == ELETRODUTO_APARENTE_AR || possibilidade == ELETRODUTO_NAO_METALICO_APARENTE_AR || possibilidade == ELETRODUTO_METALICO_APARENTE_AR)
         {
-            alert("Entrou ELETRODUTO_APARENTE_AR");
             //objForm.action = "opcoesInstalacao.sdf";
             showOpcoesInstalacao();
         }
@@ -1951,17 +1953,14 @@ function submitPosicionamentoCabos()
                         //var url = "opcoesInstalacao.sdf" + params;
                         if (objPosicionamentoCabo == FORMACAO_ESPACADA)
                         {
-                            alert("Entrou FORMACAO_ESPACADA");
                             showOpcoesInstalacao();
                         }
                         else if (objPosicionamentoCabo == FORMACAO_JUSTAPOSTA)
                         {
-                            alert("Entrou FORMACAO_JUSTAPOSTA");
                             showOpcoesInstalacao();
                         }
                         else if (objPosicionamentoCabo == FORMACAO_TRIFOLIO)
                         {
-                            alert("Entrou FORMACAO_TRIFOLIO");
                             showOpcoesInstalacao();
                         }
                     }
@@ -2240,4 +2239,141 @@ function orientacaoChange(selectedValue)
             numeroTernasBandejaVertical.disabled = true;
         }
     }
+}
+
+function checkIsNumber(textBox)
+{
+    var isValid = true;
+    var mikExp = /[$\\@\\\#%\^\&\*\(\)\[\]\+\_\{\}\`\~\=\|]/;
+    var regexp = new RegExp("/\d+/g");
+    var validChars = "0123456789.";
+    
+    
+    var strPass = textBox.value;
+    var strLength = strPass.length;
+    var lchar = strPass.charAt((strLength) - 1);
+    
+    if(validChars.indexOf(lchar) == -1) {
+        var tst = strPass.substring(0, (strLength) - 1);
+        textBox.value = tst;
+        isValid = false;
+    }
+    return isValid;
+}
+
+function validNumber(value)
+{
+    if (!checkIsNumber(value)) {
+        alert("Para representação decimal, utilizar sistema de pontuação (.)");
+    }
+}
+
+// Informação de Curto-Circuito - On Change.
+function informacaoCurtoCircuitoOnChange()
+{
+    var curto = $("#fixarInformacaoCurto").val();
+    
+    if (curto == "1")
+    {
+        //openWindow("dimensionamento/informacaoCurto.sdf", 120, 620);
+        $("#step_posicionamentoCabo").val("submitFinal");
+        showInformacaoCurto();
+    }
+    else if (curto == "0")
+    {
+        $("#correnteCurto").val("0");
+        $("#tempoAtuacaoProtecao").val("0");
+        
+        alert("O sistema irá encontrar a melhor solução para o sistema informado!");
+    }
+}
+
+// Fixar Número de Cabos - On Change.
+function fixarNumeroCabosOnChange()
+{
+    var fixar = $("#fixarNumeroCabos").val();
+    
+    if (fixar == "1")
+    {
+        //openWindow("dimensionamento/fixarNumeroCabos.sdf", 265, 350);
+        $("#step_posicionamentoCabo").val("submitFinal");
+        showFixarNumeroCabos();
+    }
+    else if (fixar == "0")
+    {
+        $("#numeroCabosFixado").val("0");
+        alert("O sistema irá encontrar a melhor solução para o sistema informado!");
+    }
+}
+
+// Fixar Seção - On Change.
+function fixarSecaoOnChange()
+{
+    var fixar = $("#fixarSecaoCondutor").val();
+    var cabo = $("#caboSelecionado").val();
+    var condutores = $("#conductorNumber").val();
+    
+    if (cabo <= 0)
+    {
+        alert("Selecione o cabo.");
+        $("#fixarSecaoCondutor").val("0");
+        return false;
+    }
+    
+    if (condutores <= 0)
+    {
+        alert("Selecione o número de condutores.");
+        $("#fixarSecaoCondutor").val("0");
+        return false;
+    }
+    
+    if (fixar == "1")
+    {
+        //openWindow("dimensionamento/fixarSecao.sdf?familiaCabo=" + cabo + "&numeroCondutores=" + condutores, 120, 420);
+        $("#step_posicionamentoCabo").val("submitFinal");
+        showFixarSecao();
+    }
+    else if (fixar == "0")
+    {
+        $('#fixarSecaoCondutor option[value="0"]').attr({ selected : "selected" });
+        $("#secaoCondutorFixado").val("0");
+        alert("O sistema irá encontrar a melhor solução para o sistema informado!");
+    }
+}
+
+function validar1()
+{
+    var objCorrenteCurto = document.getElementById('correnteCurto');
+    var teste1 = /[0-9]\.[0-9]/;
+    var teste2 = /[0-9]\.[0-9]{2}/;
+    if (DWRUtil.getValue("correnteCurto").search(teste1) == -1)
+    {
+        alert("A corrente de curto-circuito poderá ser composta por até seis números, sendo cinco inteiros e uma casa decimal obrigatória.");
+        objCorrenteCurto.focus();
+        return false;
+    }
+    else if (DWRUtil.getValue("correnteCurto").search(teste2) != -1)
+    {
+        alert("A corrente de curto-circuito poderá ser composta por até seis números, sendo cinco inteiros e uma casa decimal obrigatória.");
+        objCorrenteCurto.focus();
+        return false;
+    }
+    return true;
+}
+
+function validar2()
+{
+    var objTempoAtuacao = document.getElementById('tempoAtuacao');
+    var teste1 = /[0-9]\.[0-9]/;
+    var teste2 = /[0-9]\.[0-9]{4}/;
+    if (DWRUtil.getValue("tempoAtuacao").search(teste1) == -1) {
+        alert("O tempo de atuação poderá ser composto por até cinco números: dois inteiros e três casas decimais, sendo uma casa decimal obrigatória.");
+        objTempoAtuacao.focus();
+        return false;
+    } else if (DWRUtil.getValue("tempoAtuacao").search(teste2) != -1) {
+        alert("O tempo de atuação poderá ser composto por até cinco números: dois inteiros e três casas decimais, sendo uma casa decimal obrigatória.");
+        objTempoAtuacao.focus();
+        return false;
+    }
+    return true;
 }

@@ -1,3 +1,58 @@
+function getSecaoCondutorList()
+{
+    getCabo();
+}
+
+function getCabo()
+{
+	var filtro = "";
+    
+    var tipoProduto = $("#cableList").val();
+    var nivelTensao = $("#systemVoltage").val();
+    var caboSelecionado = $("#caboSelecionado").val();
+    var tensaoIsolamento = $("#isolationVoltage").val();
+    var materialCondutor = $("#cableMaterial").val();
+    var numeroCondutores = $("#conductorNumber").val();
+	
+	//familia = getFamilia(caboSelecionado) + "'";
+    
+    db.transaction(function(tx){
+        tx.executeSql("SELECT * FROM T003_PRODUTOS WHERE NMR_FAMILIA_PRODUTO = ? AND NMR_NUMERO_CONDUTORES_FASE = ? order by COD_PRODUTO ",[getFamilia(caboSelecionado),numeroCondutores],function(tx,rs){
+            
+            var arrayNumeroCondutores = new Array();
+            for(i = 0; i < rs.rows.length; i++)
+            {
+                arrayNumeroCondutores[i] = rs.rows.item(i).NME_SECAO_CONDUTOR_FASE;
+            }
+                
+            arrayNumeroCondutores.sort(function(a,b){return a-b});
+                      
+            for(i=0; i<arrayNumeroCondutores.length; i++)
+            {
+                var lb = document.getElementById("secaoCondutor");
+                var existe = "";
+
+                for (var j=0;j<lb.length;j++)
+                {
+                    var valorSelect = lb.options[j].value;
+                      
+                    //if(valorSelect == rs.rows.item(i).NME_SECAO_CONDUTOR_FASE)
+                    if(valorSelect == arrayNumeroCondutores[i])
+                    {
+                        existe = "true";
+                    }
+                }
+                
+                if(existe == "")
+                {
+                    //$("#secaoCondutor").append(new Option(rs.rows.item(i).NME_SECAO_CONDUTOR_FASE,rs.rows.item(i).NME_SECAO_CONDUTOR_FASE, false, false));
+                    $("#secaoCondutor").append(new Option(arrayNumeroCondutores[i],arrayNumeroCondutores[i], false, false));
+                }
+            }
+        });
+    },errorCB);
+}
+
 function getPosicoesCircuito()
 {
     $("#posicaoCabos").html("");
