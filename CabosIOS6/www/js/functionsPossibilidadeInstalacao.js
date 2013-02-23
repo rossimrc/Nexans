@@ -1624,3 +1624,32 @@ function isExibirSemFator()
 {
     return !isCabosNavais() && !isJustapostos();
 }
+
+function isSecaoCondutorFixada()
+{
+    var fixarSecaoCondutor = $("#fixarSecaoCondutor").val();
+    return (fixarSecaoCondutor == 1);
+}
+
+function getNumeroCircuitos(numeroCabos)
+{
+    var possibilidadeInstalacao = $("#possibilidadeInstalacao").val();
+    var formacaoBancoDutos = $("#formacaoBancoDutos").val();
+    var numeroCabos = $("#numeroCabos").val();
+    var quantidadeCircuitos = $("#quantidadeCircuitos").val();
+    
+    if ((isColunaF() || isColunaG()) && possibilidadeInstalacao == BANCO_DUTOS_SOLO)
+    {
+        return formacaoBancoDutos * numeroCabos;
+    }
+    else
+    {
+        return quantidadeCircuitos * numeroCabos;
+    }
+}
+
+function getOrientacaoFatorCorrecao()
+{
+    var orientacaoFatorCorrecao = $("#orientacaoFatorCorrecao").val();
+    return orientacaoFatorCorrecao;
+}

@@ -1289,6 +1289,13 @@ $("#specification-popup2-continue").click(function(){
         $("#localInstalacao").val("0");
         closePopup("possibilidadeCabos-popup");
     });
+                  
+    //INTERATIVIDADE PARA CALCULO
+    $("#id_Calculo_Dimensionamento").click(function()
+    {
+        alert("Entrou na fase de calculo.");
+        //submitSelecaoDimensionamento();
+    });
 
 function myquery2(p1, p2, p3) {
 	return 'SELECT a.id, a.nome FROM ' + p2 + ' b INNER JOIN ' + p3 + ' r ON b.id = r.id_1 INNER JOIN ' + p1 + ' a ON a.id = r.id_2 WHERE b.id = ?'

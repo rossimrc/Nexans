@@ -2377,3 +2377,8 @@ function validar2()
     }
     return true;
 }
+
+function submitSelecaoDimensionamento()
+{
+    calcular();
+}

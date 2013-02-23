@@ -58,6 +58,10 @@
         <input type="hidden" name="correnteCurto" id="correnteCurto" value="0" />
         <input type="hidden" name="tempoAtuacaoProtecao" id="tempoAtuacaoProtecao" value="0" />
         
+        
+        <!-- VARIAVEIS PARA SIMULACAO (DEVEM SEREM ZERADAS TODA VEZ QUE FOR REALIZADA UMA SIMULAÇÃO) -->
+        <input type="hidden" name="fator" id="fator" value="0" />
+        
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
 			<div id="page-newproject">
@@ -283,7 +287,7 @@
 					</li>
 
             	</ul>
-				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
+				<img id="id_Calculo_Dimensionamento" class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
 			</div>
 			
 			<div id="specification-popup" class="popup">
@@ -1219,6 +1223,9 @@
             </div>
             
 			<div id="page_resultado_calculo" class="popup">
+                <select id="arrayProduto" class="small-select" style="display:none;">
+                    <option value="0">Selecione</option>
+                </select>
 				<div class="popup-body">
 					Página do Resultado do Cálculo:<br>
 					<button id="specification-popup2-cancel">cancelar</button>
@@ -1245,6 +1252,10 @@
         <script type="text/javascript" src="js/functionsPossibilidadeInstalacao.js"></script>
         <script type="text/javascript" src="js/functionsShowPossibilidades.js"></script>
         <script type="text/javascript" src="js/functionsTabelaProduto.js"></script>
+        <!--<script type="text/javascript" src="js/functionsCalculo.js"></script>
+        <script type="text/javascript" src="js/functionsSecaoNominalCondutores.js"></script>
+        <script type="text/javascript" src="js/functionsFatorCorrecao.js"></script>
+        <script type="text/javascript" src="js/functionsFatorAgrupamento.js"></script>-->
 		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript">
             app.initialize();
