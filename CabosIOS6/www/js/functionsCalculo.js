@@ -2,7 +2,9 @@ function calcular()
 {
     var fatorCanaleta = 1;
     try {
+        getCaboDimensionamentoCalculo();
         //init();
+        
         calcularSecaoNominalCondutores();
         /*calcularReatanciaIndutiva();
         calcularQuedaTensao();
