@@ -13,6 +13,7 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setNumeroCondutores($("#conductorNumber").val());
     dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
     dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    dimensionamento.setDistanciaEntreCabos($("#distanciaEntreCabos").val())
     
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
