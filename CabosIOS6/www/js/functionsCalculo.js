@@ -6,9 +6,13 @@ function calcular()
         //init();
         
         calcularSecaoNominalCondutores();
-        calcularReatanciaIndutiva();
-        /*calcularQuedaTensao();
-        calcularCurtoCircuito();
+        
+        //calcularReatanciaIndutiva();
+        calcularReatanciaIndutivaCalculo();
+        
+        //*** VINI TRADUZIR ESSE METODO
+        calcularQuedaTensao();
+        /*calcularCurtoCircuito();
         calcularIntegralJouleCondutor();
         
         if (dimensionamento.isMediaTensao()) {
@@ -79,9 +83,15 @@ function calcularSecaoNominalCondutores()
     getCalculoDebug().logMethodExit();
 }
 
-function calcularReatanciaIndutiva(){
-	alert("calcularReatanciaIndutiva");
-	
-	
-	
+function calcularReatanciaIndutivaCalculo()
+{
+    //reatanciaIndutiva = new ReatanciaIndutiva(dimensionamento, produtoBean);
+    //distanciaEntreCondutores = new DistanciaEntreCondutores(dimensionamento, produtoBean);
+    
+    var s = getSDistanciaEntreCabos();
+    var rp = getRp();
+    var dp = getDp();
+    var xpp = getXpp();
+    
+    calcularReatanciaIndutiva(s, rp, dp, xpp);
 }

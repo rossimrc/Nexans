@@ -18,9 +18,14 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setOrientacaoFatorCorrecao($("#orientacaoFatorCorrecao").val());
     dimensionamento.setResistividadeTermica($("#resistividadeTermica").val());
     dimensionamento.setNumeroBandejas($("#numeroBandejas").val());
+<<<<<<< HEAD
     dimensionamento.setTensaoIsolamento($("#isolationVoltage").val());
 	
 	
+=======
+    dimensionamento.setFrequencia($("#frequency").val());
+    
+>>>>>>> Atualização do repositorio
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
 	dimensionamento.setTemperaturaArSolo($("#temperaturaArSolo").val());
