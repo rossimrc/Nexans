@@ -1,18 +1,14 @@
-function calcularAgrupamento(numeroCabos)
+function calcularAgrupamentoFatorAgrupamento(numeroCabos)
 {
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    var dimensionamento = getDimensionamentoTabelaUtil();
     
     numeroCircuitos = dimensionamento.getNumeroCircuitos(numeroCabos);
-    numeroBandejas = getNumeroBandejas();
+    //numeroBandejas = getNumeroBandejas();
+    var numeroBandejas = dimensionamento.getNumeroBandejas();
     
-    if (getOrientacaoFatorCorrecao() > 0)
+    if (dimensionamento.getOrientacaoFatorCorrecao() > 0)
     {
-        while (numeroCircuitos > getNumeroMaximoCircuitosBandeja())
+        while (numeroCircuitos > getNumeroMaximoCircuitosBandejaFatorAgrupamento())
         {
             numeroBandejas++;
             
@@ -26,7 +22,7 @@ function calcularAgrupamento(numeroCabos)
             numeroCircuitos = numeroCircuitosAux.toFixed(1);
         }
     }
-    else if (numeroCircuitos > getNumeroMaximoCircuitosBandeja())
+    else if (numeroCircuitos > getNumeroMaximoCircuitosBandejaFatorAgrupamento())
     {
         alert("Número de cabos por fase e/ou circuitos agrupados, não previstos nas tabelas padronizadas de fatores de agrupamentos das normas NBR 5410, NBR 14039 ou IEC.");
     }
@@ -34,15 +30,9 @@ function calcularAgrupamento(numeroCabos)
     return numeroCircuitos;
 }
 
-function getNumeroMaximoBandejas()
+function getNumeroMaximoBandejasFatorAgrupamento()
 {
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
-    
+    var dimensionamento = getDimensionamentoTabelaUtil();    
     var max = 0;
     
     if (dimensionamento.isOrientacaoFatorCorrecaoHorizontal())
@@ -71,16 +61,11 @@ function getNumeroMaximoBandejas()
     return max;
 }
 
-function getNumeroMaximoCircuitosBandeja()
+function getNumeroMaximoCircuitosBandejaFatorAgrupamento()
 {
     var max = 0;
     
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    var dimensionamento = getDimensionamentoTabelaUtil();
     
     if (dimensionamento.isOrientacaoFatorCorrecaoHorizontal())
     {
@@ -184,14 +169,9 @@ function getNumeroMaximoCircuitosBandeja()
     return max;
 }
 
-function getNumeroMaximoCircuitos()
+function getNumeroMaximoCircuitosFatorAgrupamento()
 {
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    var dimensionamento = getDimensionamentoTabelaUtil();
     
     return getNumeroMaximoBandejas() * getNumeroMaximoCircuitosBandeja();
 }

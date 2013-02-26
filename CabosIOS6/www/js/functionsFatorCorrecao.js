@@ -1,57 +1,59 @@
-var lastFatorAgrupamento;
+var lastFatorAgrupamento = "";
+var lastFatorResistividade = "";
+var lastFatorTemperatura = "";
 
-function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor)
-{
-    calcularAgrupamento(numeroCabos);
-    var numCircuitos = getNumeroCircuitos();
-    
-    setLastFatorResistividade(getFatorCorrecaoResistividade());
-    lastFatorTemperatura = getFatorCorrecaoTemperatura();
-    
-    if (numCircuitos > 0)
-    {
-        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, fatorAgrupamento.getNumeroBandejas());
-    }
-    else
-    {
-        lastFatorAgrupamento = 1;
-    }
-    
-    return corrente / (getLastFatorResistividade() * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos);
-}
+//function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor)
+//{
+//    calcularAgrupamento(numeroCabos);
+//    var numCircuitos = getNumeroCircuitos();
+//    
+//    setLastFatorResistividade(getFatorCorrecaoResistividade());
+//    lastFatorTemperatura = getFatorCorrecaoTemperatura();
+//    
+//    if (numCircuitos > 0)
+//    {
+//        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, fatorAgrupamento.getNumeroBandejas());
+//    }
+//    else
+//    {
+//        lastFatorAgrupamento = 1;
+//    }
+//    
+//    return corrente / (getLastFatorResistividade() * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos);
+//}
 
 function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanaleta)
 {
-    calcularAgrupamento(numeroCabos);
-    var numCircuitos = getNumeroCircuitos();
+    var numCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
+    //var numCircuitos = getNumeroCircuitos();
     
     setLastFatorResistividade(getFatorCorrecaoResistividade());
     lastFatorTemperatura = getFatorCorrecaoTemperatura();
     
     if (numCircuitos > 0)
     {
-        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, fatorAgrupamento.getNumeroBandejas());
+        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, dimensionamento.getNumeroBandejas());
     }
     else
     {
         lastFatorAgrupamento = 1;
     }
     
-    return corrente / (getLastFatorResistividade() * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
+    return corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
 }
 
 function calcularMaximaCorrenteConducao(corrente, numeroCabos)
 {
-    var numeroCircuitos = calcularAgrupamento(numeroCabos);
+    var numeroCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
     var numCircuitos = $("#numeroCircuitos").val();
     
-    lastFatorResistividade = getFatorCorrecaoResistividade();
-    lastFatorTemperatura = getFatorCorrecaoTemperatura();
-    lastFatorAgrupamento = 1;
+//    lastFatorResistividade = getFatorCorrecaoResistividade();
+//    lastFatorTemperatura = getFatorCorrecaoTemperatura();
+//    lastFatorAgrupamento = 1;
     
     if (numCircuitos > 0)
     {
-        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, fatorAgrupamento.getNumeroBandejas());
+        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, dimensionamento.getNumeroBandejas());
     }
     
     return corrente * lastFatorResistividade * lastFatorTemperatura * numeroCabos * lastFatorAgrupamento;
@@ -59,16 +61,16 @@ function calcularMaximaCorrenteConducao(corrente, numeroCabos)
 
 function calcularMaximaCorrenteConducao(corrente, numeroCabos, fatorCanaleta)
 {
-    var numeroCircuitos = calcularAgrupamento(numeroCabos);
+    var numeroCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
     var numCircuitos = $("#numeroCircuitos").val();
     
-    lastFatorResistividade = getFatorCorrecaoResistividade();
-    lastFatorTemperatura = getFatorCorrecaoTemperatura();
-    lastFatorAgrupamento = 1;
+//    lastFatorResistividade = getFatorCorrecaoResistividade();
+//    lastFatorTemperatura = getFatorCorrecaoTemperatura();
+//    lastFatorAgrupamento = 1;
     
     if (numCircuitos > 0)
     {
-        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, fatorAgrupamento.getNumeroBandejas());
+        lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, dimensionamento.getNumeroBandejas());
     }
     
     return corrente * lastFatorResistividade * lastFatorTemperatura * numeroCabos * lastFatorAgrupamento * fatorCanaleta;
@@ -509,6 +511,181 @@ function getFatorCorrecaoAgrupamento(numeroCircuitos, numeroBandejas)
     return fator;
 }
 
+function calcularFatorCorrecaoCanaleta(correnteCorrigida, rca, numeroCabos)
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var fator = 1;
+    
+    if (dimensionamento.getNumeroCircuitos(numeroCabos) > 1)
+    {
+        var nCond = 3;
+        
+        var oc = dimensionamento.getTemperaturaMaximaCondutor();
+        var oa = dimensionamento.getTemperaturaArSolo(); // Temperatura
+        // ambiente.
+        var perimetro = (2 * dimensionamento.getAlturaCanaleta()) + dimensionamento.getLarguraCanaleta();
+        var w = rca * Math.pow(correnteCorrigida, 2) * dimensionamento.getNumeroCircuitos(nCond);
+        
+        if (dimensionamento.isMediaTensao())
+        {
+            w = w * 1.02;
+        }
+        
+        var dt = Math.floor((w / (3 * perimetro)) * Math.pow(10, -3));
+        fator = Math.sqrt((oc - oa - dt) / (oc - oa));
+    }
+    
+    fator = Math.floor(fator * 100) / 100;
+    
+    return fator;
+}
+
+function getFatorCorrecaoResistividade()
+{
+    
+    //getDebug().logMethodEnter("getFatorCorrecaoResistividade");
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var fator = 1;
+    
+    if (dimensionamento.isCabosEnergia())
+    {
+        if (dimensionamento.getResistividadeTermica() > 0 && dimensionamento.getResistividadeTermica() != _2_5)
+        {
+            if (dimensionamento.isBaixaTensao())
+            {
+                //Tabela41 tabela41 = new Tabela41();
+                //getDebug().logVariable("Tabela", "tabela41");
+                //fator = tabela41.getFatorCorrecao(dimensionamento.getResistividadeTermica());
+                
+                fator = getFatorCorrecaoTabela41(dimensionamento.getResistividadeTermica());
+            }
+            else if (dimensionamento.isMediaTensao())
+            {
+                //Tabela33 tabela33 = new Tabela33();
+                //getDebug().logVariable("Tabela", "tabela33");
+                //fator = tabela33.getFatorCorrecao(dimensionamento);
+                fator = getFatorCorrecaoTabela33();
+            }
+        }
+    }
+    
+    //getDebug().logVariable("fator", fator);
+    //getDebug().logMethodExit();
+    return fator;
+}
+
+function getFatorCorrecaoTabela33()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var fator = 0;
+    var metodo = "";
+    
+    if (dimensionamento.isColunaF() || dimensionamento.isColunaG())
+    {
+        metodo = "F e G";
+    }
+    else if (dimensionamento.isColunaH() || dimensionamento.isColunaI())
+    {
+        metodo = "H e I";
+    }
+    
+    //Table17Bean bean = getByID(metodo);
+    db.transaction(function(tx){
+        tx.executeSql("SELECT * FROM TAB_AUXILIAR_17 WHERE NME_RESISTIVIDADE = ? ",[metodo],function(tx,rs){
+
+            if(rs.rows.length >0)
+            {
+                if (dimensionamento.getResistividadeTermica() == _1)
+                {
+                    //fator = bean.getValor1();
+                      fator = rs.rows.item(0).VLR_1;
+                }
+                else if (dimensionamento.getResistividadeTermica() == _1_5)
+                {
+                    //fator = bean.getValor15();
+                      fator = rs.rows.item(0).VLR_1_5;
+                }
+                else if (dimensionamento.getResistividadeTermica() == _2)
+                {
+                    //fator = bean.getValor2();
+                      fator = rs.rows.item(0).VLR_2;
+                }
+                else if (dimensionamento.getResistividadeTermica() == _3)
+                {
+                    //fator = bean.getValor3();
+                      fator = rs.rows.item(0).VLR_3;
+                }
+            }
+            //return fator;
+            $("#fator").val(fator);
+        });
+    },errorCB);
+    
+    return $("#fator").val();
+}
+
+function getFatorCorrecaoTabela41(resistividadeTermica)
+{
+    var fator = 0;
+    
+//    List<Table06Bean> list;
+//    try {
+//        list = dao.getByResistividade(getResistividade(resistividadeTermica));
+//        
+//    } catch (SDFDAOException e) {
+//        getLogger().error(e);
+//        throw new SDFBusinessException("Erro ao carregar os dados.", e);
+//    }
+//    
+//    if (list.size() > 0) {
+//        fator = list.get(0).getFatorCorrecao();
+//    }
+    var resistividade = getResistividadeTabela41(resistividadeTermica);
+    
+    db.transaction(function(tx){
+        tx.executeSql("SELECT * FROM TAB_AUXILIAR_06 WHERE VLR_RESISTIVIDADE_TERMICA = ? ",[resistividade],function(tx,rs){
+
+            if(rs.rows.length >0)
+            {
+                fator = rs.rows.item(0).VLR_FATOR_CORRECAO;
+            }
+    
+            //return fator;
+            $("#fator").val(fator);
+        });
+    },errorCB);
+    
+    return $("#fator").val();
+}
+
+function getResistividadeTabela41(opcao)
+{
+    var resistividade = 0;
+    
+    if (opcao == _1)
+    {
+        resistividade = "1";
+    }
+    else if (opcao == _1_5)
+    {
+        resistividade = "1.5f";
+    }
+    else if (opcao == _2)
+    {
+        resistividade = "2";
+    }
+    else if (opcao == _3)
+    {
+        resistividade = "3";
+    }
+    else if (opcao == _2_5)
+    {
+        resistividade = "2.5f";
+    }
+    
+    return resistividade;
+}
+
 function getFatorAgrupamentoNavalFatorCorrecao(numeroCircuitos, numeroBandejas)
 {
     var dimensionamento = getDimensionamentoTabelaUtil();
@@ -723,7 +900,7 @@ function getFormaAgrupamentoTable12()
     }
     else if (dimensionamento.isColunaE() || dimensionamento.isColunaF())
     {
-        if (dimensionamento.getLocalInstalacao() == LocalInstalacao.BANDEJA_PERFURADA.getValue())
+        if (dimensionamento.getLocalInstalacao() == BANDEJA_PERFURADA)
         {
             forma = "Camada única em bandeja perfurada";
             
@@ -1130,7 +1307,7 @@ function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
                         //fator = bean.getValor23();
                         fator = rs.rows.item(0).VLR_2X3;
                     }
-                    else if (numeroCircuitos == BancoDutos._3X3.getValue())
+                    else if (numeroCircuitos == _3X3)
                     {
                         //fator = bean.getValor33();
                         fator = rs.rows.item(0).VLR_3X3;

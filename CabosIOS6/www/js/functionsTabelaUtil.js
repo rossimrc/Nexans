@@ -16,6 +16,8 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setDistanciaEntreCabos($("#distanciaEntreCabos").val());
     dimensionamento.setTipoInstalacao($("#tipoInstalacao").val());
     dimensionamento.setOrientacaoFatorCorrecao($("#orientacaoFatorCorrecao").val());
+    dimensionamento.setResistividadeTermica($("#resistividadeTermica").val());
+    dimensionamento.setNumeroBandejas($("#numeroBandejas").val());
     
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
