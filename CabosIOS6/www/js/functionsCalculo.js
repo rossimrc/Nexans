@@ -50,7 +50,7 @@ function calcularSecaoNominalCondutores()
     
     // Calcula fator de canaleta.
     if (dimensionamento.isMediaTensao() &&
-        (dimensionamento.getPossibilidadeInstalacao() == PossibilidadeInstalacao.CANALETA_FECHADA_SOLO.getValue())) {
+        (dimensionamento.getPossibilidadeInstalacao() == CANALETA_FECHADA_SOLO)) {
         
         fatorCanaleta = fatorCorrecao.calcularFatorCorrecaoCanaleta(dimensionamento, dimensionamento.getCorrenteProjeto(),
                                                                     secaoNominal.getRca(), secaoNominal.getNumeroCabos());

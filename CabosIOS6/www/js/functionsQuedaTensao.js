@@ -1,3 +1,4 @@
+var dV = 0;
 function calcularQuedaTensao(valorSc, i, rca, xL)
 {
     //getDebug().logMethodEnter("calcularQuedaTensao");
@@ -23,4 +24,26 @@ function calcularQuedaTensao(valorSc, i, rca, xL)
     
     //getDebug().logVariable("dV", dV);
     //getDebug().logMethodExit();
+}
+function calcularBifasico(i, rca, xL, lC, cosFi, v)
+{
+    dV = (200 * i * lC * ((rca * cosFi) + (xL * getSenFi(cosFi)))) / v;
+}
+
+function calcularTrifasico(i, rca, xL, lC, cosFi, v)
+{
+    dV = (173.2 * i * lC * ((rca * cosFi) + (xL * getSenFi(cosFi)))) / v;
+}
+
+function getSenFi(cosFi)
+{
+    return Math.sqrt(1 - Math.pow(cosFi, 2));
+}
+
+/**
+ * @return  the dV
+ */
+function getDV()
+{
+    return dV;
 }
