@@ -20,6 +20,7 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setNumeroBandejas($("#numeroBandejas").val());
     dimensionamento.setTensaoIsolamento($("#isolationVoltage").val());
     dimensionamento.setFrequencia($("#frequency").val());
+	dimensionamento.setEletrodutoMetalico($("#eletrodutoMetalico").val());
 
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
@@ -1683,4 +1684,53 @@ function getNomeColunaLinhaNaval(dimensionamento) {
 		}
 	}
 	return coluna;
+}
+
+function getCoeficienteTemperaturaTabelaUtil(dimensionamento) {
+	var coeficiente = 0;
+	
+	if (dimensionamento.isCobre()) {
+		coeficiente = 0.00393D;
+	} else if (dimensionamento.isAluminio()) {
+		coeficiente = 0.00403D;
+	}
+	
+	return coeficiente;
+}
+
+function getResistividadeCondutorTabelaUtil(dimensionamento){
+	var resistividade = 0;
+	
+	if (dimensionamento.isCobre()) {
+		resistividade = 0.017241D;
+	} else if (dimensionamento.isAluminio()) {
+		resistividade = 0.028264D;
+	}
+	
+	return resistividade;
+	
+}
+
+function getTemperaturaOpBlindagemTabelaUtil(dimensionamento) {
+	var temperatura = 0;
+	
+	// TODO Verificar se existe a necessidade de verificar as outras
+	// temperaturas..
+	
+	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+	if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "EPR") {
+		if (dimensionamento.isTemperaturaMaximaCondutor90()) {
+			temperatura = 85;
+		}
+	} else if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "XLPE") {
+		if (dimensionamento.isTemperaturaMaximaCondutor90()) {
+			temperatura = 80;
+		}
+	} else if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "PVC") {
+		if (dimensionamento.isTemperaturaMaximaCondutor70()) {
+			temperatura = 65;
+		}
+	}
+	
+	return temperatura;
 }
