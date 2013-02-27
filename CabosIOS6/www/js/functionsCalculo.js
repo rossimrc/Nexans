@@ -21,7 +21,7 @@ function calcular()
         calcularReatanciaIndutivaCalculo();
         
         calcularQuedaTensao();
-        //calcularCurtoCircuito();
+        calcularCurtoCircuito();
         calcularIntegralJouleCondutor(getSC(),getKbb());
         
         if (dimensionamento.isMediaTensao()){
@@ -168,4 +168,18 @@ function getSecaoMinimaCalculo(dimensionamento) {
 	}
 	
 	return secao;
+}
+
+function calcularCurtoCircuito(){
+	
+	calcularCriterioCurto(getSC());
+	
+	if (getSc() > getSC()) {
+		setSC(getSc());
+		corrente = getIcc();
+		
+		//fatorCorrecao.setSecao(secaoNominal.getSC());
+		corrente = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
+		criterioDimensionamento = 1;
+	}
 }

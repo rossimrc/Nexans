@@ -1301,37 +1301,37 @@ function buscarSecaoAcimaTabelaUtil(secao){
 			if (temperatura == _70C) {
 				if (isTabela36(dimensionamento)) {
 					//getDebug().logVariable("Tabela", "tabela36");
-					secao = getMaiorSecaoTable04Base("36", dimensionamento, secao);
+					secao = getMaiorSecaoTable04Base("36", dimensionamento, secao, true);
 				} else if (isTabela38(dimensionamento)) {
 					//getDebug().logVariable("Tabela", "tabela38");
-					secao = getMaiorSecaoTable05Base("38", dimensionamento, secao);
+					secao = getMaiorSecaoTable05Base("38", dimensionamento, secao, true);
 				}
 			} else if (temperatura == _90C) {
 				if (isTabela37(dimensionamento)) {
 					//getDebug().logVariable("Tabela", "tabela37");
-					secao = getMaiorSecaoTable04Base("37", dimensionamento, secao);
+					secao = getMaiorSecaoTable04Base("37", dimensionamento, secao, true);
 				} else if (isTabela39(dimensionamento)) {
 					//getDebug().logVariable("Tabela", "tabela39");
-					secao = getMaiorSecaoTable05Base("39", dimensionamento, secao);
+					secao = getMaiorSecaoTable05Base("39", dimensionamento, secao, true);
 				}
 			}
 		} else if (dimensionamento.isMediaTensao()) {
 			if (isTabela28(dimensionamento)) {
 				//getDebug().logVariable("Tabela", "tabela28");
-				secao = getMaiorSecaoTable10Base("28", dimensionamento, secao);
+				secao = getMaiorSecaoTable10Base("28", dimensionamento, secao, true);
 			} else if (isTabela29(dimensionamento)) {
 				//getDebug().logVariable("Tabela", "tabela29");
-				secao = getMaiorSecaoTable10Base("29", dimensionamento, secao);
+				secao = getMaiorSecaoTable10Base("29", dimensionamento, secao, true);
 			} else if (isTabela30(dimensionamento)) {
 				//getDebug().logVariable("Tabela", "tabela30");
-				secao = getMaiorSecaoTable10Base("30", dimensionamento, secao);
+				secao = getMaiorSecaoTable10Base("30", dimensionamento, secao, true);
 			} else if (isTabela31(dimensionamento)) {
 				//getDebug().logVariable("Tabela", "tabela31");
-				secao = getMaiorSecaoTable10Base("31", dimensionamento, secao);
+				secao = getMaiorSecaoTable10Base("31", dimensionamento, secao, true);
 			}
 		}
 	} else if (dimensionamento.isCabosNavais()) {
-		secao = getMaiorSecaoLinhaNaval(dimensionamento, secao);
+		secao = getMaiorSecaoLinhaNaval(dimensionamento, secao, true);
 	}
 	
 	if (oldSecao == secao) {
@@ -1344,25 +1344,38 @@ function buscarSecaoAcimaTabelaUtil(secao){
 	return secao;
 }
 
-function getMaiorSecaoTable04Base(numeroTabela, dimensionamento, secao){
+function getMaiorSecaoTable04Base(numeroTabela, dimensionamento, secao, maior){
 	var secaoEncontrada = 0;
 	$("#sessao").val(secaoEncontrada);
 	
 	var nomeTabela = getNomeTabelaTable04Base(numeroTabela);
 	
+	var sql = "SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ?";
+	if(maior){
+		sql += " AND NMR_SECAO > ?";
+	}else{
+		sql += " AND NMR_SECAO = ?";
+	}
+	
 	db.transaction(function(tx){
-				   tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+				   tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
 			if(rs.rows.length >0){
-				var minSecao = Number.MAX_VALUE;
+				
+				if(maior){
 								 
-				for(var i = 0; i < rs.rows.length; i++){
-					if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-						minSecao = rs.rows.item(i)["NMR_SECAO"];
+					var minSecao = Number.MAX_VALUE;
+								 
+					for(var i = 0; i < rs.rows.length; i++){
+						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
+							minSecao = rs.rows.item(i)["NMR_SECAO"];
+						}
 					}
-				}
 								 
-				secaoEncontrada = minSecao;
+					secaoEncontrada = minSecao;
+				}else{
+					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
+				}
 			}
 			
 			$("#sessao").val(secaoEncontrada);
@@ -1373,25 +1386,37 @@ function getMaiorSecaoTable04Base(numeroTabela, dimensionamento, secao){
 	
 }
 
-function getMaiorSecaoTable05Base(numeroTabela, dimensionamento, secao){
+function getMaiorSecaoTable05Base(numeroTabela, dimensionamento, secao, maior){
 	var secaoEncontrada = 0;
 	$("#sessao").val(secaoEncontrada);
 	
 	var nomeTabela = getNomeTabelaTable05Base(numeroTabela);
 	
+	var sql = "SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ?";
+	if(maior){
+		sql += " AND NMR_SECAO > ?";
+	}else{
+		sql += " AND NMR_SECAO = ?";
+	}
+	
+	
 	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
 			if(rs.rows.length >0){
-				var minSecao = Number.MAX_VALUE;
-								 
-				for(var i = 0; i < rs.rows.length; i++){
-					if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-						minSecao = rs.rows.item(i)["NMR_SECAO"];
+				if(maior){
+					var minSecao = Number.MAX_VALUE;
+					  
+					for(var i = 0; i < rs.rows.length; i++){
+						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
+							minSecao = rs.rows.item(i)["NMR_SECAO"];
+						}
 					}
+					  
+					secaoEncontrada = minSecao;
+				}else{
+					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
 				}
-								 
-				secaoEncontrada = minSecao;
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
@@ -1402,25 +1427,36 @@ function getMaiorSecaoTable05Base(numeroTabela, dimensionamento, secao){
 	
 }
 
-function getMaiorSecaoTable10Base(numeroTabela, dimensionamento, secao){
+function getMaiorSecaoTable10Base(numeroTabela, dimensionamento, secao, maior){
 	var secaoEncontrada = 0;
 	$("#sessao").val(secaoEncontrada);
 	
 	var nomeTabela = getNomeTabelaTable10Base(numeroTabela, dimensionamento.getTensaoIsolamento());
 	
+	var sql = "SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ?";
+	if(maior){
+		sql += " AND NMR_SECAO > ?";
+	}else{
+		sql += " AND NMR_SECAO = ?";
+	}
+	
 	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
 			if(rs.rows.length >0){
-				var minSecao = Number.MAX_VALUE;
-								 
-				for(var i = 0; i < rs.rows.length; i++){
-					if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-						minSecao = rs.rows.item(i)["NMR_SECAO"];
+				if(maior){
+					var minSecao = Number.MAX_VALUE;
+					  
+					for(var i = 0; i < rs.rows.length; i++){
+						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
+							minSecao = rs.rows.item(i)["NMR_SECAO"];
+						}
 					}
+					  
+					secaoEncontrada = minSecao;
+				}else{
+					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
 				}
-								 
-				secaoEncontrada = minSecao;
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
@@ -1431,25 +1467,36 @@ function getMaiorSecaoTable10Base(numeroTabela, dimensionamento, secao){
 	
 }
 
-function getMaiorSecaoLinhaNaval(dimensionamento, secao){
+function getMaiorSecaoLinhaNaval(dimensionamento, secao, maior){
 	var secaoEncontrada = 0;
 	$("#sessao").val(secaoEncontrada);
 	
 	var nomeTabela = getNomeTabelaLinhaNaval(dimensionamento.getTemperaturaMaximaCondutor());
 	
+	var sql = "SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ?";
+	if(maior){
+		sql += " AND NMR_SECAO > ?";
+	}else{
+		sql += " AND NMR_SECAO = ?";
+	}
+	
 	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
 			if(rs.rows.length >0){
-				var minSecao = Number.MAX_VALUE;
-								 
-				for(var i = 0; i < rs.rows.length; i++){
-					if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-					  minSecao = rs.rows.item(i)["NMR_SECAO"];
+				if(maior){
+					var minSecao = Number.MAX_VALUE;
+					  
+					for(var i = 0; i < rs.rows.length; i++){
+						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
+							minSecao = rs.rows.item(i)["NMR_SECAO"];
+						}
 					}
+					  
+					secaoEncontrada = minSecao;
+				}else{
+					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
 				}
-								 
-				secaoEncontrada = minSecao;
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
@@ -1459,8 +1506,6 @@ function getMaiorSecaoLinhaNaval(dimensionamento, secao){
 	return $("#sessao").val();
 	
 }
-
-
 
 function buscarSecaoTabelaUtil(corrente, minimaSecao, maximaSecao){
 	
@@ -1733,4 +1778,56 @@ function getTemperaturaOpBlindagemTabelaUtil(dimensionamento) {
 	}
 	
 	return temperatura;
+}
+
+
+function isSecaoPadronizada(secao){
+	var dimensionamento = getDimensionamentoTabelaUtil();
+	var isPadronizada = false;
+	var temperatura = dimensionamento.getTemperaturaMaximaCondutor();
+	var secao = 0;
+	
+	if (dimensionamento.isCabosEnergia()) {
+		if (dimensionamento.isBaixaTensao()) {
+			if (temperatura == _70C) {
+				if (isTabela36(dimensionamento)) {
+					//getDebug().logVariable("Tabela", "tabela36");
+					secao = getMaiorSecaoTable04Base("36", dimensionamento, secao, false);
+				} else if (isTabela38(dimensionamento)) {
+					//getDebug().logVariable("Tabela", "tabela38");
+					secao = getMaiorSecaoTable05Base("38", dimensionamento, secao, false);
+				}
+			} else if (temperatura == _90C) {
+				if (isTabela37(dimensionamento)) {
+					//getDebug().logVariable("Tabela", "tabela37");
+					secao = getMaiorSecaoTable04Base("37", dimensionamento, secao, false);
+				} else if (isTabela39(dimensionamento)) {
+					//getDebug().logVariable("Tabela", "tabela39");
+					secao = getMaiorSecaoTable05Base("39", dimensionamento, secao, false);
+				}
+			}
+		} else if (dimensionamento.isMediaTensao()) {
+			if (isTabela28(dimensionamento)) {
+				//getDebug().logVariable("Tabela", "tabela28");
+				secao = getMaiorSecaoTable10Base("28", dimensionamento, secao, false);
+			} else if (isTabela29(dimensionamento)) {
+				//getDebug().logVariable("Tabela", "tabela29");
+				secao = getMaiorSecaoTable10Base("29", dimensionamento, secao, false);
+			} else if (isTabela30(dimensionamento)) {
+				//getDebug().logVariable("Tabela", "tabela30");
+				secao = getMaiorSecaoTable10Base("30", dimensionamento, secao, false);
+			} else if (isTabela31(dimensionamento)) {
+				//getDebug().logVariable("Tabela", "tabela31");
+				secao = getMaiorSecaoTable10Base("31", dimensionamento, secao, false);
+			}
+		}
+	} else if (dimensionamento.isCabosNavais()) {
+		secao = getMaiorSecaoLinhaNaval(dimensionamento, secao, false);
+	}
+	
+	if (secao > 0) {
+		isPadronizada = true;
+	}
+	
+	return isPadronizada;
 }
