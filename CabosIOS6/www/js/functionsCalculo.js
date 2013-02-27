@@ -29,7 +29,7 @@ function calcular()
             calcularIntegralJouleBlindagem(getSb(), getKbb());
         }
         
-        //calcularImpedanciaSequenciaPosNeg();
+        calcularImpedanciaSequenciaPosNeg(getRca(), getXL());
         calcularReatanciaCapacitiva();
         
         if (dimensionamento.isMediaTensao() && dimensionamento.isCobre() && dimensionamento.isCabosEnergia()) {
