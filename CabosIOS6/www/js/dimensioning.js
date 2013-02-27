@@ -1170,10 +1170,10 @@ $("#specification-popup-continue").click(function(){
 	var cableConstruction = $("#cableConstruction").val();
 	var cableFirePerformance = $("#cableFirePerformance").val();
 	
-	if(cableConstruction == 0 || cableFirePerformance == 0) {
-		navigator.notification.alert("Escolha todos os campos",null,"");
-		return;
-	}
+//	if(cableConstruction == 0 || cableFirePerformance == 0) {
+//		navigator.notification.alert("Escolha todos os campos",null,"");
+//		return;
+//	}
                                          
     closePopup("specification-popup");
 });

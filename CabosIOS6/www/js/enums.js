@@ -50,9 +50,9 @@ MEDIA = 2;
 MEDIA_NAVAL = 3;
 /////////////////////
 NIVEL_TENSAO = {
-	1 : {description : "Baixa Tenso at 1kV"},
-    2 : {description : "Mdia Tenso de 1kV at 35kV"},
-    3 : {description : "Mdia Tenso de 1kV at 20kV"}
+	1 : {description : "Baixa Tensão até 1kV"},
+    2 : {description : "Média Tensão de 1kV até 35kV"},
+    3 : {description : "Média Tensão de 1kV até 20kV"}
 };
 
 /////////////////////

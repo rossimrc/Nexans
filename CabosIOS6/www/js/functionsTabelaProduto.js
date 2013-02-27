@@ -1,3 +1,69 @@
+TIPO_MATERIAL_ISOLACAO_PE = "PE";
+TIPO_MATERIAL_ISOLACAO_EPR = "EPR";
+TIPO_MATERIAL_ISOLACAO_PVC = "PVC";
+TIPO_MATERIAL_ISOLACAO_XLP = "XLP";
+TIPO_MATERIAL_ISOLACAO_XLPE = "XLPE";
+
+/**
+ * Verifica se o material da isolaÁ„o È EPR.
+ * @return valor booleano
+ */
+function isMaterialIsolacaoEPR()
+{
+    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_EPR;
+}
+
+/**
+ * Verifica se o material da isolaÁ„o È XLPE.
+ * @return valor booleano
+ */
+function isMaterialIsolacaoXLPE()
+{
+    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_XLPE || tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_XLP;
+}
+
+/**
+ * Verifica se o material da isolaÁ„o È PVC.
+ * @return valor booleano
+ */
+function isMaterialIsolacaoPVC()
+{
+    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_PVC;
+}
+
+/**
+ * Verifica se o material da isolaÁ„o È XLP.
+ * @return valor booleano
+ */
+function isMaterialIsolacaoXLP()
+{
+    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    return tipoMaterialIsolacao ==  TIPO_MATERIAL_ISOLACAO_XLP;
+}
+
+/**
+ * Verifica se o material da isolaÁ„o È PE.
+ * @return valor booleano
+ */
+function isMaterialIsolacaoPE()
+{
+    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_PE;
+}
+
 function getCaboDimensionamentoCalculo()
 {
     

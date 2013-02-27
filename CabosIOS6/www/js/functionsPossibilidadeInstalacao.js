@@ -1039,7 +1039,7 @@ function getTensaoIsolamento(tipoProduto, nivelTensao, tensaoServico, numeroCond
         {
             $("#isolationVoltage").append(new Option(TENSAO_ISOLAMENTO[_06KV_1KV].description,_06KV_1KV, false, false));
         }
-        else if (nivelTensao == MEDIA)
+        else if (nivelTensao == MEDIA || nivelTensao == MEDIA_NAVAL)
         {
             if (tensaoServico >= 1 && tensaoServico <= 6)
             {
@@ -1652,4 +1652,10 @@ function getOrientacaoFatorCorrecao()
 {
     var orientacaoFatorCorrecao = $("#orientacaoFatorCorrecao").val();
     return orientacaoFatorCorrecao;
+}
+
+function isBaixaTensao()
+{
+    var nivelTensao = $("#systemVoltage").val();
+    return nivelTensao == BAIXA;
 }

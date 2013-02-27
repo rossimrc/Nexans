@@ -851,8 +851,9 @@ function updateCabosNavais()
         {
             if (nivelTensao > 0)
             {
-                showPopup("specification-popup");
-                $("#cableConstruction").focus();
+                showDeterminacaoCaboNaval();
+                //showPopup("specification-popup");
+                //$("#cableConstruction").focus();
             }
             
             $("specification-popup-btn").show();
@@ -1363,7 +1364,7 @@ function getTiposCabo(nivelTensao)
         $("#cableConstruction").append(new Option(CABOSNAVAIS[CABO_ARMADO_ACO].description,CABO_ARMADO_ACO, false, false));
         $("#cableConstruction").append(new Option(CABOSNAVAIS[CABO_NAO_ARMADO].description,CABO_NAO_ARMADO, false, false));
     }
-    else if (nivelTensao == MEDIA)
+    else if (nivelTensao == MEDIA || nivelTensao == MEDIA_NAVAL)
     {
         $("#cableConstruction").append(new Option(CABOSNAVAIS[ISOLACAO_HF_XLPE].description,ISOLACAO_HF_XLPE, false, false));
         $("#cableConstruction").append(new Option(CABOSNAVAIS[ISOLACAO_HF_HEPR].description,ISOLACAO_HF_HEPR, false, false));
@@ -1526,12 +1527,12 @@ function escondeDivs()
     closePopup("id_secaoCondutor");
     closePopup("li_numero_condutores_fase");
     closePopup("id_numeroCabos");
+    closePopup("li_naval_protecao_metalica");
+    closePopup("li_naval_material_isolacao");
+    closePopup("id_tipoCabo");
+    closePopup("li_naval_baixa_desempenho_incendio");
+    closePopup("id_aplicacao");
     /*closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
-    closePopup("");
     closePopup("");
     closePopup("");
     closePopup("");

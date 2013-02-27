@@ -294,16 +294,40 @@
 			
 			<div id="specification-popup" class="popup">
 				<div class="popup-body">
-					a) Quanto a proteção metálica:<br>
-					Construção do cabo<br>
-					<select id="cableConstruction" class="small-select">
-                        <option value="0">Selecione</option>
-					</select>
-					b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br>
-					Aplicação do cabo<br>
-					<select id="cableFirePerformance" class="small-select">
-                        <option value="0">Selecione</option>
-					</select>
+                    <ul>
+                        <li id='li_naval_protecao_metalica' style="display:none;">
+                            <br><br>a) Quanto à proteção metálica:<br/>
+                            Construção do cabo<br>
+                        </li>
+                        <li id='li_naval_material_isolacao' style="display:none;">
+                            <br><br>a) Material da isolação<br>
+                        </li>
+                        <li id="id_tipoCabo" style="display:none;">
+                            <select id="cableConstruction" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                        
+                        <li id='li_naval_baixa_desempenho_incendio' style="display:none;">
+                            <br><br>b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br/>
+                            Aplicação do cabo<br>
+                        </li>
+                        <li id="id_aplicacao" style="display:none;">
+                            <select id="cableFirePerformance" class="small-select">
+                                <option value="0">Selecione</option>
+                            </select><br><br>
+                        </li>
+                    </ul>
+					<!--a) Quanto a proteção metálica:<br>
+                     Construção do cabo<br>
+                     <select id="cableConstruction" class="small-select">
+                     <option value="0">Selecione</option>
+                     </select>
+                     b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br>
+                     Aplicação do cabo<br>
+                     <select id="cableFirePerformance" class="small-select">
+                     <option value="0">Selecione</option>
+                     </select>-->
 					<button id="specification-popup-cancel">cancelar</button>
 					<button id="specification-popup-continue">continuar</button>
 				</div>

@@ -1,3 +1,32 @@
+function showDeterminacaoCaboNaval()
+{
+    escondeDivs();
+    
+    if(isBaixaTensao())
+    {
+        //a) Quanto à proteção metálica:<br/> Construção do cabo
+        document.getElementById("li_naval_protecao_metalica").style.display = "";
+    }
+    else
+    {
+        //Material da isolação
+        document.getElementById("li_naval_material_isolacao").style.display = "";
+    }
+    document.getElementById("id_tipoCabo").style.display = "";
+    var nivelTensao = $("#systemVoltage").val();
+    getTiposCabo(nivelTensao);
+    
+    if(isBaixaTensao())
+    {
+        document.getElementById("li_naval_baixa_desempenho_incendio").style.display = "";
+        document.getElementById("id_aplicacao").style.display = "";
+    }
+    var nivelTensao = $("#systemVoltage").val(); //dimensionamento.nivelTensao
+    getAplicacoes(nivelTensao);
+    
+    showPopup("specification-popup");
+}
+
 function showInformacaoCurto()
 {
     escondeDivs();
