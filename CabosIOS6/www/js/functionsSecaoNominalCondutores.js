@@ -185,7 +185,7 @@ function getSecaoMinimaSecaoNominal(){
 }
 
 function calcularCriterioQuedaTensao(){
-	dimensionamento = getDimensionamentoTabelaUtil();
+	var dimensionamento = getDimensionamentoTabelaUtil();
 	
 	/*if (sC > 0) {
 		produto = new Produto().getCabo(dimensionamento, sC);
