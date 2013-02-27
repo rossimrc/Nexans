@@ -2,6 +2,7 @@ var criterioDimensionamento = 0;
 var gradienteMaximo = 0;
 var fatorCanaleta = 0;
 var corrente = 0;
+var numeroCabos = 0;
 var numeroCabosCorrente = 0;
 var secaoCorrente = 0;
 
@@ -28,12 +29,12 @@ function calcular()
             calcularIntegralJouleBlindagem(getSb(), getKbb());
         }
         
-        /*calcularImpedanciaSequenciaPosNeg();
+        //calcularImpedanciaSequenciaPosNeg();
         calcularReatanciaCapacitiva();
         
         if (dimensionamento.isMediaTensao() && dimensionamento.isCobre() && dimensionamento.isCabosEnergia()) {
-            calcularDimensionamentoEconomico();
-        }*/
+            calcularDimensionamentoEconomico(dimensionamento.getCorrenteProjeto(), numeroCabos);
+        }
         
     } catch(err) {
         alert("Erro: " + err);
