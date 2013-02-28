@@ -45,10 +45,7 @@ function calcular()
 function calcularSecaoNominalCondutores()
 {
 	
-    //getCalculoDebug().logMethodEnter("calcularSecaoNominalCondutores");
-    alert("calcularSecaoNominalCondutores");
-    
-	var dimensionamento = getDimensionamentoTabelaUtil();
+    var dimensionamento = getDimensionamentoTabelaUtil();
 	
     //secaoNominal = new SecaoNominalCondutores(dimensionamento, produtoBean);
     
