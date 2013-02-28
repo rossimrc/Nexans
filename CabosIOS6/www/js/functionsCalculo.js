@@ -39,13 +39,15 @@ function calcular()
     } catch(err) {
         alert("Erro: " + err);
     }
-	
 }
 
 function calcularSecaoNominalCondutores()
 {
 	
-    var dimensionamento = getDimensionamentoTabelaUtil();
+    //getCalculoDebug().logMethodEnter("calcularSecaoNominalCondutores");
+    alert("calcularSecaoNominalCondutores");
+    
+	var dimensionamento = getDimensionamentoTabelaUtil();
 	
     //secaoNominal = new SecaoNominalCondutores(dimensionamento, produtoBean);
     
@@ -56,7 +58,9 @@ function calcularSecaoNominalCondutores()
     // Efetua o c·lculo pelo critÈrio da queda de tens„o.
 	calcularCriterioQuedaTensao();
     
-    updateCabo();
+	
+	//DAR UMA OLHADA
+    //updateCabo(secaoNominal.getProduto());
     
     // Calcula fator de canaleta.
     if (dimensionamento.isMediaTensao() &&
@@ -96,122 +100,6 @@ function calcularReatanciaIndutivaCalculo()
     
     calcularReatanciaIndutiva(s, rp, dp, xpp);
 }
-
-function calcularQuedaTensao(){
-	
-	var dimensionamento = getDimensionamentoTabelaUtil();
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-	
-	numeroCabos = getNumeroCabos()
-	var numeroMaximoCabos = 20;
-	
-	if (dimensionamento.getFixarNumeroCabos() > 0) {
-		numeroMaximoCabos = dimensionamento.getNumeroCabosFixado();
-		numeroCabos = dimensionamento.getNumeroCabosFixado();
-	}
-	
-	var correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
-	
-	//quedaTensao = new QuedaTensao(dimensionamento);
-	
-	// Calcula a queda de tens„o.
-	calculoQuedaTensao(getSC(), correnteQueda, getRca(), getXL());
-	//quedaTensao.calcularQuedaTensao(secaoNominal.getSC(), correnteQueda, secaoNominal.getRca(), reatanciaIndutiva.getXL());
-	
-	var correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, getSC());
-	var novaCorrenteFator = -1;
-	
-	while (correnteFator != novaCorrenteFator) {
-		
-		// Verifica se a queda de tens„o calculada È maior que a especificada pelo usu·rio.
-		while ((getDV() > dimensionamento.getQuedaTensaoMaxima()) && (numeroCabos <= numeroMaximoCabos)) {
-			//getCalculoDebug().logMessage("Executando loop enquanto dV maior que " + dimensionamento.getQuedaTensaoMaxima());
-			
-			var sC = getSC();
-			
-			// Tenta buscar uma seÁ„o maior que a atual para o cabo.
-			// Verifica se a secao atual È a m·xima suportada pelo cabo.
-			if (sC >= arrayProdutoBean.options["SecaoMaxima"].value || dimensionamento.isSecaoCondutorFixada()) {
-				
-				numeroCabos++;
-				correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
-				
-				if (!dimensionamento.isSecaoCondutorFixada()) {
-					
-					// Adicionado o fator de correÁ„o por conta do fluxograma.
-					//fatorCorrecao.setSecao(sC);
-					correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, sC);
-					sC = buscarSecaoTabelaUtil(correnteFator, getSecaoMinima(), arrayProdutoBean.options["SecaoMaxima"].value);
-				}
-			} else {
-				
-				// Busca uma seÁ„o maior que a atual.
-				sC = buscarSecaoAcimaTabelaUtil(secaoNominal.getSC());
-				
-				// Verifica se a seÁ„o n„o foi encontrada ou se n„o È suportada pelo cabo.
-				if (sC <= 0 || sC > arrayProdutoBean.options["SecaoMaxima"].value) {
-					
-					// Divide a corrente corrigida por divisor e busca a seÁ„o correspondente na tabela.
-					numeroCabos++;
-					correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
-					
-					//fatorCorrecao.setSecao(sC);
-					correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, sC);
-					sC = buscarSecaoTabelaUtil(correnteFator, getSecaoMinima(), arrayProdutoBean.options["SecaoMaxima"].value);
-				}
-			}
-			setSC(sC);
-			
-			updateCabo(sC);
-			
-			calcularCriterioQuedaTensao();
-			calcularReatanciaIndutivaCalculo();
-			
-			calcularQuedaTensao(getSC(), correnteQueda, getRca(), getXL());
-			//getCalculoDebug().logVariable("dV", quedaTensao.getDV());
-		}
-		
-		// Busca o fator de correÁ„o novamente.
-		//fatorCorrecao.setSecao(secaoNominal.getSC());
-		novaCorrenteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, getSC());
-	}
-	
-	
-	// Verifica se o n˙mero m·ximo de cabos foi ultrapassado.
-	if (numeroCabos > numeroMaximoCabos)
-		alert("ERRO");
-		//throw new CalculoException("N„o foi possÌvel encontrar a seÁ„o do condutor. Foi atingido o limite de " + numeroMaximoCabos
-		//						   + " condutor(es).");
-	
-	//fatorCorrecao.setSecao(secaoNominal.getSC());
-	correnteQueda = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
-	
-	if (correnteQueda > corrente) {
-		criterioDimensionamento = 3;
-		corrente = correnteQueda;
-	} else {
-		numeroCabos = numeroCabosCorrente;
-		setSC(secaoCorrente);
-	}
-	//getCalculoDebug().logMethodExit();
-
-
-}
-
-function calcularCurtoCircuito(){
-	
-	calcularCriterioCurto(getSC());
-	
-	if (getSc() > getSC()) {
-		setSC(getSc());
-		corrente = getIcc();
-		
-		//fatorCorrecao.setSecao(secaoNominal.getSC());
-		corrente = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
-		criterioDimensionamento = 1;
-	}
-}
-
 
 function getSecaoMinimaCalculo(dimensionamento) {
 	
@@ -283,163 +171,16 @@ function getSecaoMinimaCalculo(dimensionamento) {
 	return secao;
 }
 
-function updateCabo(secao = ""){
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-	var minSecao = getSecaoMinima();
-	var maxSecao = arrayProdutoBean.options["SecaoMaxima"].value;
+function calcularCurtoCircuito(){
 	
-	if(secao != ""){
-		getCaboDimensionamentoCalculo();
+	calcularCriterioCurto(getSC());
+	
+	if (getSc() > getSC()) {
+		setSC(getSc());
+		corrente = getIcc();
+		
+		//fatorCorrecao.setSecao(secaoNominal.getSC());
+		corrente = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
+		criterioDimensionamento = 1;
 	}
-	
-	arrayProdutoBean.options["SecaoMinima"].value = minSecao;
-	arrayProdutoBean.options["SecaoMaxima"].value = maxSecao;
-	
-	//produtoBean = new Produto().getCabo(dimensionamento, secao);
-	//produtoBean.setSecaoMinima(minSecao);
-	//produtoBean.setSecaoMaxima(maxSecao);
-	
-	//fatorCorrecao.setProduto(produtoBean);
-}
-
-function getFatorCorrecaoTemperaturaAmbiente() {
-	var fator = lastFatorTemperatura;
-	
-	if (isCriterioCorrente()) {
-		fator = getFatorTemperaturaAmbiente();
-	}
-	return fator == 0 ? 1 : fator;
-}
-
-function getFatorCorrecaoAgrupamento() {
-	var fator = lastFatorAgrupamento;
-	if (isCriterioCorrente()) {
-		fator = getFatorAgrupamento();
-	}
-	
-	return fator == 0 ? 1 : fator;
-}
-
-function getFatorCorrecaoResistividadeTermica() {
-	var fator = lastFatorResistividade;
-	if (isCriterioCorrente()) {
-		fator = getFatorResistividadeTermica();
-	}
-	return fator == 0 ? 1 : fator;
-}
-
-function getFatorCorrecaoCanaleta() {
-	return fatorCanaleta == 0 ? 1 : fatorCanaleta;
-}
-
-function getDimensionamentoEconomico() {
-	return getSe();
-}
-
-function hasDimensionamentoEconomico() {
-	if (getSe() > 0 && getSe() > getSecaoNominalCondutor()) {
-		return true;
-	}
-	
-	return false;
-}
-
-function hasDimensionamentoEconomicoError() {
-	if (getOriginalSection() > 0 && getOriginalSection() > getSecaoNominalCondutor()) {
-		return true;
-	}
-	
-	return false;
-}
-
-function getSecaoNominalCondutor() {
-	return getSC();
-}
-
-function getReatanciaCapacitiva() {
-	return getXc();
-}
-
-function getReatanciaIndutiva() {
-	return getXL();
-}
-
-function getResistenciaEletricaCA() {
-	return getRca();
-}
-
-function getImpedanciaSequenciaPosNeg() {
-	return getImpedancia();
-}
-
-
-function getQuedaTensao() {
-	return getDV();
-}
-
-function getMaximaCorrenteCC() {
-	return getIcc();
-}
-
-function getTempoCC() {
-	var tempo = 0;
-	if (getTcc() == 0) {
-		tempo = 0.3D;
-	} else {
-		tempo = getTcc();
-	}
-	
-	return tempo;
-}
-
-function getIntegralJouleCondutor() {
-	return getI2tJouleCondutor();
-}
-
-
-function getIntegralJouleBlindagem() {
-	return getI2tJouleBlindagem();
-}
-
-
-function getCriterioDimensionamento() {
-	var criterio = "";
-	var dimensionamento = getDimensionamentoTabelaUtil();
-	
-	if (isCriterioCurtoCircuito()) {
-		criterio = "Curto Circuito";
-	} else if (isCriterioQuedaTensao()) {
-		criterio = "Queda de Tens„o";
-	} else if (isCriterioCorrente()) {
-		criterio = "Corrente";
-	}
-	
-	if (dimensionamento.isMediaTensao()) {
-		if (isCriterioCorrente() && (gradienteMaximo == getSecaoNominalCondutor())
-			&& (getNumeroCabos() == 1 || dimensionamento.isNumeroCabosFixada())) {
-			criterio += " e Gradiente ElÈtrico M·ximo";
-		}
-	}
-	
-	return criterio;
-}
-
-function getNumeroCircuitos() {
-	return getNumeroCircuitos();
-}
-
-function getNumeroBandejas() {
-	return getNumeroBandejas();
-}
-
-function isCriterioCurtoCircuito() {
-	return criterioDimensionamento == 1;
-}
-
-function isCriterioQuedaTensao() {
-	return criterioDimensionamento == 3;
-}
-
-function isCriterioCorrente() {
-	return criterioDimensionamento == 2;
 }
