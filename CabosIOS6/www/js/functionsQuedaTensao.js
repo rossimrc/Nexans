@@ -1,5 +1,5 @@
 var dV = 0;
-function calcularQuedaTensao(valorSc, i, rca, xL)
+function calculoQuedaTensao(valorSc, i, rca, xL)
 {
     //getDebug().logMethodEnter("calcularQuedaTensao");
     var dimensionamento = getDimensionamentoTabelaUtil();
