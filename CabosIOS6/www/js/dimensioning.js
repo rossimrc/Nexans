@@ -1229,7 +1229,7 @@ $("#specification-popup2-continue").click(function(){
     $("#possibilidadeCabos-popup-continue").click(function()
     {
         var step_posicionamentoCabo = $("#step_posicionamentoCabo").val();
-        alert("step_posicionamentoCabo: " + step_posicionamentoCabo);
+        //alert("step_posicionamentoCabo: " + step_posicionamentoCabo);
           
         if(step_posicionamentoCabo == "")
         {

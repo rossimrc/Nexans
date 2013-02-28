@@ -1238,7 +1238,7 @@ function updateImageCabo()
     {
         //caboControl.src = "img/cabos/CaboEPDRY105.jpg";
         //$(".cable-name").html(CABO[EP_DRY_105C].description);
-        $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY105'></img>");
+        $(".cable-photo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY105.jpg'></img>");
     }
     else if (cabo == FITER_FLEX)
     {
@@ -1681,7 +1681,7 @@ function possibilidadeInstalacaoOnChange()
             showPossibilidadeEspacoConstrucao();
         }        
     }
-    else if (tensao == MEDIA)
+    else if (tensao == MEDIA || tensao == MEDIA_NAVAL)
     {
         /*var url = "posicionamentoCabos.sdf?numeroCondutores=" + numeroCondutores + "&possibilidadeInstalacao=" + possibilidade +
         "&nivelTensao=" + tensao;*/
@@ -1948,7 +1948,7 @@ function submitPosicionamentoCabos()
                 }
                 else
                 {
-                    alert("possibilidadeInstalacao: " + possibilidadeInstalacao + ", localInstalacao: " + localInstalacao);
+                    //alert("possibilidadeInstalacao: " + possibilidadeInstalacao + ", localInstalacao: " + localInstalacao);
                     if (possibilidadeInstalacao == APARENTE_AR)
                     {
                         //var url = "opcoesInstalacao.sdf" + params;

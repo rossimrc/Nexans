@@ -60,7 +60,7 @@ CABOS_ENERGIA = 1;
 CABOS_NAVAIS = 2;
 /////////////////////
 TIPO_PRODUTO = {
-	1 : {description : "Cabos de Potncia"},
+	1 : {description : "Cabos de Potência"},
 	2 : {description : "Cabos Navais (Offshore)"}
 };
 
@@ -70,7 +70,7 @@ ALUMINIO = 2;
 /////////////////////
 MATERIAL_CONDUTOR = {
 	1 : {description : "Cobre"},
-	2 : {description : "Alumnio"}
+	2 : {description : "Alumínio"}
 };
 
 /////////////////////
@@ -82,7 +82,7 @@ NCTETRAPOLAR = 4;
 NUMERO_CONDUTORES = {
 	1 : {description : "Unipolar - Um condutor"},
 	2 : {description : "Bipolar - Dois condutores"},
-	3 : {description : "Tripolar - Trs condutores"},
+	3 : {description : "Tripolar - Três condutores"},
 	4 : {description : "Tetrapolar - Quatro condutores"}
 };
 
@@ -109,16 +109,16 @@ POSSIBILIDADE_INSTALACAO = {
 	3	: {description : "Espaço de construção"},
 	4	: {description : "Subterrânea"},
 	5	: {description : "Suspensa"},
-	6	: {description : "Aparente ao Ar (Bandeja - Sem exposio solar)"},
+	6	: {description : "Aparente ao Ar (Bandeja - Sem exposição solar)"},
 	7	: {description : "Banco de dutos no Solo"},
 	8	: {description : "Canaleta fechada no Solo"},
 	9	: {description : "Diretamente enterrado no Solo"},
-	10	: {description : "Eletroduto aparente ao Ar (Bandeja - Sem exposio solar)"},
+	10	: {description : "Eletroduto aparente ao Ar (Bandeja - Sem exposição solar)"},
 	11	: {description : "Eletroduto no Solo"},
-	12	: {description : "Eletroduto no metlico aparente ao ar (Sem exposio solar)"},
-	13	: {description : "Eletroduto metlico aparente ao ar (Sem exposio solar)"},
-	14	: {description : "Eletroduto no metlico no solo"},
-	15	: {description : "Eletroduto metlico no solo"}
+	12	: {description : "Eletroduto não metálico aparente ao ar (Sem exposição solar)"},
+	13	: {description : "Eletroduto metálico aparente ao ar (Sem exposição solar)"},
+	14	: {description : "Eletroduto não metálico no solo"},
+	15	: {description : "Eletroduto metálico no solo"}
 };
 
 /////////////////////
@@ -143,7 +143,7 @@ AFITOX_MEP_BC = 70;
 AFITOX_MEP_S = 80;
 /////////////////////
 CABO = {
-	370		: {description : "Noflam Antichama BWF Flexvel"},
+	370		: {description : "Noflam Antichama BWF Flexível"},
     1020	: {description : "Afitox-F 750V"},
     2020	: {description : "Afitox-F 0,6/1kV"},
     390		: {description : "Vinil"},
@@ -151,7 +151,7 @@ CABO = {
     340 	: {description : "Fiter Flex"},
     230 	: {description : "EP-DRY"},
     300 	: {description : "FIPEX BF"},
-    220		: {description : "EP-DRY 105¼C"},
+    220		: {description : "EP-DRY 105ºC"},
     150		: {description : "Afitox SM BC"},
     200 	: {description : "Afitox XPBC"},
     140 	: {description : "Afitox SM AS"},
@@ -206,9 +206,9 @@ LOCAL_INSTALACAO = {
     16	: {description : "Eletrocalha ou perfilado"},
     17	: {description : "Isoladores"},
     18	: {description : "Diretamente"},
-    19	: {description : "Em eletroduto  : {Seo circular}"},
+    19	: {description : "Em eletroduto  : {Seção circular}"},
     111	: {description : "Eletrocalha fechada ou Eletroduto"}, //1
-    23	: {description : "Teto  : {Fixao Direta}"}
+    23	: {description : "Teto  : {Fixação Direta}"}
 };
 
 /////////////////////
@@ -270,7 +270,7 @@ TIPO_INSTALACAO = {
 	23	: {description : "Plano justapostos"},
 	24	: {description : "Formação Espaçada"},
 	25	: {description : "Formação Horizontal"},
-	26	: {description : "Forma;cão Vertical"},
+	26	: {description : "Formacão Vertical"},
 	27	: {description : "Instalação em Bandejas"},
 	28	: {description : "Instalação Vertical"},
 	29	: {description : "Não precisa aplicar fator de correção"},
@@ -296,25 +296,25 @@ POSICAO_CABOS = {
     4	: {description : "4 circuitos"},
     6	: {description : "6 circuitos"},
     9	: {description : "9 circuitos"},
-    10	: {description : "3 cabos unipolares em plano encostados ou em trifolio ou um cabo tripolar  : {mtodo H}"},
-    11	: {description : "3 cabos unipolares em plano afastados de no mnimo um dimetro."}
+    10	: {description : "3 cabos unipolares em plano encostados ou em trifolio ou um cabo tripolar  : {método H}"},
+    11	: {description : "3 cabos unipolares em plano afastados de no mínimo um diâmetro."}
 };
 
 TEMPERATURA_MAXIMA = {
-    35	: {description : "35¼C"},
-    40	: {description : "40¼C"},
-    45	: {description : "45¼C"},
-    50	: {description : "50¼C"},
-    55	: {description : "55¼C"},
-    60	: {description : "60¼C"},
-    65	: {description : "65¼C"},
-    70	: {description : "70¼C"},
-    75	: {description : "75¼C"},
-    80	: {description : "80¼C"},
-    85	: {description : "85¼C"},
-    90	: {description : "90¼C"},
-    95	: {description : "95¼C"},
-    105	: {description : "105¼C"}
+    35	: {description : "35ºC"},
+    40	: {description : "40ºC"},
+    45	: {description : "45ºC"},
+    50	: {description : "50ºC"},
+    55	: {description : "55ºC"},
+    60	: {description : "60ºC"},
+    65	: {description : "65ºC"},
+    70	: {description : "70ºC"},
+    75	: {description : "75ºC"},
+    80	: {description : "80ºC"},
+    85	: {description : "85ºC"},
+    90	: {description : "90ºC"},
+    95	: {description : "95ºC"},
+    105	: {description : "105ºC"}
 };
 
 /////////////////////
@@ -323,9 +323,9 @@ HORIZONTAL = 2;
 VERTICAL = 3;
 /////////////////////
 ORIENTACAO_FATOR_CORRECAO = {
-	1 : {description : "No necessita aplicar fator de correo"},
-    2 : {description : "Instalao horizontal"},
-    3 : {description : "Instalacao vertical"}
+	1 : {description : "Não necessita aplicar fator de correção"},
+    2 : {description : "Instalação horizontal"},
+    3 : {description : "Instalação vertical"}
 };
 
 /////////////////////
