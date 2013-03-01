@@ -19,7 +19,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
 	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
 	
-    var numeroMaximoCabos = NUMERO_MAXIMO_CABOS;
+    var numeroMaximoCabos = 20;//NUMERO_MAXIMO_CABOS;
     numeroCabos = numCabos;
 	
     var fixar = $("#fixarNumeroCabos").val();

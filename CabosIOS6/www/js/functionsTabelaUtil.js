@@ -1,7 +1,7 @@
 
 function getDimensionamentoTabelaUtil()
 {
-    alert("getDimensionamentoTabelaUtil");
+    //alert("getDimensionamentoTabelaUtil");
     
     var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     
@@ -406,7 +406,8 @@ function getCorrenteTable10Base(numeroTabela, dimensionamento, secao){
 	return $("#corrente").val();
 }
 
-private String getNomeTabelaTable10Base(numeroTabela, tensaoIsolamento) {
+function getNomeTabelaTable10Base(numeroTabela, tensaoIsolamento)
+{
 	var tabela = numeroTabela + "_0";
 	
 	if (tensaoIsolamento <= _8_7KV_15KV) {
@@ -1735,9 +1736,11 @@ function getCoeficienteTemperaturaTabelaUtil(dimensionamento) {
 	var coeficiente = 0;
 	
 	if (dimensionamento.isCobre()) {
-		coeficiente = 0.00393D;
+		//coeficiente = 0.00393D;
+        coeficiente = 0.00393;
 	} else if (dimensionamento.isAluminio()) {
-		coeficiente = 0.00403D;
+		//coeficiente = 0.00403D;
+        coeficiente = 0.00403;
 	}
 	
 	return coeficiente;
@@ -1747,9 +1750,11 @@ function getResistividadeCondutorTabelaUtil(dimensionamento){
 	var resistividade = 0;
 	
 	if (dimensionamento.isCobre()) {
-		resistividade = 0.017241D;
+		//resistividade = 0.017241D;
+        resistividade = 0.017241;
 	} else if (dimensionamento.isAluminio()) {
-		resistividade = 0.028264D;
+		//resistividade = 0.028264D;
+        resistividade = 0.028264;
 	}
 	
 	return resistividade;

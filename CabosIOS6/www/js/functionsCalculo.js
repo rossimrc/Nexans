@@ -8,18 +8,29 @@ var secaoCorrente = 0;
 
 function calcular()
 {
+    
+    alert("Entrou calcular()");
     var fatorCanaleta = 1;
-    try {
+    //try {
 		
 		var dimensionamento = getDimensionamentoTabelaUtil();
 		
-        getCaboDimensionamentoCalculo();
+        getCaboDimensionamentoCalculo(0);
+    
+        var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+        $('#arrayProdutoBean option[value="NME_TIPO_MATERIAL_ISOLACAO"]').attr({ selected : "selected" });
+        var tipoMaterialIsolacao = $("#arrayProdutoBean").val();
+        
+        alert("tipoMaterialIsolacao: " + tipoMaterialIsolacao);
+    
         //init();
-        
+    
+        alert("Antes do metodo calcularSecaoNominalCondutores()");
         calcularSecaoNominalCondutores();
-        
+        alert("Depois do metodo calcularSecaoNominalCondutores()");
+    
         //calcularReatanciaIndutiva();
-        calcularReatanciaIndutivaCalculo();
+        /*calcularReatanciaIndutivaCalculo();
         
         calcularQuedaTensao();
         calcularCurtoCircuito();
@@ -34,11 +45,11 @@ function calcular()
         
         if (dimensionamento.isMediaTensao() && dimensionamento.isCobre() && dimensionamento.isCabosEnergia()) {
             calcularDimensionamentoEconomico(dimensionamento.getCorrenteProjeto(), numeroCabos);
-        }
+        }*/
         
-    } catch(err) {
-        alert("Erro: " + err);
-    }
+    //} catch(err) {
+    //    alert("Erro: " + err);
+    //}
 }
 
 function calcularSecaoNominalCondutores()

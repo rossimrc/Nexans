@@ -64,9 +64,17 @@ function isMaterialIsolacaoPE()
     return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_PE;
 }
 
-function getCaboDimensionamentoCalculo()
+function getSecaoCondutorFaseDouble()
 {
-    
+    if (!secaoCondutorFase.trim().equals("")) {
+        return Double.parseDouble(secaoCondutorFase);
+    } else {
+        return 0;
+    }
+}
+
+function getCaboDimensionamentoCalculo(secaoCabo)
+{    
 	var filtro = "";
     
     var tipoProduto = $("#cableList").val();
@@ -78,7 +86,8 @@ function getCaboDimensionamentoCalculo()
 	
 	filtro = filtro + "NMR_FAMILIA_PRODUTO='" + getFamilia(caboSelecionado) + "'";
 	filtro = filtro + " AND NMR_NUMERO_CONDUTORES_FASE='" + numeroCondutores + "'";
-	filtro = filtro + " AND NME_TENSAO_PRODUTO='" + tensaoIsolamento() + "'";
+	filtro = filtro + " AND NME_TENSAO_PRODUTO='" + getTensaoIsolamentoDesc(tensaoIsolamento) + "'";
+    
 	
 	var aluminio = "AL";
 	//MATERIAL_CONDUTOR[ALUMINIO].description
@@ -95,10 +104,11 @@ function getCaboDimensionamentoCalculo()
 	
 	if(secaoCabo > 0)
 	{
-		filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabotoFixed(0) + "'";
+		filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabo.toFixed(0) + "'";
 	}
     
-	this.db.transaction(function (transaction) {
+    //alert("Filtro: " + filtro);
+    db.transaction(function(tx){
                         
         var query="SELECT * FROM T003_PRODUTOS WHERE " + filtro +";";
         alert("Query: " + query);
@@ -108,36 +118,42 @@ function getCaboDimensionamentoCalculo()
            var maxSecao = 0;
            
            //var ProdutoBean = new ProdutoBean();
-           
+                      
            if(rs.rows.length > 0)
            {
                for(i = 0; i < rs.rows.length; i++)
                {
+                   secaoCondutorFase = rs.rows.item(i)["NME_SECAO_CONDUTOR_FASE"];
                    //VERIFICA MENOR
-                   if(ProdutoBean.getSecaoCondutorFaseDouble() < minSecao)
+                   if(secaoCondutorFase < minSecao)
                    {
-                       minSecao = ProdutoBean.getSecaoCondutorFaseDouble();
+                       minSecao = secaoCondutorFase;
                    }
                    
                    //VERIFICA A MAIOR
-                   if(ProdutoBean.getSecaoCondutorFaseDouble() > maxSecao)
+                   if(secaoCondutorFase > maxSecao)
                    {
-                       maxSecao = ProdutoBean.getSecaoCondutorFaseDouble();
+                       maxSecao = secaoCondutorFase;
                    }
                }
                       
                 for(var nome_campo in rs.rows.item(0))
                 {
+                      if(nome_campo == "NME_TIPO_MATERIAL_ISOLACAO")
+                      {
+                          alert("Nome campo: " + nome_campo + " - Valor: " + rs.rows.item(0)[nome_campo]);
+                      }
+                      
                     $("#arrayProdutoBean").append(new Option(rs.rows.item(0)[nome_campo],nome_campo, false, false));
                 }
                       
                 $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
                 $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
                       
-                var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-                var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+                //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+                //var tipoMaterialIsolacao = arrayProdutoBean.options['NME_TIPO_MATERIAL_ISOLACAO'].text;
                       
-                alert("tipoMaterialIsolacao: " + tipoMaterialIsolacao);
+                //alert("tipoMaterialIsolacao: " + tipoMaterialIsolacao);
                       
                //produto.setT003_PRODUTOS(resultSet.rows.item(0));
                //produto.setSecaoMaxima(maxSecao);

@@ -46,7 +46,7 @@ var app = {
 };
 
 function getUserData() {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+	/*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
 		app.report("onFSSSuccess");
 		fileSystem.root.getFile("user_data.txt", {create: true, exclusive: false}, function(fileEntry){
 			app.report("gotFileEntry");
@@ -62,11 +62,11 @@ function getUserData() {
 				
 			}, onError);
 		}, onError);
-	}, onError);
+	}, onError);*/
 }
 
 function saveUserData() {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+	/*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
 		app.report("onFSSSuccess");
 		fileSystem.root.getFile("user_data.txt", {create: true, exclusive: false}, function(fileEntry){
 			app.report("gotFileEntry");
@@ -81,7 +81,9 @@ function saveUserData() {
 				
 			}, onError);
 		}, onError);
-	}, onError);
+	}, onError);*/
+    
+    nextPage();
 }
 
 function initCurrentPage(p) {
@@ -353,6 +355,7 @@ function checkPageConsistency(p) {
 }
 
 function loadCableInfo(c) {
+    /*
 	console.log("loadCableInfo("+c+")");
 	db.transaction(function(tx){
 		tx.executeSql("SELECT * FROM cabos WHERE id = ?",[c],function(tx, rs){
@@ -366,6 +369,8 @@ function loadCableInfo(c) {
 	},errorCB,nextPage);
 	//$("#page-cableinfo div").first().html(cables[c].name + "<br><img src='"+cables[c].image+"'></img><br>"+cables[c].description);
 	//nextPage();
+     */
+    nextPage();
 }
 
 function nextPage() {

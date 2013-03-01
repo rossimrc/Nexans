@@ -27,7 +27,7 @@ function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanalet
     var numCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
     //var numCircuitos = getNumeroCircuitos();
     
-    setLastFatorResistividade(getFatorCorrecaoResistividade());
+    lastFatorResistividade = getFatorCorrecaoResistividade();
     lastFatorTemperatura = getFatorCorrecaoTemperatura();
     
     if (numCircuitos > 0)
@@ -81,7 +81,7 @@ function getFatorCorrecaoTemperatura()
     alert("getFatorCorrecaoTemperatura");
     
     var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].text;
     
     var fator = 1;
     
@@ -1577,7 +1577,7 @@ function getFatorBandejaPerfuradaVerticalTabelaA7(umeroCircuitos, numeroBandejas
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
-    int index = numeroBandejas - 1;
+    var index = numeroBandejas - 1;
     
     if (dimensionamento.isJustaposto())
     {
