@@ -20,7 +20,7 @@ ul li {
     margin:0px;
 	padding:0px;
     list-style:none;
-    /*color:white;*/
+    color:white;
 	position:relative;
 	top:-6px;
 }
@@ -129,33 +129,26 @@ select {
 }
 
 .popup {
-	/*background-color:rgba(0,0,0,1);*/
-	background-image:url("../img/bg.png");
-	/*background-size:100% 100%;*/
-	background-position-y:-16px;
-	background-attachment: fixed;
+	background-color:rgba(0,0,0,1);
 	width:100%;
 	height:100%;
 	position:fixed;
 	top:0px;
 	left:0px;
-	padding-left:10px;
-	padding-top:10px;
+	padding:20px;
 	-webkit-box-sizing: border-box;
 	display:none;
 	overflow:scroll;
 }
 
 .popup-body {
-	/*-webkit-box-sizing: border-box;*/
-	color:black;
+	-webkit-box-sizing: border-box;
+	padding:20px;
+	width:100%;
+	height:100%;
+	background-color:gray;
+	color:white;
 	font-size:16px;
-	width:277px;
-	padding-left:20px;
-	padding-top:10px;
-	margin-top:-4px;
-	background-image:url("../img/novo-bgitemgrande.png");
-	background-size:100% 100%;
 }
 
 .info {

@@ -79,7 +79,7 @@
                 	</li>
                 	<li>
                     	Nome do Projeto:<br>
-                    	<input id="projectName" value="Projeto"/>
+                    	<input id="projectName"/>
                 	</li>
                 	<li>
                     	Descrição:<br>
@@ -196,6 +196,7 @@
 			</div>
 			
 			<div id="page-cableinfo">
+                <img id="caboImage" name="caboImage" src="img/spacer.gif">
 				<img src="img/form-topo.png"/>
 				<div class="project-title"><span class="title"></span></div>
 				<ul>
@@ -292,15 +293,14 @@
 			</div>
 			
 			<div id="specification-popup" class="popup">
-				<img src="img/form-topo.png"/>
 				<div class="popup-body">
                     <ul>
                         <li id='li_naval_protecao_metalica' style="display:none;">
-                            a) Quanto à proteção metálica:<br/>
+                            <br><br>a) Quanto à proteção metálica:<br/>
                             Construção do cabo<br>
                         </li>
                         <li id='li_naval_material_isolacao' style="display:none;">
-                            a) Material da isolação<br>
+                            <br><br>a) Material da isolação<br>
                         </li>
                         <li id="id_tipoCabo" style="display:none;">
                             <select id="cableConstruction" class="small-select">
@@ -309,7 +309,7 @@
                         </li>
                         
                         <li id='li_naval_baixa_desempenho_incendio' style="display:none;">
-                            b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br/>
+                            <br><br>b) Quanto ao desempenho sob condições de incêndio - aplicação do circuito:<br/>
                             Aplicação do cabo<br>
                         </li>
                         <li id="id_aplicacao" style="display:none;">
@@ -331,7 +331,6 @@
 					<button id="specification-popup-cancel">cancelar</button>
 					<button id="specification-popup-continue">continuar</button>
 				</div>
-				<img src="img/novo-rodape-limpo.png"/>
 			</div>
 			
 			<div id="specification-popup2" class="popup">
@@ -346,8 +345,6 @@
             
             <!-- POSSIBILIDADE DE INSTALAÇÃO -->
             <div id="localInstalacaoAparente-popup" class="popup" style="display:none;">
-				<img src="img/form-topo.png"/>
-				<div class="popup-body">
                     <!-- APARENTE -->
                     <ul>
                         <li id="eletroduto" style="display:none;">
@@ -573,16 +570,12 @@
                             <button id="localInstalacaoAparente-popup-cancel">cancelar</button>
                             <button id="localInstalacaoAparente-popup-continue">continuar</button>
                         </li>
-						</ul>
-				</div>
-				<img src="img/novo-rodape-limpo.png"/>
-			</div>
+                    </ul>
+                </div>
             
             <!-- POSSIBILIDADE CABOS -->
             <!-- POSICIONAMENTO CABOS - TRADUZIR AQUI O ARQUIVO -->
             <div id="possibilidadeCabos-popup" class="popup">
-				<img src="img/form-topo.png"/>
-				<div class="popup-body">
 				<!--<div id="ttt">-->
                     <ul>
                         <li id="li_eletrodutoMetalico" style="display:none;">
@@ -1252,13 +1245,11 @@
                             <button id="possibilidadeCabos-popup-cancel">cancelar</button>                            
                         </li>
                     </ul>
-				</div>
-				<img src="img/novo-rodape-limpo.png"/>
 				<!--</div>-->
             </div>
             
 			<div id="page_resultado_calculo" class="popup">
-                <select id="arrayProdutoBean" class="small-select">
+                <select id="arrayProdutoBean" class="small-select"> <!--style="display:none;"-->
                     <option value="0">Selecione</option>
                 </select>
 				<div class="popup-body">
@@ -1291,14 +1282,15 @@
         
         <script type="text/javascript" src="js/functionsTabelaUtil.js"></script>
         <script type="text/javascript" src="js/functionsTabelaProduto.js"></script>
-        <script type="text/javascript" src="js/functionsFatorAgrupamento.js"></script>
+        <script type="text/javascript" src="js/functionsFatorAgrupamento.js"></script>                 
         <script type="text/javascript" src="js/functionsSecaoNominalCondutores.js"></script>
         <script type="text/javascript" src="js/functionsFatorCorrecao.js"></script>
-        <script type="text/javascript" src="js/functionsCalculo.js"></script>
+        <script type="text/javascript" src="js/functionsCalculo.js"></script>        
         
 		<!--<script type="text/javascript" src="js/functionsEfeitoPelicular.js"></script>
-         <script type="text/javascript" src="js/functionsEfeitoProximidade.js"></script>
-         <script type="text/javascript" src="js/functionsReatanciaIndutiva.js"></script>-->
+		<script type="text/javascript" src="js/functionsEfeitoProximidade.js"></script>
+		<script type="text/javascript" src="js/functionsReatanciaIndutiva.js"></script>-->
+		 
 		<script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript">
             app.initialize();
