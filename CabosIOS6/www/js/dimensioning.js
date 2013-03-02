@@ -1091,8 +1091,8 @@ $("#fixarInformacaoCurto").change(function(){
     informacaoCurtoCircuitoOnChange();
 });
                   
-react3("#cableConstruction","#cableList","#systemVoltage",myquery3("construcao_do_cabo","tipo_x_tensao_x_construcao"));
-react3("#cableFirePerformance","#cableList","#systemVoltage",myquery3("aplicacao_do_cabo","tipo_x_tensao_x_aplicacao"));
+//react3("#cableConstruction","#cableList","#systemVoltage",myquery3("construcao_do_cabo","tipo_x_tensao_x_construcao"));
+//react3("#cableFirePerformance","#cableList","#systemVoltage",myquery3("aplicacao_do_cabo","tipo_x_tensao_x_aplicacao"));
 //react3("#isolationMaterial","#cableList","#systemVoltage",myquery3("material_de_isolacao","tipo_x_tensao_x_isolacao"));
 
 /*$("#serviceVoltage").change(function(){
@@ -1312,7 +1312,7 @@ function myquery3(p1, p2)
 }
 
 function react2(me, listen, query) {
-	$(listen).change(function() {
+	/*$(listen).change(function() {
 		clearSelect($(me));
 		
 		db.transaction(function(tx){
@@ -1324,12 +1324,12 @@ function react2(me, listen, query) {
 		},errorCB,function(){ $(me).change(); });
 	
 	});
-	$(listen).change();
+	$(listen).change();*/
 }
 
 function react3(me, listen1, listen2, query)
 {
-	$(listen2).change(function() {
+	/*$(listen2).change(function() {
 		clearSelect($(me));
 		
 		if($(listen1).val() == 0) return;
@@ -1358,7 +1358,7 @@ function react3(me, listen1, listen2, query)
 	});
 	
 	$(listen1).change();
-	$(listen2).change();
+	$(listen2).change();*/
 }
 
 });
