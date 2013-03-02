@@ -80,8 +80,12 @@ function getFatorCorrecaoTemperatura()
 {
     alert("getFatorCorrecaoTemperatura");
     
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].text;
+    
     var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].text;
+    $('#arrayProdutoBean option[value="NME_TIPO_MATERIAL_ISOLACAO"]').attr({ selected : "selected" });
+    var tipoMaterialIsolacao = $("#arrayProdutoBean").val();
     
     var fator = 1;
     

@@ -53,7 +53,6 @@
         <input type="hidden" name="quantidadeCamadas" id="quantidadeCamadas" value="1" />
         <input type="hidden" name="quantidadeCircuitos" id="quantidadeCircuitos" value="1" />
         <input type="hidden" name="relacaoCaboDuto" id="relacaoCaboDuto" value="" />
-        <input type="hidden" name="orientacaoCabo" id="orientacaoCabo" value="0" />
         <input type="hidden" name="numeroCabosFixado" id="numeroCabosFixado" value="0" />
         <input type="hidden" name="correnteCurto" id="correnteCurto" value="0" />
         <input type="hidden" name="tempoAtuacaoProtecao" id="tempoAtuacaoProtecao" value="0" />
@@ -763,13 +762,13 @@
                         
                         <li id="id_orientacao_horizontal" style="display:none;">
                             <br>
-                            <a href='javascript:updatePosicionamentoCabo(OCHORIZONTAL)'>
+                            <a href='javascript:updateOrientacaoCabo(OCHORIZONTAL)'>
                                 <img src="img/dimensionamento/Orientacao_Horizontal.jpg" border="0" /></a><br>
                         </li>
                         
                         <li id="id_orientacao_vertical" style="display:none;">
                             <br>
-                            <a href='javascript:updatePosicionamentoCabo(OCVERTICAL)'>
+                            <a href='javascript:updateOrientacaoCabo(OCVERTICAL)'>
                                 <img src="img/dimensionamento/Orientacao_Vertical.jpg" border="0" /></a><br>
                         </li>
                         
@@ -1277,7 +1276,8 @@
 				</div>
 			</div>
 			
-        </div>
+        </div>        
+        
         <script type="text/javascript" src="cordova-2.1.0.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/dimensioning.js"></script>
@@ -1300,6 +1300,7 @@
          <script type="text/javascript" src="js/functionsEfeitoProximidade.js"></script>
          <script type="text/javascript" src="js/functionsReatanciaIndutiva.js"></script>-->
 		<script type="text/javascript" src="js/iscroll.js"></script>
+        
         <script type="text/javascript">
             app.initialize();
 			initNewProject();

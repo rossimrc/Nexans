@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+
+
+<script>
+
+var xmlT003_PRODUTOS = "<T003_PRODUTOS>";
+xmlT003_PRODUTOS += "<produto>";
+xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
+xmlT003_PRODUTOS += "<COD_PRODUTO>47025</COD_PRODUTO>";
+xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>310</SEQ_REGISTRO_TIPO>";
+xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 3X95 MM2 0.6/1 KV</DSC_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
+xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
+xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
+xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/1</NME_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>3</NMR_NUMERO_CONDUTORES_FASE>";
+xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>95</NME_SECAO_CONDUTOR_FASE>";
+xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";  
+xmlT003_PRODUTOS += "</produto>";
+xmlT003_PRODUTOS += "<produto>";
+xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
+xmlT003_PRODUTOS += "<COD_PRODUTO>47027</COD_PRODUTO>";
+xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>311</SEQ_REGISTRO_TIPO>";
+xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 2X70 MM2 0.6/1 KV</DSC_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
+xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
+xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
+xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/1</NME_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>2</NMR_NUMERO_CONDUTORES_FASE>";
+xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>70</NME_SECAO_CONDUTOR_FASE>";
+xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";  
+xmlT003_PRODUTOS += "</produto>";
+xmlT003_PRODUTOS += "<produto>";
+xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
+xmlT003_PRODUTOS += "<COD_PRODUTO>37119</COD_PRODUTO>";
+xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>312</SEQ_REGISTRO_TIPO>";
+xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 1X50 MM2 0.6/1 KV</DSC_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
+xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
+xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
+xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/1</NME_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
+xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>1</NMR_NUMERO_CONDUTORES_FASE>";
+xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>50</NME_SECAO_CONDUTOR_FASE>";
+xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";
+xmlT003_PRODUTOS += "</produto>";
+xmlT003_PRODUTOS += "</T003_PRODUTOS>"; 
+
+function selectXML(xmlTabela, campos){
+	//PARSING XML
+	var xmlData = parseXML(xmlTabela);
+	var rows = xmlData.getElementsByTagName("produto");
+	
+	var result = new Array();
+	campos = (campos == "" || campos == undefined) ? "*" : campos;
+	
+	var i, j;
+	for(i = 0; i < rows.length; i++){
+		var obj = new Object();
+		var actualRow = rows[i];
+		var fields = actualRow.childNodes;
+		
+		if(arguments.length > 2){ //SE POSSUI MAIS DE DOIS PARAMETROS EXISTEM CONDIÇÕES
+		
+			var passou = true;
+			for(j = 2; j < arguments.length; j++){
+				var condicao = arguments[j];
+				var arrayCondicao = condicao.split(",");
+					
+				//ARRAY CONDICAO
+				//0 = CAMPO
+				//1 = CONDICAO (=, <, >, <=, >=, BETWEEN)
+				//2 = VALOR
+				//3 = SEGUNDO VALOR CASO BETWEEN
+				//NO PARAMETRO PASSAR ASSIM: "COD_PRODUTO,=,4000" OU "COD_PRODUTO,BETWEEN,4000,5000"
+				
+				var campoValidado = actualRow.getElementsByTagName(arrayCondicao[0])[0].textContent;
+				switch(arrayCondicao[1]){ 
+					case "=":
+						if(campoValidado != arrayCondicao[2]){
+							passou = false;	
+						}
+						break;
+                    case "!=":
+                        if(campoValidado == arrayCondicao[2]){
+                            passou = false;
+                        }
+                    break;
+					case "<":
+						if(campoValidado >= arrayCondicao[2]){
+							passou = false;
+						}
+						break;
+					case "<=":
+						if(campoValidado > arrayCondicao[2]){
+							passou = false;
+						}
+						break;
+					case ">":
+						if(campoValidado <= arrayCondicao[2]){
+							passou = false;
+						}
+						break;
+					case ">=":
+						if(campoValidado < arrayCondicao[2]){
+							passou = false;	
+						}
+						break;
+					case "BETWEEN":
+						if(campoValidado < arrayCondicao[2] || campoValidado > arrayCondicao[3]){
+							passou = false;
+						}
+						break;
+				}	
+				
+				if(!passou){
+					break;
+				}
+			}
+			
+			if(!passou){
+				continue;	
+			}
+		}
+		
+		if(campos == "*"){ //BUSCAR TODOS OS CAMPOS
+			for(j = 0; j < fields.length; j++){
+				var fieldName = fields[j].nodeName;
+				var fieldValue = fields[j].textContent;
+				
+				obj[fieldName] = fieldValue;
+			}
+			
+		}else if(campos.search(",") != -1){ //BUSCAR MAIS DE UM CAMPO, MAS NAO TODOS
+			var arrayCampos = campos.split(",");
+			for(j = 0; j < arrayCampos.length; j++){
+				var campoAtual = arrayCampos[j];
+				var fieldValue = actualRow.getElementsByTagName(campoAtual)[0].textContent;
+				obj[campoAtual] = fieldValue;
+			}
+			
+		}else{ //BUSCAR 1 CAMPO
+			var fieldValue = actualRow.getElementsByTagName(campos)[0].textContent;
+			obj[campos] = fieldValue;
+		}
+		
+		result.push(obj);
+		
+	}
+	
+	return result;
+}
+
+function parseXML(xmlString){
+	var xmlData = "";
+	if (window.DOMParser){
+		parser = new DOMParser();
+		xmlData = parser.parseFromString(xmlString,"text/xml");
+	}else{ // Internet Explorer
+		xmlData = new ActiveXObject("Microsoft.XMLDOM");
+		xmlData.async = false;
+		xmlData.loadXML(xmlString); 
+	}	
+	
+	return xmlData;
+}
+
+
+
+/////////////////////// EXEMPLOS AQUI
+
+
+var count;
+//EXEMPLO TODOS OS CAMPOS
+/*
+var array1 = selectXML(xmlT003_PRODUTOS, "*");
+for(count = 0; count < array1.length; count++){
+	alert(array1[count]["SEQ_REGISTRO_TIPO"]);
+	alert(array1[count]["DSC_PRODUTO"]);
+}
+*/
+
+//EXEMPLO 1 CAMPO
+/*
+var array2 = selectXML(xmlT003_PRODUTOS, "SEQ_REGISTRO_TIPO");
+for(count = 0; count < array2.length; count++){
+	alert(array2[count]["SEQ_REGISTRO_TIPO"]);
+	alert(array2[count]["DSC_PRODUTO"]); // NAO TRARA ESSE CAMPO
+}
+*/
+
+//EXEMPLO + DE 1 CAMPO
+/*
+var array3 = selectXML(xmlT003_PRODUTOS, "COD_PRODUTO,SEQ_REGISTRO_TIPO,DSC_PRODUTO");
+for(count = 0; count < array3.length; count++){
+	alert(array3[count]["COD_PRODUTO"]);
+	alert(array3[count]["SEQ_REGISTRO_TIPO"]);
+	alert(array3[count]["DSC_PRODUTO"]);
+	alert(array3[count]["NME_FORMATO_CABO"]); //NAO TRARA ESSE CAMPO
+}
+*/
+
+//EXEMPLO COM 1 CONDICAO
+/*
+var array4 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,=,47025");
+for(count = 0; count < array4.length; count++){
+	alert(array4[count]["SEQ_REGISTRO_TIPO"]);
+}
+*/
+
+//EXEMPLO COM 2 CONDICOES
+/*
+var array5 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
+for(count = 0; count < array5.length; count++){
+	alert(array5[count]["COD_PRODUTO"]);
+}
+*/
+
+//EXEMPLO COM 2 CONDICOES E SEGUNDA CONDICAO FALHANDO (NAO TRARA NADA)
+/*
+var array6 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,310");
+for(count = 0; count < array6.length; count++){
+	alert(array6[count]["COD_PRODUTO"]);
+}
+*/
+</script>
+
+
+
+</head>
+
+<body>
+</body>
+</html>

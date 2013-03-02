@@ -997,7 +997,7 @@ function tensaoServicoOnChange()
     
     if (uTensao != 0)
     {
-        if (uTensao == "kV")
+        if (uTensao == "2")
         {
 		  	tensaoServico = tensaoServico * 1000;
         }
@@ -1044,7 +1044,7 @@ function tensaoServicoOnChange()
             }
             else
             {
-			  	if (tensao == MEDIA)
+			  	if (tensao == MEDIA || tensao == MEDIA_NAVAL)
                 {
 					if (tensaoServico < 1000 || tensaoServico > 20000)
                     {
@@ -2151,6 +2151,11 @@ function updateInstalacaoCabo(localInstalacao)
 function updateFormacaoBancoDutos(formacao)
 {
     $('#formacaoBancoDutos option[value="'+formacao+'"]').attr({ selected : "selected" });
+}
+
+function updateOrientacaoCabo(orientacao)
+{
+    $('#orientacaoCabo option[value="'+orientacao+'"]').attr({ selected : "selected" });
 }
 
 function updatePosicionamentoCabo(localInstalacao)

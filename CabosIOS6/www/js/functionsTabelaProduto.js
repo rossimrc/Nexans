@@ -4,6 +4,7 @@ TIPO_MATERIAL_ISOLACAO_PVC = "PVC";
 TIPO_MATERIAL_ISOLACAO_XLP = "XLP";
 TIPO_MATERIAL_ISOLACAO_XLPE = "XLPE";
 
+
 /**
  * Verifica se o material da isolaÁ„o È EPR.
  * @return valor booleano
@@ -74,7 +75,7 @@ function getSecaoCondutorFaseDouble()
 }
 
 function getCaboDimensionamentoCalculo(secaoCabo)
-{    
+{
 	var filtro = "";
     
     var tipoProduto = $("#cableList").val();
@@ -107,60 +108,106 @@ function getCaboDimensionamentoCalculo(secaoCabo)
 		filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabo.toFixed(0) + "'";
 	}
     
-    //alert("Filtro: " + filtro);
-    db.transaction(function(tx){
-                        
-        var query="SELECT * FROM T003_PRODUTOS WHERE " + filtro +";";
-        alert("Query: " + query);
+    alert("Filtro: " + filtro);
+    
+
+    var minSecao = Number.MAX_VALUE;
+    var maxSecao = 0;
+    
+    /*var array5 = selectXML(xmlT003_PRODUTOS, "*", "NME_MATERIAL_CONDUTOR_FASE,!=,"+aluminio, "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
+    
+    /*var array5 = selectXML(xmlT003_PRODUTOS, "*", "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
+    
+    var array5 = selectXML(xmlT003_PRODUTOS, "*", "NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));
+    
+    alert("Tamanho Array: " + array5.length)
+    
+    for(var count = 0; count < array5.length; count++)
+    {
+        alert(array5[count]["COD_PRODUTO"]);
         
-        tx.executeSql(query,[],function(tx,rs){
-           var minSecao = Number.MAX_VALUE;
-           var maxSecao = 0;
-           
-           //var ProdutoBean = new ProdutoBean();
-                      
-           if(rs.rows.length > 0)
-           {
-               for(i = 0; i < rs.rows.length; i++)
-               {
-                   secaoCondutorFase = rs.rows.item(i)["NME_SECAO_CONDUTOR_FASE"];
-                   //VERIFICA MENOR
-                   if(secaoCondutorFase < minSecao)
-                   {
-                       minSecao = secaoCondutorFase;
-                   }
-                   
-                   //VERIFICA A MAIOR
-                   if(secaoCondutorFase > maxSecao)
-                   {
-                       maxSecao = secaoCondutorFase;
-                   }
-               }
-                      
-                for(var nome_campo in rs.rows.item(0))
-                {
-                      if(nome_campo == "NME_TIPO_MATERIAL_ISOLACAO")
-                      {
-                          alert("Nome campo: " + nome_campo + " - Valor: " + rs.rows.item(0)[nome_campo]);
-                      }
-                      
-                    $("#arrayProdutoBean").append(new Option(rs.rows.item(0)[nome_campo],nome_campo, false, false));
-                }
-                      
-                $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
-                $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
-                      
-                //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-                //var tipoMaterialIsolacao = arrayProdutoBean.options['NME_TIPO_MATERIAL_ISOLACAO'].text;
-                      
-                //alert("tipoMaterialIsolacao: " + tipoMaterialIsolacao);
-                      
-               //produto.setT003_PRODUTOS(resultSet.rows.item(0));
-               //produto.setSecaoMaxima(maxSecao);
-               //produto.setSecaoMinima(minSecao);
-           }                       
-       });
-    });
+        secaoCondutorFase = array5[count]["NME_SECAO_CONDUTOR_FASE"];
+        //VERIFICA MENOR
+        if(secaoCondutorFase < minSecao)
+        {
+            minSecao = secaoCondutorFase;
+        }
+        
+        //VERIFICA A MAIOR
+        if(secaoCondutorFase > maxSecao)
+        {
+            maxSecao = secaoCondutorFase;
+        }
+    }
+    
+    for(var nome_campo in array5[0])
+    {
+        if(nome_campo == "DSC_PRODUTO")
+        {
+            alert("Nome campo: " + nome_campo + " - Valor: " + array5[0][nome_campo]);
+        }
+        
+        $("#arrayProdutoBean").append(new Option(array5[0][nome_campo],nome_campo, false, false));
+    }
+    
+    $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
+    $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
+    
+    
+    //alert("Filtro: " + filtro);
+//    db.transaction(function(tx){
+//                   
+//        var query="SELECT * FROM T003_PRODUTOS WHERE " + filtro +";";
+//        alert("Query: " + query);
+//        
+//        tx.executeSql(query,[],function(tx,rs){
+//           var minSecao = Number.MAX_VALUE;
+//           var maxSecao = 0;
+//           
+//           //var ProdutoBean = new ProdutoBean();
+//                      
+//           if(rs.rows.length > 0)
+//           {
+//               for(i = 0; i < rs.rows.length; i++)
+//               {
+//                   secaoCondutorFase = rs.rows.item(i)["NME_SECAO_CONDUTOR_FASE"];
+//                   //VERIFICA MENOR
+//                   if(secaoCondutorFase < minSecao)
+//                   {
+//                       minSecao = secaoCondutorFase;
+//                   }
+//                   
+//                   //VERIFICA A MAIOR
+//                   if(secaoCondutorFase > maxSecao)
+//                   {
+//                       maxSecao = secaoCondutorFase;
+//                   }
+//               }
+//                      
+//                for(var nome_campo in rs.rows.item(0))
+//                {
+//                      if(nome_campo == "NME_TIPO_MATERIAL_ISOLACAO")
+//                      {
+//                          alert("Nome campo: " + nome_campo + " - Valor: " + rs.rows.item(0)[nome_campo]);
+//                      }
+//                      
+//                    $("#arrayProdutoBean").append(new Option(rs.rows.item(0)[nome_campo],nome_campo, false, false));
+//                }
+//                      
+//                $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
+//                $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
+//                      
+//                //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+//                //var tipoMaterialIsolacao = arrayProdutoBean.options['NME_TIPO_MATERIAL_ISOLACAO'].text;
+//                      
+//                //alert("tipoMaterialIsolacao: " + tipoMaterialIsolacao);
+//                      
+//               //produto.setT003_PRODUTOS(resultSet.rows.item(0));
+//               //produto.setSecaoMaxima(maxSecao);
+//               //produto.setSecaoMinima(minSecao);
+//           }                       
+//       });
+//    });
 }
 
 function getFamilia(cabo)
