@@ -7,7 +7,7 @@ var numeroCabosCorrente = 0;
 var secaoCorrente = 0;
 
 
-var xmlT003_PRODUTOS = "<T003_PRODUTOS>";
+/*var xmlT003_PRODUTOS = "<T003_PRODUTOS>";
 xmlT003_PRODUTOS += "<produto>";
 xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
 xmlT003_PRODUTOS += "<COD_PRODUTO>47025</COD_PRODUTO>";
@@ -50,9 +50,12 @@ xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>1</NMR_NUMERO_CONDUTORES_FASE>"
 xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>50</NME_SECAO_CONDUTOR_FASE>";
 xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";
 xmlT003_PRODUTOS += "</produto>";
-xmlT003_PRODUTOS += "</T003_PRODUTOS>";
+xmlT003_PRODUTOS += "</T003_PRODUTOS>";*/
 
-function selectXML(xmlTabela, campos){
+function selectXML(xmlTabela, campos)
+{
+    alert("Campos selectXML: " + campos);
+    
 	//PARSING XML
 	var xmlData = parseXML(xmlTabela);
 	var rows = xmlData.getElementsByTagName("produto");
@@ -182,11 +185,12 @@ function calcular()
     
         getCaboDimensionamentoCalculo(0);
     
-        var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-        $('#arrayProdutoBean option[value="DSC_PRODUTO"]').attr({ selected : "selected" });
-        var tipoMaterialIsolacao = $("#arrayProdutoBean").text();
-        
-        alert("DSC_PRODUTO: " + tipoMaterialIsolacao);
+        //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+        //$('#arrayProdutoBean option[value="DSC_PRODUTO"]').attr({ selected : "selected" });
+        //var tipoMaterialIsolacao = $("#arrayProdutoBean").text();
+        var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
+    
+        alert("NME_TIPO_MATERIAL_ISOLACAO: " + tipoMaterialIsolacao);
     
         //init();
     

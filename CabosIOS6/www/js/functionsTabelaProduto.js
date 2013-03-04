@@ -76,8 +76,6 @@ function getSecaoCondutorFaseDouble()
 
 function getCaboDimensionamentoCalculo(secaoCabo)
 {
-	var filtro = "";
-    
     var tipoProduto = $("#cableList").val();
     var nivelTensao = $("#systemVoltage").val();
     var caboSelecionado = $("#caboSelecionado").val();
@@ -85,9 +83,11 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     var materialCondutor = $("#cableMaterial").val();
     var numeroCondutores = $("#conductorNumber").val();
 	
-	filtro = filtro + "NMR_FAMILIA_PRODUTO='" + getFamilia(caboSelecionado) + "'";
-	filtro = filtro + " AND NMR_NUMERO_CONDUTORES_FASE='" + numeroCondutores + "'";
-	filtro = filtro + " AND NME_TENSAO_PRODUTO='" + getTensaoIsolamentoDesc(tensaoIsolamento) + "'";
+    var filtro = "";
+    
+	//filtro = filtro + "NMR_FAMILIA_PRODUTO='" + getFamilia(caboSelecionado) + "'";
+	//filtro = filtro + " AND NMR_NUMERO_CONDUTORES_FASE='" + numeroCondutores + "'";
+	//filtro = filtro + " AND NME_TENSAO_PRODUTO='" + getTensaoIsolamentoDesc(tensaoIsolamento) + "'";
     
 	
 	var aluminio = "AL";
@@ -96,35 +96,41 @@ function getCaboDimensionamentoCalculo(secaoCabo)
 	
 	if(materialCondutor == ALUMINIO)
 	{
-		filtro = filtro + " AND NME_MATERIAL_CONDUTOR_FASE='" + aluminio + "'";
+		//filtro = filtro + " AND NME_MATERIAL_CONDUTOR_FASE='" + aluminio + "'";
+        filtro = filtro + '"NME_MATERIAL_CONDUTOR_FASE,=,'+ aluminio + '"';
 	}
 	else
 	{
-		filtro = filtro + " AND NME_MATERIAL_CONDUTOR_FASE!='" + aluminio + "'";
+		//filtro = filtro + " AND NME_MATERIAL_CONDUTOR_FASE!='" + aluminio + "'";
+        filtro = filtro + '"NME_MATERIAL_CONDUTOR_FASE,!=,'+ aluminio + '"';
 	}
 	
 	if(secaoCabo > 0)
 	{
-		filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabo.toFixed(0) + "'";
+		//filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabo.toFixed(0) + "'";
+        filtro = filtro + '"NME_SECAO_CONDUTOR_FASE,=,'+ secaoCabo.toFixed(0) + '"';
 	}
     
-    alert("Filtro: " + filtro);
+    filtro = '"NMR_FAMILIA_PRODUTO,=,'+getFamilia(caboSelecionado)+'","NMR_NUMERO_CONDUTORES_FASE,=,'+numeroCondutores+'","NME_TENSAO_PRODUTO,=,'+getTensaoIsolamentoDesc(tensaoIsolamento)+'"';    
     
+    alert("Filtro: " + filtro);    
 
     var minSecao = Number.MAX_VALUE;
     var maxSecao = 0;
     
-    /*var array5 = selectXML(xmlT003_PRODUTOS, "*", "NME_MATERIAL_CONDUTOR_FASE,!=,"+aluminio, "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
+    //var array5 = selectXML(xmlT003_PRODUTO, "*", filtro);
     
-    /*var array5 = selectXML(xmlT003_PRODUTOS, "*", "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
+    /*var array5 = selectXML(xmlT003_PRODUTO, "*", "NME_MATERIAL_CONDUTOR_FASE,!=,"+aluminio, "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
     
-    var array5 = selectXML(xmlT003_PRODUTOS, "*", "NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));
+    var array5 = selectXML(xmlT003_PRODUTO, "*", "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));
+    
+    //var array5 = selectXML(xmlT003_PRODUTO, "*", "NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));
     
     alert("Tamanho Array: " + array5.length)
     
     for(var count = 0; count < array5.length; count++)
     {
-        alert(array5[count]["COD_PRODUTO"]);
+        //alert(array5[count]["COD_PRODUTO"]);
         
         secaoCondutorFase = array5[count]["NME_SECAO_CONDUTOR_FASE"];
         //VERIFICA MENOR
@@ -147,11 +153,15 @@ function getCaboDimensionamentoCalculo(secaoCabo)
             alert("Nome campo: " + nome_campo + " - Valor: " + array5[0][nome_campo]);
         }
         
-        $("#arrayProdutoBean").append(new Option(array5[0][nome_campo],nome_campo, false, false));
+        arrayProdutoBean[nome_campo] = array5[0][nome_campo];
+        //$("#arrayProdutoBean").append(new Option(array5[0][nome_campo],nome_campo, false, false));
     }
     
-    $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
-    $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
+    //$("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
+    arrayProdutoBean["SecaoMaxima"] = maxSecao;
+    
+    //$("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
+    arrayProdutoBean["SecaoMinima"] = minSecao;
     
     
     //alert("Filtro: " + filtro);
