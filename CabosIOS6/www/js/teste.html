@@ -87,11 +87,6 @@ function selectXML(xmlTabela, campos){
 							passou = false;	
 						}
 						break;
-                    case "!=":
-                        if(campoValidado == arrayCondicao[2]){
-                            passou = false;
-                        }
-                    break;
 					case "<":
 						if(campoValidado >= arrayCondicao[2]){
 							passou = false;
@@ -215,12 +210,27 @@ for(count = 0; count < array4.length; count++){
 */
 
 //EXEMPLO COM 2 CONDICOES
-/*
-var array5 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
+
+var strEval = 'selectXML(xmlT003_PRODUTOS, "*"';
+
+if(true){ //Condicao qualquer para filtro
+	strEval += ',"COD_PRODUTO,BETWEEN,30000,40000"';
+}
+
+
+if(true){
+	strEval += ',"SEQ_REGISTRO_TIPO,=,312"';
+}
+
+strEval += ')';
+
+alert(strEval);
+//var strEval = 'selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312")';
+var array5 = eval(strEval);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
 for(count = 0; count < array5.length; count++){
 	alert(array5[count]["COD_PRODUTO"]);
 }
-*/
+
 
 //EXEMPLO COM 2 CONDICOES E SEGUNDA CONDICAO FALHANDO (NAO TRARA NADA)
 /*

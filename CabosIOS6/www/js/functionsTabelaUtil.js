@@ -139,26 +139,37 @@ function getCorrenteTable04Base(numeroTabela, dimensionamento, secao){
 	$("#corrente").val(corrente);
 	
 	var nomeTabela = getNomeTabelaTable04Base(numeroTabela);
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_04, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"NMR_SECAO,=,'+ secao +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_04 = eval(filtro);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
 	
-	db.transaction(function(tx){
-				   tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+	//db.transaction(function(tx){
+	//			   tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
 					
-			if(rs.rows.length >0){
+			if(arrayTAB_AUXILIAR_04.length >0){
 								 
 				var name = "VLR_" + getNomeColunaTable04Base(dimensionamento) + getNumeroCondutoresCarregadosTable04Base(dimensionamento);
 				
 				 switch(name){
 					case "VLR_A1_2":
-						corrente = rs.rows.item(0).VLR_A1_2;
+						//corrente = rs.rows.item(0).VLR_A1_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_A1_2"];
 						break;
 					case "VLR_A1_3":
-						corrente = rs.rows.item(0).VLR_A1_3;
+						//corrente = rs.rows.item(0).VLR_A1_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_A1_3"];
 						break;
 					case "VLR_A2_2":
-						corrente = rs.rows.item(0).VLR_A2_2;
+						//corrente = rs.rows.item(0).VLR_A2_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_A2_2"];
 						break;
 					case "VLR_A2_3":
-						corrente = rs.rows.item(0).VLR_A2_3;
+						//corrente = rs.rows.item(0).VLR_A2_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_A2_3"];
 						break;
 					case "VLR_B1_2":
 						corrente = rs.rows.item(0).VLR_B1_2;
