@@ -2352,14 +2352,14 @@ function validar1()
     var objCorrenteCurto = document.getElementById('correnteCurto');
     var teste1 = /[0-9]\.[0-9]/;
     var teste2 = /[0-9]\.[0-9]{2}/;
-    if (DWRUtil.getValue("correnteCurto").search(teste1) == -1)
-    {
+    
+	if($("#correnteCurto").val().search(teste1) == -1){
+	//if (DWRUtil.getValue("correnteCurto").search(teste1) == -1)
         alert("A corrente de curto-circuito poderá ser composta por até seis números, sendo cinco inteiros e uma casa decimal obrigatória.");
         objCorrenteCurto.focus();
         return false;
-    }
-    else if (DWRUtil.getValue("correnteCurto").search(teste2) != -1)
-    {
+    }else if ($("#correnteCurto").val().search(teste2) != -1){
+    //else if (DWRUtil.getValue("correnteCurto").search(teste2) != -1)
         alert("A corrente de curto-circuito poderá ser composta por até seis números, sendo cinco inteiros e uma casa decimal obrigatória.");
         objCorrenteCurto.focus();
         return false;
@@ -2372,11 +2372,13 @@ function validar2()
     var objTempoAtuacao = document.getElementById('tempoAtuacao');
     var teste1 = /[0-9]\.[0-9]/;
     var teste2 = /[0-9]\.[0-9]{4}/;
-    if (DWRUtil.getValue("tempoAtuacao").search(teste1) == -1) {
+    //if (DWRUtil.getValue("tempoAtuacao").search(teste1) == -1) {
+	if($("#tempoAtuacao").val().search(teste1) == -1){
         alert("O tempo de atuação poderá ser composto por até cinco números: dois inteiros e três casas decimais, sendo uma casa decimal obrigatória.");
         objTempoAtuacao.focus();
         return false;
-    } else if (DWRUtil.getValue("tempoAtuacao").search(teste2) != -1) {
+    //} else if (DWRUtil.getValue("tempoAtuacao").search(teste2) != -1) {
+	}if($("#tempoAtuacao").val().search(teste2) == -1){
         alert("O tempo de atuação poderá ser composto por até cinco números: dois inteiros e três casas decimais, sendo uma casa decimal obrigatória.");
         objTempoAtuacao.focus();
         return false;
