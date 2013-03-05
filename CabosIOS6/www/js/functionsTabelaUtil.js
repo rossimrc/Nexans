@@ -21,6 +21,8 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setTensaoIsolamento($("#isolationVoltage").val());
     dimensionamento.setFrequencia($("#frequency").val());
 	dimensionamento.setEletrodutoMetalico($("#eletrodutoMetalico").val());
+    dimensionamento.setFormacaoBancoDutos($("#formacaoBancoDutos").val());
+    dimensionamento.setQuantidadeCircuitos($("#quantidadeCircuitos").val());
 
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
@@ -172,39 +174,45 @@ function getCorrenteTable04Base(numeroTabela, dimensionamento, secao){
                         corrente = arrayTAB_AUXILIAR_04[0]["VLR_A2_3"];
 						break;
 					case "VLR_B1_2":
-						corrente = rs.rows.item(0).VLR_B1_2;
+						//corrente = rs.rows.item(0).VLR_B1_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_B1_2"];
 						break;
 					case "VLR_B1_3":
-						corrente = rs.rows.item(0).VLR_B1_3;
+						//corrente = rs.rows.item(0).VLR_B1_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_B1_3"];
 						break;
 					case "VLR_B2_2":
-						corrente = rs.rows.item(0).VLR_B2_2;
+						//corrente = rs.rows.item(0).VLR_B2_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_B2_2"];
 						break;
 					case "VLR_B2_3":
-						corrente = rs.rows.item(0).VLR_B2_3;
+						//corrente = rs.rows.item(0).VLR_B2_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_B2_3"]; 
 						break;
 					case "VLR_C_2":
-						corrente = rs.rows.item(0).VLR_C_2;
+						//corrente = rs.rows.item(0).VLR_C_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_C_2"]; 
 						break;
 					case "VLR_C_3":
-						corrente = rs.rows.item(0).VLR_C_3;
+						//corrente = rs.rows.item(0).VLR_C_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_C_3"]; 
 						break;
 					case "VLR_D_2":
-						corrente = rs.rows.item(0).VLR_D_2;
+						//corrente = rs.rows.item(0).VLR_D_2;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_D_2"];
 						break;
 					case "VLR_D_3":
-						corrente = rs.rows.item(0).VLR_D_3;
+						//corrente = rs.rows.item(0).VLR_D_3;
+                        corrente = arrayTAB_AUXILIAR_04[0]["VLR_D_3"];
 						break;
 				 }
 			}
 			 
 			$("#corrente").val(corrente);
-		});
-				   
-	},errorCB);
+	//	});		   
+	//},errorCB);
 	
 	return $("#corrente").val();
-	
 }
 
 function getNumeroCondutoresCarregadosTable04Base(dimensionamento){
@@ -267,12 +275,19 @@ function getCorrenteTable05Base(numeroTabela, dimensionamento, secao){
 	
 	var nomeTabela = getNomeTabelaTable05Base(numeroTabela);
 	
-	db.transaction(function(tx){
-				   tx.executeSql("SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+	//db.transaction(function(tx){
+	//			   tx.executeSql("SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_05, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"NMR_SECAO,=,'+ secao +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_05 = eval(filtro);
 						
 								 
-			if(rs.rows.length >0){
-								 
+			if(arrayTAB_AUXILIAR_05.length >0)
+            {					 
 				var name = "VLR_" + getNomeColunaTable05Base(dimensionamento) + "_";
 				
 				if (dimensionamento.isDuasFases() && !dimensionamento.isColunaG()) {
@@ -283,38 +298,43 @@ function getCorrenteTable05Base(numeroTabela, dimensionamento, secao){
 				
 				switch(name){
 					case "VLR_E_2":
-						corrente = rs.rows.item(0).VLR_E_2;
+						//corrente = rs.rows.item(0).VLR_E_2;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_E_2"];
 						break;
 					case "VLR_E_3":
-						corrente = rs.rows.item(0).VLR_E_3;
+						//corrente = rs.rows.item(0).VLR_E_3;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_E_3"];
 						break;
 					case "VLR_F_2":
-						corrente = rs.rows.item(0).VLR_F_2;
+						//corrente = rs.rows.item(0).VLR_F_2;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_F_2"];
 						break;
 					case "VLR_F_3":
-						corrente = rs.rows.item(0).VLR_F_3;
+						//corrente = rs.rows.item(0).VLR_F_3;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_F_3"];
 						break;
 					case "VLR_F_J_3":
-						corrente = rs.rows.item(0).VLR_F_J_3;
+						//corrente = rs.rows.item(0).VLR_F_J_3;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_F_J_3"];
 						break;
 					case "VLR_G_H_3":
-						corrente = rs.rows.item(0).VLR_G_H_3;
+						//corrente = rs.rows.item(0).VLR_G_H_3;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_G_H_3"];
 						break;
 					case "VLR_G_V_3":
-						corrente = rs.rows.item(0).VLR_G_V_3;
+						//corrente = rs.rows.item(0).VLR_G_V_3;
+                        corrente = arrayTAB_AUXILIAR_05[0]["VLR_G_V_3"];
 						break;
 				 }
 
 			}
 								 
 			$("#corrente").val(corrente);
-		});
+	//	});
 				   
-	},errorCB);
+	//},errorCB);
 	
-	return $("#corrente").val();
-				   
-	
+	return corrente;
 }
 
 function getNomeColunaTable05Base(dimensionamento){
@@ -385,36 +405,51 @@ function getCorrenteTable10Base(numeroTabela, dimensionamento, secao){
 	
 	var nomeTabela = getNomeTabelaTable10Base(numeroTabela, dimensionamento.getTensaoIsolamento());
 	
-	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ?",[nomeTabela],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql("SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ?",[nomeTabela],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_10, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_10 = eval(filtro);
 					 
-			if(rs.rows.length >0){
-				
+			if(arrayTAB_AUXILIAR_10.length >0)
+            {
 				  if (dimensionamento.isColunaA()) {
-					corrente = rs.rows.item(0).VLR_A;
+					//corrente = rs.rows.item(0).VLR_A;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_A"];
 				  } else if (dimensionamento.isColunaB()) {
-					corrente = rs.rows.item(0).VLR_B;
+					//corrente = rs.rows.item(0).VLR_B;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_B"];
 				  } else if (dimensionamento.isColunaC()) {
-					corrente = rs.rows.item(0).VLR_C;
+					//corrente = rs.rows.item(0).VLR_C;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_C"];
 				  } else if (dimensionamento.isColunaD()) {
-					corrente = rs.rows.item(0).VLR_D;
+					//corrente = rs.rows.item(0).VLR_D;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_D"];
 				  } else if (dimensionamento.isColunaE()) {
-					corrente = rs.rows.item(0).VLR_E;
+					//corrente = rs.rows.item(0).VLR_E;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_E"];
 				  } else if (dimensionamento.isColunaF()) {
-					corrente = rs.rows.item(0).VLR_F;
+					//corrente = rs.rows.item(0).VLR_F;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_F"];
 				  } else if (dimensionamento.isColunaG()) {
-					corrente = rs.rows.item(0).VLR_G;
+					//corrente = rs.rows.item(0).VLR_G;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_G"];
 				  } else if (dimensionamento.isColunaH()) {
-					corrente = rs.rows.item(0).VLR_H;
+					//corrente = rs.rows.item(0).VLR_H;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_H"];
 				  } else if (dimensionamento.isColunaI()) {
-					corrente = rs.rows.item(0).VLR_I;
+					//corrente = rs.rows.item(0).VLR_I;
+                    corrente = arrayTAB_AUXILIAR_10[0]["VLR_I"];
 				  }
 			}
 			$("#corrente").val(corrente);
-		});
-	},errorCB);
+	//	});
+	//},errorCB);
 
-	return $("#corrente").val();
+	return corrente;
 }
 
 function getNomeTabelaTable10Base(numeroTabela, tensaoIsolamento)
@@ -437,55 +472,70 @@ function getCorrenteLinhaNaval(dimensionamento, secao){
 	
 	var nomeTabela = getNomeTabelaLinhaNaval(dimensionamento.getTemperaturaMaximaCondutor());
 	
-	db.transaction(function(tx){
-				   tx.executeSql("SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ?",[nomeTabela],function(tx,rs){
+	//db.transaction(function(tx){
+	//			   tx.executeSql("SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ?",[nomeTabela],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_02, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_02 = eval(filtro);
 					
-			if(rs.rows.length >0){
-								 
+			if(arrayTAB_AUXILIAR_02.length >0)
+            {					 
 				if (dimensionamento.isColunaB1()) {
 					if (dimensionamento.isDuasFases()) {
-						corrente = rs.rows.item(0).VLR_B1_2;
+						//corrente = rs.rows.item(0).VLR_B1_2;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_B1_2"];
 					} else if (dimensionamento.isTrifasico()) {
-						corrente = rs.rows.item(0).VLR_B1_3;
+						//corrente = rs.rows.item(0).VLR_B1_3;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_B1_3"];
 					}
 				} else if (dimensionamento.isColunaB2()) {
 					if (dimensionamento.isDuasFases()) {
-						corrente = rs.rows.item(0).VLR_B2_2;
+						//corrente = rs.rows.item(0).VLR_B2_2;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_B2_2"];
 					} else if (dimensionamento.isTrifasico()) {
-						corrente = rs.rows.item(0).VLR_B2_3;
+						//corrente = rs.rows.item(0).VLR_B2_3;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_B2_3"];
 					}
 				} else if (dimensionamento.isColunaC()) {
 					if (dimensionamento.isDuasFases()) {
-						corrente = rs.rows.item(0).VLR_C_2;
+						//corrente = rs.rows.item(0).VLR_C_2;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_C_2"];
 					} else if (dimensionamento.isTrifasico()) {
-						corrente = rs.rows.item(0).VLR_C_3;
+						//corrente = rs.rows.item(0).VLR_C_3;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_C_3"];
 					}
 				} else if (dimensionamento.isColunaE()) {
 					if (dimensionamento.isDuasFases()) {
-						corrente = rs.rows.item(0).VLR_E_2;
+						//corrente = rs.rows.item(0).VLR_E_2;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_E_2"];
 					} else if (dimensionamento.isTrifasico()) {
-						corrente = rs.rows.item(0).VLR_E_3;
+						//corrente = rs.rows.item(0).VLR_E_3;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_E_3"];
 					}
 				} else if (dimensionamento.isColunaF()) {
 					if (dimensionamento.isDuasFases()) {
-						corrente = rs.rows.item(0).VLR_F_2;
+						//corrente = rs.rows.item(0).VLR_F_2;
+                        corrente = arrayTAB_AUXILIAR_02[0]["VLR_F_2"];
 					} else if (dimensionamento.isTrifasico()) {
 						if (dimensionamento.isTrifolio()) {
-							corrente = rs.rows.item(0).VLR_F_3;
+							//corrente = rs.rows.item(0).VLR_F_3;
+                            corrente = arrayTAB_AUXILIAR_02[0]["VLR_F_3"];
 						} else {
-							corrente = rs.rows.item(0).VLR_F_3T;
+							//corrente = rs.rows.item(0).VLR_F_3T;
+                            corrente = arrayTAB_AUXILIAR_02[0]["VLR_F_3T"];
 						}
 					}
-				}
-								 
+				}				 
 			}
 			
 			$("#corrente").val(corrente);
-		});
-				   
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
-	return $("#corrente").val();
+	return corrente;
 }
 
 function getNomeTabelaLinhaNaval(temperaturaCondutor) {
@@ -519,44 +569,56 @@ function getFatorAgrupamentoTabela18Base(numeroTabela, numeroCircuitos,  numeroB
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_18 WHERE NME_BANCO = ? AND NMR_BANDEJAS = ? ",[nomeTabela,numeroBandejas],function(tx,rs){
-             
-             if(rs.rows.length >0)
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_18 WHERE NME_BANCO = ? AND NMR_BANDEJAS = ? ",[nomeTabela,numeroBandejas],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_18, "*"';
+    filtro += ',"NME_BANCO,=,'+ nomeTabela +'"';
+    filtro += ',"NMR_BANDEJAS,=,'+ numeroBandejas +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_18 = eval(filtro);
+    
+             if(arrayTAB_AUXILIAR_18.length >0)
              {
                  switch (numeroCircuitos)
                  {
                      case "1":
                          //fator = bean.getValor1();
-                         fator = rs.rows.item(0).VLR_1;
+                         //fator = rs.rows.item(0).VLR_1;
+                         fator = arrayTAB_AUXILIAR_18[0]["VLR_1"];
                      break;
                      case "2":
                          //fator = bean.getValor2();
-                         fator = rs.rows.item(0).VLR_2;
+                         //fator = rs.rows.item(0).VLR_2;
+                         fator = arrayTAB_AUXILIAR_18[0]["VLR_2"];
                      break;
                      case "3":
                          //fator = bean.getValor3();
-                         fator = rs.rows.item(0).VLR_3;
+                         //fator = rs.rows.item(0).VLR_3;
+                         fator = arrayTAB_AUXILIAR_18[0]["VLR_3"];
                      break;
                      case "4":
                      case "5":
                      case "6":
                          //fator = bean.getValor6();
-                         fator = rs.rows.item(0).VLR_6;
+                         //fator = rs.rows.item(0).VLR_6;
+                         fator = arrayTAB_AUXILIAR_18[0]["VLR_6"];
                      break;
                      case "7":
                      case "8":
                      case "9":
                          //fator = bean.getValor9();
-                         fator = rs.rows.item(0).VLR_9;
+                         //fator = rs.rows.item(0).VLR_9;
+                         fator = arrayTAB_AUXILIAR_18[0]["VLR_9"];
                      break;
                  }
              }
              $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
     
-    //return fator;
+    return fator;
 }
 
 function bandejaJustapostaTabelaA8(index, numeroCircuitos)
@@ -1362,39 +1424,56 @@ function getMaiorSecaoTable04Base(numeroTabela, dimensionamento, secao, maior){
 	
 	var nomeTabela = getNomeTabelaTable04Base(numeroTabela);
 	
-	var sql = "SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ?";
-	if(maior){
-		sql += " AND NMR_SECAO > ?";
-	}else{
-		sql += " AND NMR_SECAO = ?";
+	//var sql = "SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ?";
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_04, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    
+	if(maior)
+    {
+		//sql += " AND NMR_SECAO > ?";
+        filtro += ',"NMR_SECAO,>,'+ secao +'"';
 	}
+    else
+    {
+		//sql += " AND NMR_SECAO = ?";
+        filtro += ',"NMR_SECAO,=,'+ secao +'"';
+	}
+    
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_04 = eval(filtro);
 	
-	db.transaction(function(tx){
-				   tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
-								 
-			if(rs.rows.length >0){
+	//db.transaction(function(tx){
+	//			   tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 				
-				if(maior){
-								 
+			if(arrayTAB_AUXILIAR_04.length >0)
+            {
+				if(maior)
+                {				 
 					var minSecao = Number.MAX_VALUE;
 								 
-					for(var i = 0; i < rs.rows.length; i++){
-						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-							minSecao = rs.rows.item(i)["NMR_SECAO"];
+					for(var i = 0; i < arrayTAB_AUXILIAR_04.length; i++)
+                    {
+						if (arrayTAB_AUXILIAR_04[i]["NMR_SECAO"] < minSecao)
+                        {
+							minSecao = arrayTAB_AUXILIAR_04[i]["NMR_SECAO"];
 						}
 					}
 								 
 					secaoEncontrada = minSecao;
-				}else{
-					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
+				}
+                else
+                {
+					secaoEncontrada = arrayTAB_AUXILIAR_04[i]["NMR_SECAO"];
 				}
 			}
 			
 			$("#sessao").val(secaoEncontrada);
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
-	return $("#sessao").val();
+	return secaoEncontrada;
 	
 }
 
@@ -1404,38 +1483,62 @@ function getMaiorSecaoTable05Base(numeroTabela, dimensionamento, secao, maior){
 	
 	var nomeTabela = getNomeTabelaTable05Base(numeroTabela);
 	
-	var sql = "SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ?";
+	/*var sql = "SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ?";
 	if(maior){
 		sql += " AND NMR_SECAO > ?";
 	}else{
 		sql += " AND NMR_SECAO = ?";
+	}*/
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_05, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    
+	if(maior)
+    {
+		//sql += " AND NMR_SECAO > ?";
+        filtro += ',"NMR_SECAO,>,'+ secao +'"';
 	}
+    else
+    {
+		//sql += " AND NMR_SECAO = ?";
+        filtro += ',"NMR_SECAO,=,'+ secao +'"';
+	}
+    
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_05 = eval(filtro);
 	
 	
-	db.transaction(function(tx){
-		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
-			if(rs.rows.length >0){
-				if(maior){
+			if(arrayTAB_AUXILIAR_05.length >0)
+            {
+				if(maior)
+                {
 					var minSecao = Number.MAX_VALUE;
 					  
-					for(var i = 0; i < rs.rows.length; i++){
-						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-							minSecao = rs.rows.item(i)["NMR_SECAO"];
+					for(var i = 0; i < arrayTAB_AUXILIAR_05.length; i++)
+                    {
+						if (arrayTAB_AUXILIAR_05[i]["NMR_SECAO"] < minSecao)
+                        {
+							minSecao = arrayTAB_AUXILIAR_05[i]["NMR_SECAO"];
 						}
 					}
 					  
 					secaoEncontrada = minSecao;
-				}else{
-					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
+				}
+                else
+                {
+					secaoEncontrada = arrayTAB_AUXILIAR_05[i]["NMR_SECAO"];
 				}
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
-	return $("#sessao").val();
+	return secaoEncontrada;
 	
 }
 
@@ -1445,37 +1548,56 @@ function getMaiorSecaoTable10Base(numeroTabela, dimensionamento, secao, maior){
 	
 	var nomeTabela = getNomeTabelaTable10Base(numeroTabela, dimensionamento.getTensaoIsolamento());
 	
-	var sql = "SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ?";
-	if(maior){
-		sql += " AND NMR_SECAO > ?";
-	}else{
-		sql += " AND NMR_SECAO = ?";
+	//var sql = "SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ?";
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_10, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    
+	if(maior)
+    {
+		//sql += " AND NMR_SECAO > ?";
+        filtro += ',"NMR_SECAO,>,'+ secao +'"';
 	}
+    else
+    {
+		//sql += " AND NMR_SECAO = ?";
+        filtro += ',"NMR_SECAO,=,'+ secao +'"';
+	}
+    
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_10 = eval(filtro);
 	
-	db.transaction(function(tx){
-		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
-			if(rs.rows.length >0){
-				if(maior){
+			if(arrayTAB_AUXILIAR_10.length >0)
+            {
+				if(maior)
+                {
 					var minSecao = Number.MAX_VALUE;
 					  
-					for(var i = 0; i < rs.rows.length; i++){
-						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-							minSecao = rs.rows.item(i)["NMR_SECAO"];
+					for(var i = 0; i < arrayTAB_AUXILIAR_10.length; i++)
+                    {
+						if (arrayTAB_AUXILIAR_10[i]["NMR_SECAO"] < minSecao)
+                        {
+							minSecao = arrayTAB_AUXILIAR_10[i]["NMR_SECAO"];
 						}
 					}
 					  
 					secaoEncontrada = minSecao;
-				}else{
-					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
+				}
+                else
+                {
+					secaoEncontrada = arrayTAB_AUXILIAR_10[i]["NMR_SECAO"];
 				}
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
-	return $("#sessao").val();
+	return secaoEncontrada;
 	
 }
 
@@ -1485,38 +1607,56 @@ function getMaiorSecaoLinhaNaval(dimensionamento, secao, maior){
 	
 	var nomeTabela = getNomeTabelaLinhaNaval(dimensionamento.getTemperaturaMaximaCondutor());
 	
-	var sql = "SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ?";
-	if(maior){
-		sql += " AND NMR_SECAO > ?";
-	}else{
-		sql += " AND NMR_SECAO = ?";
+	//var sql = "SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ?";
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_02, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    
+	if(maior)
+    {
+		//sql += " AND NMR_SECAO > ?";
+        filtro += ',"NMR_SECAO,>,'+ secao +'"';
 	}
+    else
+    {
+		//sql += " AND NMR_SECAO = ?";
+        filtro += ',"NMR_SECAO,=,'+ secao +'"';
+	}
+    
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_02 = eval(filtro);
 	
-	db.transaction(function(tx){
-		tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql(sql,[nomeTabela, secao],function(tx,rs){
 								 
-			if(rs.rows.length >0){
-				if(maior){
+			if(arrayTAB_AUXILIAR_02.length >0)
+            {
+				if(maior)
+                {
 					var minSecao = Number.MAX_VALUE;
 					  
-					for(var i = 0; i < rs.rows.length; i++){
-						if (rs.rows.item(i)["NMR_SECAO"] < minSecao) {
-							minSecao = rs.rows.item(i)["NMR_SECAO"];
+					for(var i = 0; i < arrayTAB_AUXILIAR_02.length; i++)
+                    {
+						if (arrayTAB_AUXILIAR_02[i]["NMR_SECAO"] < minSecao)
+                        {
+							minSecao = arrayTAB_AUXILIAR_02[i]["NMR_SECAO"];
 						}
 					}
 					  
 					secaoEncontrada = minSecao;
-				}else{
-					secaoEncontrada = rs.rows.item(0)["NMR_SECAO"];
+				}
+                else
+                {
+					secaoEncontrada = arrayTAB_AUXILIAR_02[i]["NMR_SECAO"];
 				}
 			}
 								 
 			$("#sessao").val(secaoEncontrada);
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
-	return $("#sessao").val();
-	
+	return secaoEncontrada;
 }
 
 function buscarSecaoTabelaUtil(corrente, minimaSecao, maximaSecao){
@@ -1577,29 +1717,40 @@ function getSecaoTable04Base(numeroTabela, dimensionamento, corrente, minimaSeca
 	
 	var fieldName = "VLR_" + coluna + "_" + numCondutores;
 	
-	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? OR " + fieldName + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
-					  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? OR " + fieldName + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
+	//				  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_04, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"OR,'+ fieldName +',=,'+ corrente +'"';
+    filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
+    filtro += ')';
+                      
+    var arrayTAB_AUXILIAR_04 = eval(filtro);
+				
+			if(arrayTAB_AUXILIAR_04.length >0)
+            {
 								 
-			if(rs.rows.length >0){
-								 
-				var minRow = rs.rows.item(0);
+				var minRow = arrayTAB_AUXILIAR_04[0];
 				var minItem = minRow[fieldName];
 				
-				for(var i = 0; i < rs.rows.length; i++){
-					var tempRow = rs.rows.item(i);
+				for(var i = 0; i < arrayTAB_AUXILIAR_04.length; i++)
+                {
+					var tempRow = arrayTAB_AUXILIAR_04[i];
 					var tempItem = tempRow[fieldName];
 								 
-					if(tempItem < minItem){
+					if(tempItem < minItem)
+                    {
 						minRow = tempRow;
 					}
 				}
 								 
-				$("#sessao").val(minRow[NMR_SECAO]);
+				$("#sessao").val(minRow["NMR_SECAO"]);
 			}
 								 
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
 	
 	return $("#sessao").val();
@@ -1615,29 +1766,39 @@ function getSecaoTable05Base(numeroTabela, dimensionamento, corrente, minimaSeca
 	
 	var fieldName = "VLR_" + coluna + "_" + numCondutores;
 	
-	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ? OR " + fieldName + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
-					  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
-								 
-			if(rs.rows.length >0){
-								 
-				var minRow = rs.rows.item(0);
+	//db.transaction(function(tx){
+	//	tx.executeSql("SELECT * FROM TAB_AUXILIAR_05 WHERE NME_TABELA = ? OR " + fieldName + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
+	//				  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_05, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"OR,'+ fieldName +',=,'+ corrente +'"';
+    filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_05 = eval(filtro);
+				
+			if(arrayTAB_AUXILIAR_05.length >0)
+            {								 
+				var minRow = arrayTAB_AUXILIAR_05[0];
 				var minItem = minRow[fieldName];
 					  
-				for(var i = 0; i < rs.rows.length; i++){
-					var tempRow = rs.rows.item(i);
+				for(var i = 0; i < rarrayTAB_AUXILIAR_05.length; i++)
+                {
+					var tempRow = arrayTAB_AUXILIAR_05[i];
 					var tempItem = tempRow[fieldName];
 					  
-					if(tempItem < minItem){
+					if(tempItem < minItem)
+                    {
 						minRow = tempRow;
 					}
 				}
 					  
-				$("#sessao").val(minRow[NMR_SECAO]);
+				$("#sessao").val(minRow["NMR_SECAO"]);
 			}
 								 
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 	
 	
 	return $("#sessao").val();
@@ -1650,20 +1811,29 @@ function getSecaoTable10Base(numeroTabela, dimensionamento, corrente, minimaSeca
 	var nomeTabela = getNomeTabelaTable10Base(numeroTabela, dimensionamento.getTensaoIsolamento());
 	var coluna = "VLR_" + getNomeColunaTable10Base(dimensionamento);
 	
-	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ? AND " + coluna + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
-					  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql("SELECT * FROM TAB_AUXILIAR_10 WHERE NME_TABELA = ? AND " + coluna + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
+	//				  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_10, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"'+ coluna +',>,'+ corrente +'"';
+    filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_10 = eval(filtro);
 								 
-			if(rs.rows.length >0){
-				sessao = rs.rows.item(0).NMR_SECAO;
+			if(arrayTAB_AUXILIAR_10.length >0)
+            {
+				sessao = arrayTAB_AUXILIAR_10[0]["NMR_SECAO"];
 			}
 			
 			$("#sessao").val(sessao);
-		});
-	}, errorCB);
+	//	});
+	//}, errorCB);
 
 	
-	return $("#sessao").val();
+	return sessao;
 }
 
 function getNomeColunaTable10Base(dimensionamento) {
@@ -1699,21 +1869,28 @@ function getSessaoLinhaNaval(dimensionamento, corrente, minimaSecao, maximaSecao
 	var nomeTabela = getNomeTabelaLinhaNaval(dimensionamento.getTemperaturaMaximaCondutor());
 	var coluna = "VLR_" + getNomeColunaLinhaNaval(dimensionamento);
 	
-	db.transaction(function(tx){
-		tx.executeSql("SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ? AND " + coluna + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
-					  [nomeTabela, corrente, minimaSecao, maximaSecao],function(tx,rs){
+	//db.transaction(function(tx){
+	//	tx.executeSql("SELECT * FROM TAB_AUXILIAR_02 WHERE NME_TABELA = ? AND " + coluna + " > ? AND (NMR_SECAO BETWEEN ? AND ?)",
+	//				  [nomeTabela, corrente, minimaSecao, ],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_02, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"'+ coluna +',>,'+ corrente +'"';
+    filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_02 = eval(filtro);
 								 
-			if(rs.rows.length >0){
-				sessao = rs.rows.item(0).NMR_SECAO;
+			if(arrayTAB_AUXILIAR_02.length >0)
+            {
+				sessao = arrayTAB_AUXILIAR_02[0]["NMR_SECAO"];
 			}
 								 
 			$("#sessao").val(sessao);
-		});
-	}, errorCB);
-
+	//	});
+	//}, errorCB);
 	
-	
-	return $("#sessao").val();
+	return sessao;
 }
 
 function getNomeColunaLinhaNaval(dimensionamento) {

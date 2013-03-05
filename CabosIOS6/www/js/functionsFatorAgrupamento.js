@@ -3,6 +3,7 @@ function calcularAgrupamentoFatorAgrupamento(numeroCabos)
     var dimensionamento = getDimensionamentoTabelaUtil();
     
     numeroCircuitos = dimensionamento.getNumeroCircuitos(numeroCabos);
+
     //numeroBandejas = getNumeroBandejas();
     var numeroBandejas = dimensionamento.getNumeroBandejas();
     

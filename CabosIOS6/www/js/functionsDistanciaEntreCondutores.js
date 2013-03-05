@@ -6,24 +6,23 @@ function calcularDistanciaEntreCondutores()
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var numFiosCondutor = arrayProdutoBean.options["NMR_NUMERO_FIOS_CONDUTOR"].value;
-    var diametroCondutor = arrayProdutoBean.options["NMR_DIAMETRO_CONDUTOR"].value;
+    var numFiosCondutor = arrayProdutoBean["NMR_NUMERO_FIOS_CONDUTOR"];
+    var diametroCondutor = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
     
     //var a = produto.getDiametroNomCobertura();
-    var a = arrayProdutoBean.options["NMR_DIAMETRO_NOM_COBERTURA"].value;
+    var a = arrayProdutoBean["NMR_DIAMETRO_NOM_COBERTURA"];
     
     //var b = produto.getDiametroCondutor();
-    var b = arrayProdutoBean.options["NMR_DIAMETRO_CONDUTOR"].value;
+    var b = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
     
     //var c = produto.getEspessuraDaIsolEntreCondutor();
-    var c = arrayProdutoBean.options["NMR_ESPESSURA_ISOL_ENTRE_CONDU"].value;
+    var c = arrayProdutoBean["NMR_ESPESSURA_ISOL_ENTRE_CONDU"];
     
     //var d = produto.getDiametroNominalVeia();
-    var d = arrayProdutoBean.options["NMR_DIAMETRO_NOMINAL_VEIA"].value;
+    var d = arrayProdutoBean["NMR_DIAMETRO_NOMINAL_VEIA"];
     
     //var e = produto.getDiametroNominalIsolacao();
-    var d = arrayProdutoBean.options["NMR_DIAMETRO_NOMINAL_ISOLACAO"].value;
+    var d = arrayProdutoBean["NMR_DIAMETRO_NOMINAL_ISOLACAO"];
     
     if (dimensionamento.isBaixaTensao())
     {
@@ -93,7 +92,7 @@ function calcularDistanciaEntreCondutores()
         else if (dimensionamento.isColunaA1())
         {
             
-            if (dimensionamento.getLocalInstalacao() == MOLDURA))
+            if (dimensionamento.getLocalInstalacao() == MOLDURA)
             {
                 s = a * 2.52;
             }
@@ -136,15 +135,6 @@ function calcularDistanciaEntreCondutores()
             }
         }
     }
-    
-//    if (getDebug().isEnabled()) {
-//        getDebug().logVariable("a", a);
-//        getDebug().logVariable("b", b);
-//        getDebug().logVariable("c", c);
-//        getDebug().logVariable("s", s);
-//    }
-//    
-//    getDebug().logMethodExit();
 }
 
 function getSDistanciaEntreCabos()

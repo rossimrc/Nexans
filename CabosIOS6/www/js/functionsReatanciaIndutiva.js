@@ -45,9 +45,9 @@ function calcularIndutanciaReatanciaIndutiva(s, rp, dp, xpp)
     //getDebug().logMethodEnter("calcularIndutancia");
     var dimensionamento = getDimensionamentoTabelaUtil();
     
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var numFiosCondutor = arrayProdutoBean.options["NMR_NUMERO_FIOS_CONDUTOR"].value;
-    var diametroCondutor = arrayProdutoBean.options["NMR_DIAMETRO_CONDUTOR"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var numFiosCondutor = arrayProdutoBean["NMR_NUMERO_FIOS_CONDUTOR"];
+    var diametroCondutor = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
     
     // Indut‚ncia (LL).
     var lL = 0;
@@ -81,8 +81,7 @@ function calcularIndutanciaReatanciaIndutiva(s, rp, dp, xpp)
 
 function getRMGReatanciaIndutiva(numeroFiosCondutor)
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoCondutor = arrayProdutoBean.options["NME_TIPO_CONDUTOR"].value;
+    var tipoCondutor = arrayProdutoBean["NME_TIPO_CONDUTOR"];
     
     // Verifica se o condutor È compactado.
     if (tipoCondutor=="R")

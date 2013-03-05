@@ -80,7 +80,7 @@ function DimensionamentoBean() {
     }
 
     this.getFrequencia = function() {
-        return frequencia;
+        return this.frequencia;
     }
 
     this.setFrequencia = function(frequencia) {
@@ -164,19 +164,19 @@ function DimensionamentoBean() {
     }
 
     this.isUnipolar = function() {
-        return this.numeroCondutores == UNIPOLAR;
+        return this.numeroCondutores == NCUNIPOLAR;
     }
 
     this.isBipolar = function() {
-        return this.numeroCondutores == BIPOLAR;
+        return this.numeroCondutores == NCBIPOLAR;
     }
 
     this.isTripolar = function() {
-        return this.numeroCondutores == TRIPOLAR;
+        return this.numeroCondutores == NCTRIPOLAR;
     }
 
     this.isTetrapolar = function() {
-        return this.numeroCondutores == TETRAPOLAR;
+        return this.numeroCondutores == NCTETRAPOLAR;
     }
 
     this.setNumeroCondutores = function(numeroCondutores) {
@@ -257,7 +257,7 @@ function DimensionamentoBean() {
         if (this.isCabosEnergia()) {
         	var a = this.localInstalacao == MOLDURA;
         	var b = this.localInstalacao == PAREDE_ISOLANTE;
-        	var c = this.localInstalacao == ELETRODUTO_PAREDE && this.numeroCondutores == UNIPOLAR
+        	var c = this.localInstalacao == ELETRODUTO_PAREDE && this.numeroCondutores == NCUNIPOLAR
         	var d = this.localInstalacao == CAIXILHO_PORTA_PAREDE;
 
             return a || b || c || d;
@@ -267,7 +267,7 @@ function DimensionamentoBean() {
 
     this.isColunaA2 = function() {
         if (this.isCabosEnergia()) {
-            var a = this.localInstalacao == ELETRODUTO_PAREDE && this.numeroCondutores != UNIPOLAR;
+            var a = this.localInstalacao == ELETRODUTO_PAREDE && this.numeroCondutores != NCUNIPOLAR;
 
             return a;
         }
@@ -301,15 +301,15 @@ function DimensionamentoBean() {
 
     this.isColunaB1 = function() {
         if (this.isCabosEnergia()) {
-            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores == UNIPOLAR && this.possibilidadeInstalacao == APARENTE;
+            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores == NCUNIPOLAR && this.possibilidadeInstalacao == APARENTE;
 
             var b = this.possibilidadeInstalacao == EMBUTIDA && this.localInstalacao == ELETRODUTO_CIRCULAR_ALVENARIA;
 
-            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores == UNIPOLAR;
+            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores == NCUNIPOLAR;
 
             var d = this.localInstalacao == CANALETA_VENTILADA;
             
-            var e = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores == UNIPOLAR;
+            var e = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores == NCUNIPOLAR;
 
             var f = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == DIRETAMENTE && (this.relacaoCaboDuto != _1POINT5V5);
 
@@ -325,11 +325,11 @@ function DimensionamentoBean() {
 
     this.isColunaB2 = function() {
         if (this.isCabosEnergia()) {
-            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores != UNIPOLAR && this.possibilidadeInstalacao == APARENTE;
+            var a = this.localInstalacao == ELETRODUTO && this.numeroCondutores != NCUNIPOLAR && this.possibilidadeInstalacao == APARENTE;
 
-            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores != UNIPOLAR;
+            var c = this.localInstalacao == CANALETA_FECHADA && this.numeroCondutores != NCUNIPOLAR;
             
-            var d = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores != UNIPOLAR;
+            var d = this.localInstalacao == ELETROCALHA_PERFILADO && this.numeroCondutores != NCUNIPOLAR;
 
             var e = this.possibilidadeInstalacao == ESPACO_CONSTRUCAO && this.localInstalacao == DIRETAMENTE && (this.relacaoCaboDuto == _1POINT5V5);
 
@@ -396,19 +396,27 @@ function DimensionamentoBean() {
 
         if (this.isCabosEnergia()) {
             if (this.isBaixaTensao()) {
-                if (this.possibilidadeInstalacao == APARENTE && !this.isUnipolar()) {
-                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES)) {
+                if (this.possibilidadeInstalacao == APARENTE && !this.isUnipolar())
+                {
+                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES))
+                    {
                         bResult = true;
                     }
-                } else if (this.possibilidadeInstalacao == SUSPENSA) {
-                    if (this.localInstalacao == SUPORTES) {
-                        if (!this.isUnipolar() && this.tensaoIsolamento != _450V_750V) {
+                }
+                else if (this.possibilidadeInstalacao == SUSPENSA)
+                {
+                    if (this.localInstalacao == SUPORTES)
+                    {
+                        if (!this.isUnipolar() && this.tensaoIsolamento != _450V_750V)
+                        {
                             bResult = true;
                         }
                     }
                 }
 
-            } else if (this.isMediaTensao()) {
+            }
+            else if (this.isMediaTensao())
+            {
                 if (this.possibilidadeInstalacao == ELETRODUTO_APARENTE_AR || this.possibilidadeInstalacao == ELETRODUTO_NAO_METALICO_APARENTE_AR || this.possibilidadeInstalacao == ELETRODUTO_METALICO_APARENTE_AR) {
                     bResult = true;
                 }
@@ -425,10 +433,14 @@ function DimensionamentoBean() {
     this.isColunaF = function() {
         var bResult = false;
 
-        if (this.isCabosEnergia()) {
-            if (this.isBaixaTensao()) {
-                if (this.possibilidadeInstalacao == APARENTE && this.isUnipolar()) {
-                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES)) {
+        if (this.isCabosEnergia())
+        {
+            if (this.isBaixaTensao())
+            {
+                if (this.possibilidadeInstalacao == APARENTE && this.isUnipolar())
+                {
+                    if (((this.localInstalacao == BANDEJA_PERFURADA)) || (this.localInstalacao == LEITO) || (this.localInstalacao == SUPORTES))
+                    {
                         bResult = true;
                     }
                 } else if (this.possibilidadeInstalacao == SUSPENSA) {
@@ -562,9 +574,9 @@ function DimensionamentoBean() {
 
     this.getNumeroCircuitos = function(numeroCabos) {
         if ((this.isColunaF() || this.isColunaG()) && this.possibilidadeInstalacao == BANCO_DUTOS_SOLO) {
-            return this.formacaoBancoDutos * this.numeroCabos;
+            return this.formacaoBancoDutos * numeroCabos;
         } else {
-            return this.quantidadeCircuitos * this.numeroCabos;
+            return this.quantidadeCircuitos * numeroCabos;
         }
     }
 

@@ -2,12 +2,11 @@ var xp = 0;
 var yp = 0;
 
 
-function calcularEfeitoProximidade(dimensionamento, s, rcc){
-	
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+function calcularEfeitoProximidade(dimensionamento, s, rcc)
+{
 	
 	// Diametro do condutor.
-	var dc = arrayProdutoBean.options["NMR_DIAMETRO_CONDUTOR"].value;
+	var dc = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
 	
 	if (dimensionamento.isDuasFases()) {
 		

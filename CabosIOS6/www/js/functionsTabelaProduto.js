@@ -124,7 +124,6 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     var minSecao = Number.MAX_VALUE;
     var maxSecao = 0;
     
-    alert(filtro);
     var array5 = eval(filtro);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
     
     /*var array5 = selectXML(xmlT003_PRODUTO, "*", "NME_MATERIAL_CONDUTOR_FASE,!=,"+aluminio, "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
@@ -132,8 +131,6 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     /*var array5 = selectXML(xmlT003_PRODUTO, "*", "NMR_FAMILIA_PRODUTO,=,"+getFamilia(caboSelecionado),"NMR_NUMERO_CONDUTORES_FASE,=,"+numeroCondutores,"NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));*/
     
     //var array5 = selectXML(xmlT003_PRODUTO, "*", "NME_TENSAO_PRODUTO,=,"+getTensaoIsolamentoDesc(tensaoIsolamento));
-    
-    alert("Tamanho Array: " + array5.length)
     
     for(var count = 0; count < array5.length; count++)
     {
@@ -155,19 +152,19 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     
     for(var nome_campo in array5[0])
     {
-        if(nome_campo == "DSC_PRODUTO")
+        /*if(nome_campo == "DSC_PRODUTO")
         {
             alert("Nome campo: " + nome_campo + " - Valor: " + array5[0][nome_campo]);
-        }
+        }*/
         
         arrayProdutoBean[nome_campo] = array5[0][nome_campo];
-        //$("#arrayProdutoBean").append(new Option(array5[0][nome_campo],nome_campo, false, false));
+        $("#arrayProdutoBean").append(new Option(array5[0][nome_campo],nome_campo, false, false));
     }
     
-    //$("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
+    $("#arrayProdutoBean").append(new Option(maxSecao,"SecaoMaxima", false, false));
     arrayProdutoBean["SecaoMaxima"] = maxSecao;
     
-    //$("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
+    $("#arrayProdutoBean").append(new Option(minSecao,"SecaoMinima", false, false));
     arrayProdutoBean["SecaoMinima"] = minSecao;
     
     

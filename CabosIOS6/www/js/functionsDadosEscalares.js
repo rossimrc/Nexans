@@ -56,7 +56,7 @@ function getSbDefault()
 /**
  * @return Contante tÈrmica do cabo analisando o condutor (∫C).
  */
-function double getKcCobre()
+function getKcCobre()
 {
     return KC_COBRE;
 }

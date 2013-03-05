@@ -13,9 +13,8 @@ var fatorTemperaturaAmbiente = 0;
 var iTabelada = 0;
 
 
-function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
-    alert("calcularCriterioCorrenteSecaoNominal");
-    
+function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
+{    
 	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
 	
@@ -34,10 +33,12 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
     
     // Aplica os fatores de correÁ„o a corrente.
     //fatorCorrecao.setSecao(sC);
-    i = -1;
-    var novaCorrente = aplicarFatorCorrecao($("#correnteProjeto").val(), numeroCabos, sC);
+    var i = -1;
     
-    while (i != novaCorrente) {
+    var novaCorrente = aplicarFatorCorrecao($("#correnteProjeto").val(), numeroCabos, sC, 1);
+    
+    while (i != novaCorrente)
+    {
         i = novaCorrente;
         
         // Verifica se a seÁ„o do condutor foi fixada.
@@ -66,11 +67,14 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
         } else {
             if (aumentarSecao) {
                 sC = buscarSecaoAcimaTabelaUtil(sC); // Verificar se È maior que a m·xima.
-                if (sC > arrayProdutoBean.options["SecaoMaxima"].value) {
+                //arrayProdutoBean["SecaoMinima"]
+                //if (sC > arrayProdutoBean.options["SecaoMaxima"].value) {
+                if (sC > arrayProdutoBean["SecaoMaxima"])
+                {
                     sC = 0;
                 }
             } else {
-                sC = buscarSecaoTabelaUtil(i, getSecaoMinima(), arrayProdutoBean.options["SecaoMaxima"].value);
+                sC = buscarSecaoTabelaUtil(i, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
             }
             //getDebug().logVariable("sC", sC);
             
@@ -87,7 +91,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
                 i = aplicarFatorCorrecao($("#correnteProjeto").val(), numeroCabos, sC, 1);
                 //getDebug().logVariable("Aplicando fator de correÁ„o: i", i);
                 
-                sC = buscarSecaoTabelaUtil(i, getSecaoMinima(), arrayProdutoBean.options["SecaoMaxima"].value);
+                sC = buscarSecaoTabelaUtil(i, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
                 //getDebug().logVariable("sC", sC);
             }
         }
@@ -120,62 +124,95 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao){
     //getDebug().logMethodExit();
 }
 
-function getSecaoMinimaSecaoNominal(){
+function getSecaoMinimaSecaoNominal()
+{    
 	var secao = 0;
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
-	if (dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.FORCA.getValue()) {
-		if (dimensionamento.isCobre()) {
+	if (dimensionamento.getUtilizacaoCircuito() == FORCA)
+    {
+		if (dimensionamento.isCobre())
+        {
 			secao = 2.5;
-		} else {
+		}
+        else
+        {
 			secao = 16;
 		}
-	} else if (dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.ILUMINACAO.getValue()) {
-		if (dimensionamento.isCobre()) {
+	}
+    else if (dimensionamento.getUtilizacaoCircuito() == ILUMINACAO)
+    {
+		if (dimensionamento.isCobre())
+        {
 			secao = 1.5;
-		} else {
+		}
+        else
+        {
 			secao = 16;
 		}
-	} else if (dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.SINALIZACAO.getValue()
-			   || dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.CONTROLE.getValue()) {
-		if (dimensionamento.isCobre()) {
+	}
+    else if (dimensionamento.getUtilizacaoCircuito() == SINALIZACAO || dimensionamento.getUtilizacaoCircuito() == CONTROLE)
+    {
+		if (dimensionamento.isCobre())
+        {
 			secao = 0.5;
 		}
-	} else if (dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.APLICACOES_ESPECIAIS.getValue()
-			   || dimensionamento.getUtilizacaoCircuito() == UtilizacaoCircuito.OUTROS.getValue()) {
-		if (dimensionamento.isCobre()) {
+	}
+    else if (dimensionamento.getUtilizacaoCircuito() == APLICACOES_ESPECIAIS || dimensionamento.getUtilizacaoCircuito() == OUTROS)
+    {
+		if (dimensionamento.isCobre())
+        {
 			secao = 0.75;
 		}
 	}
 	
-	if (dimensionamento.isBaixaTensao()) {
-		if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._3_6KV_6KV.getValue()
-			|| dimensionamento.getTensaoIsolamento() == TensaoIsolamento._6KV_10KV.getValue()) {
+	if (dimensionamento.isBaixaTensao())
+    {
+		if (dimensionamento.getTensaoIsolamento() == _3_6KV_6KV || dimensionamento.getTensaoIsolamento() == _6KV_10KV)
+        {
 			secao = 16;
-		} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._8_7KV_15KV.getValue()) {
+		}
+        else if (dimensionamento.getTensaoIsolamento() == _8_7KV_15KV)
+        {
 			secao = 25;
-		} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._12KV_20KV.getValue()
-				   || dimensionamento.getTensaoIsolamento() == TensaoIsolamento._15KV_25KV.getValue()) {
+		}
+        else if (dimensionamento.getTensaoIsolamento() == _12KV_20KV || dimensionamento.getTensaoIsolamento() == _15KV_25KV)
+        {
 			secao = 35;
-		} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._20KV_35KV.getValue()) {
+		}
+        else if (dimensionamento.getTensaoIsolamento() == _20KV_35KV)
+        {
 			secao = 50;
 		}
 		
-		if (secao < produto.getSecaoMinima()) {
-			secao = arrayProdutoBean.options["SecaoMinima"].value;
+		//if (secao < produto.getSecaoMinima())
+        if (secao < arrayProdutoBean["SecaoMinima"])        
+        {
+			secao = arrayProdutoBean["SecaoMinima"];
 		}
-	} else {
-		if (dimensionamento.getCaboSelecionado() == Cabo.EP_DRY.getValue() ||
-			dimensionamento.getCaboSelecionado() == Cabo.EP_DRY_105C.getValue()) {
+	}
+    else
+    {
+		if (dimensionamento.getCaboSelecionado() == EP_DRY || dimensionamento.getCaboSelecionado() == EP_DRY_105C)
+        {
 			secao = 16;
-		} else if (dimensionamento.getCaboSelecionado() == Cabo.FIPEX_BF.getValue()) {
-			if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._3_6KV_6KV.getValue()) {
+		}
+        else if (dimensionamento.getCaboSelecionado() == FIPEX_BF)
+        {
+			if (dimensionamento.getTensaoIsolamento() == _3_6KV_6KV)
+            {
 				secao = 10;
-			} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._6KV_10KV.getValue()) {
+			}
+            else if (dimensionamento.getTensaoIsolamento() == _6KV_10KV)
+            {
 				secao = 16;
-			} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._8_7KV_15KV.getValue()) {
+			}
+            else if (dimensionamento.getTensaoIsolamento() == _8_7KV_15KV)
+            {
 				secao = 25;
-			} else if (dimensionamento.getTensaoIsolamento() == TensaoIsolamento._12KV_20KV.getValue()) {
+			}
+            else if (dimensionamento.getTensaoIsolamento() == _12KV_20KV)
+            {
 				secao = 35;
 			}
 		}
@@ -184,7 +221,8 @@ function getSecaoMinimaSecaoNominal(){
 	return secao;
 }
 
-function calcularCriterioQuedaTensao(){
+function calcularCriterioQuedaTensao()
+{
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
 	/*if (sC > 0) {
@@ -199,7 +237,8 @@ function calcularCriterioQuedaTensao(){
 	rca = calcularRca(dimensionamento, rcc);	
 }
 
-function calcularRca(dimensionamento, valorRcc){
+function calcularRca(dimensionamento, valorRcc)
+{
 	rcc = valorRcc;
 	
 	calcularEfeitoPelicular(dimensionamento, rcc);
@@ -234,8 +273,9 @@ function calcularRcc(dimensionamento){
 	var oc = dimensionamento.getTemperaturaMaximaCondutor();
 	
 	// Resistencia elÈtrica do condutor a 20 graus (Rcc20∫C).
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-	var rcc20C = produto.arrayProdutoBean.options["NMR_RESISTENCIA_ELETRICA_COND"].value;
+
+	//var rcc20C = arrayProdutoBean.options["NMR_RESISTENCIA_ELETRICA_COND"].value;
+    var rcc20C = arrayProdutoBean["NMR_RESISTENCIA_ELETRICA_COND"];
 	
 	// Coeficiente de temperatura do condutor a 20 graus (ac20∫C)
 	var ac20C = getCoeficienteTemperaturaTabelaUtil(dimensionamento);
@@ -251,16 +291,20 @@ function calcularResistenciaBlindagem(dimensionamento){
 	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
 	
 	// N˙mero fios da proteÁ„o met·lica.
-	var np = produto.arrayProdutoBean.options["NMR_NUMERO_FIOS_BLINDAGEM"].value;
+	//var np = arrayProdutoBean.options["NMR_NUMERO_FIOS_BLINDAGEM"].value;
+    var np = arrayProdutoBean["NMR_NUMERO_FIOS_BLINDAGEM"];
 	
 	// Espessura da blindagem ou capa met·lica.
-	var ts = produto.arrayProdutoBean.options["NMR_DIAMETRO_FIOS_BLINDAGEM"].value;
+	//var ts = arrayProdutoBean.options["NMR_DIAMETRO_FIOS_BLINDAGEM"].value;
+    var ts = arrayProdutoBean["NMR_DIAMETRO_FIOS_BLINDAGEM"];
 	
 	// Passo do fio.
-	var p = produto.arrayProdutoBean.options["NMR_PASSO_BLINDAGEM"].value;
+	//var p = arrayProdutoBean.options["NMR_PASSO_BLINDAGEM"].value;
+    var p = arrayProdutoBean["NMR_PASSO_BLINDAGEM"];
 	
 	// Diametro medio da blindagem.
-	dp = produto.arrayProdutoBean.options["NMR_DIAMETRO_MEDIO_BLINDAGEM"].value;
+	//var dp = arrayProdutoBean.options["NMR_DIAMETRO_MEDIO_BLINDAGEM"].value;
+    var dp = arrayProdutoBean["NMR_DIAMETRO_MEDIO_BLINDAGEM"];
 	
 	// Coeficiente de temperatura.
 	var ap20C = getCoeficienteTemperaturaTabelaUtil(dimensionamento);

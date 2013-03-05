@@ -73,48 +73,113 @@ function selectXML(xmlTabela, campos){
 				var condicao = arguments[j];
 				var arrayCondicao = condicao.split(",");
 					
-				//ARRAY CONDICAO
+				//ARRAY CONDICAO NORMAL
 				//0 = CAMPO
 				//1 = CONDICAO (=, <, >, <=, >=, BETWEEN)
 				//2 = VALOR
 				//3 = SEGUNDO VALOR CASO BETWEEN
 				//NO PARAMETRO PASSAR ASSIM: "COD_PRODUTO,=,4000" OU "COD_PRODUTO,BETWEEN,4000,5000"
 				
-				var campoValidado = actualRow.getElementsByTagName(arrayCondicao[0])[0].textContent;
-				switch(arrayCondicao[1]){ 
-					case "=":
-						if(campoValidado != arrayCondicao[2]){
-							passou = false;	
-						}
-						break;
-					case "<":
-						if(campoValidado >= arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case "<=":
-						if(campoValidado > arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case ">":
-						if(campoValidado <= arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case ">=":
-						if(campoValidado < arrayCondicao[2]){
-							passou = false;	
-						}
-						break;
-					case "BETWEEN":
-						if(campoValidado < arrayCondicao[2] || campoValidado > arrayCondicao[3]){
-							passou = false;
-						}
-						break;
-				}	
+				//ARRAY CONDICAO OR
+				//0 = OR
+				//1 = CAMPO
+				//2 = CONDICAO (=, <, >, <=, >=, BETWEEN)
+				//3 = VALOR
+				//4 = SEGUNDO VALOR CASO BETWEEN
+				//NO PARAMETRO PASSAR ASSIM: "COD_PRODUTO,=,4000" OU "COD_PRODUTO,BETWEEN,4000,5000"
+				
+				
+				var campoValidado;
+				if(arrayCondicao[0] == "OR"){
+					campoValidado = actualRow.getElementsByTagName(arrayCondicao[1])[0].textContent;
+					switch(arrayCondicao[2]){ 
+						case "=":
+							if(campoValidado == arrayCondicao[3]){
+								passou = true;	
+							}
+							break;
+						case "!=":
+							if(campoValidado != arrayCondicao[3]){
+								passou = true;	
+							}
+							break;
+						case "<":
+							if(campoValidado < arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case "<=":
+							if(campoValidado <= arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case ">":
+							if(campoValidado > arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case ">=":
+							if(campoValidado >= arrayCondicao[3]){
+								passou = true;	
+							}
+							break;
+						case "BETWEEN":
+							if(campoValidado >= arrayCondicao[3] && campoValidado <= arrayCondicao[4]){
+								passou = true;
+							}
+							break;
+					}	
+				}else{
+					campoValidado = actualRow.getElementsByTagName(arrayCondicao[0])[0].textContent;
+					switch(arrayCondicao[1]){ 
+						case "=":
+							if(campoValidado != arrayCondicao[2]){
+								passou = false;	
+							}
+							break;
+						case "!=":
+							if(campoValidado == arrayCondicao[2]){
+								passou = false;	
+							}
+							break;
+						case "<":
+							if(campoValidado >= arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case "<=":
+							if(campoValidado > arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case ">":
+							if(campoValidado <= arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case ">=":
+							if(campoValidado < arrayCondicao[2]){
+								passou = false;	
+							}
+							break;
+						case "BETWEEN":
+							if(campoValidado < arrayCondicao[2] || campoValidado > arrayCondicao[3]){
+								passou = false;
+							}
+							break;
+					}		
+				}
 				
 				if(!passou){
+					//Valida proximo argumento para OR
+					if(j + 1 < arguments.length){
+						var proximaCondicao = arguments[j+1];
+						var arrayProximaCondicao = proximaCondicao.split(",");
+						if(arrayProximaCondicao[0] == "OR"){
+							continue;	
+						}
+					}
+
 					break;
 				}
 			}
@@ -211,7 +276,7 @@ for(count = 0; count < array4.length; count++){
 
 //EXEMPLO COM 2 CONDICOES
 
-var strEval = 'selectXML(xmlT003_PRODUTOS, "*"';
+/*var strEval = 'selectXML(xmlT003_PRODUTOS, "*"';
 
 if(true){ //Condicao qualquer para filtro
 	strEval += ',"COD_PRODUTO,BETWEEN,30000,40000"';
@@ -229,16 +294,16 @@ alert(strEval);
 var array5 = eval(strEval);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
 for(count = 0; count < array5.length; count++){
 	alert(array5[count]["COD_PRODUTO"]);
-}
+}*/
 
 
 //EXEMPLO COM 2 CONDICOES E SEGUNDA CONDICAO FALHANDO (NAO TRARA NADA)
-/*
-var array6 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,310");
+
+var array6 = selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,10000,20000", "OR,SEQ_REGISTRO_TIPO,=,310");
 for(count = 0; count < array6.length; count++){
 	alert(array6[count]["COD_PRODUTO"]);
 }
-*/
+
 </script>
 
 

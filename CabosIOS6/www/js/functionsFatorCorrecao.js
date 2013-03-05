@@ -25,6 +25,7 @@ var lastFatorTemperatura = "";
 function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanaleta)
 {
     var numCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
+    //alert("Valor numCircuitos: " + numCircuitos);
     //var numCircuitos = getNumeroCircuitos();
     
     lastFatorResistividade = getFatorCorrecaoResistividade();
@@ -39,7 +40,14 @@ function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanalet
         lastFatorAgrupamento = 1;
     }
     
-    return corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
+    //alert("corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta)");
+    //alert(corrente + " / ("+lastFatorResistividade+" * "+lastFatorTemperatura+" * "+lastFatorAgrupamento+" * "+ numeroCabos+" * "+fatorCanaleta+")");
+    
+    var fatorcorrecao = corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
+    
+    //alert("fatorcorrecao: " + fatorcorrecao);
+    
+    return fatorcorrecao
 }
 
 function calcularMaximaCorrenteConducao(corrente, numeroCabos)
@@ -78,23 +86,16 @@ function calcularMaximaCorrenteConducao(corrente, numeroCabos, fatorCanaleta)
 
 function getFatorCorrecaoTemperatura()
 {
-    alert("getFatorCorrecaoTemperatura");
-    
     //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].text;
     
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    $('#arrayProdutoBean option[value="NME_TIPO_MATERIAL_ISOLACAO"]').attr({ selected : "selected" });
-    var tipoMaterialIsolacao = $("#arrayProdutoBean").val();
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    //$('#arrayProdutoBean option[value="NME_TIPO_MATERIAL_ISOLACAO"]').attr({ selected : "selected" });
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     var fator = 1;
     
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
+    var dimensionamento = getDimensionamentoTabelaUtil();
     
     // Recupera a temperatura ambiente ao ar/solo.
     var temperaturaMaximaCondutor = $("#maximumTemperature").val();
@@ -170,34 +171,48 @@ function getFatorCorrecaoTemperatura()
     //getDebug().logMethodExit();
     //return fator;
     $("#fator").val(fator);
+    
+    return fator;
 }
 
 function getFatorCorrecaoTabela40(temperatura, materialIsolacao, nomeTabela)
 {
+    alert("getFatorCorrecaoTabela40");
     var fator = 1;
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_07 WHERE NME_TABELA = ? AND VLR_TEMPERATURA = ? ",[nomeTabela,temperatura],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_07 WHERE NME_TABELA = ? AND VLR_TEMPERATURA = ? ",[nomeTabela,temperatura],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_07, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"VLR_TEMPERATURA,=,'+ temperatura +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_07 = eval(filtro);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
               
-              if(rs.rows.length >0)
-              {
-                  if (materialIsolacao == "EPR" || materialIsolacao == "XLPE" || materialIsolacao == "XLP")
-                  {
-                      fator = rs.rows.item(0).VLR_EPR_XLPE;
-                  }
-                  else if (materialIsolacao == "PVC")
-                  {
-                      fator = rs.rows.item(0).VLR_PVC
-                  }
-              }
-                      
-              $("#fator").val(fator);
-         });
-    },errorCB);
+      if(arrayTAB_AUXILIAR_07.length >0)
+      {
+          if (materialIsolacao == "EPR" || materialIsolacao == "XLPE" || materialIsolacao == "XLP")
+          {
+              //fator = rs.rows.item(0).VLR_EPR_XLPE;
+              fator = arrayTAB_AUXILIAR_07[0]["VLR_EPR_XLPE"];
+          }
+          else if (materialIsolacao == "PVC")
+          {
+              //fator = rs.rows.item(0).VLR_PVC
+              fator = arrayTAB_AUXILIAR_07[0]["VLR_PVC"];
+          }
+      }
+              
+      $("#fator").val(fator);
+    //     });
+    //},errorCB);
 }
 
 function getFatorCorrecaoTabela32(tableName, temperaturaAmbiente, tipoMaterialIsolacao, temperaturaCondutor)
 {
+    alert("getFatorCorrecaoTabela32");
+    
     var fator = 0;
     
     /*Table16PKBean pkBean = new Table16PKBean();
@@ -206,26 +221,35 @@ function getFatorCorrecaoTabela32(tableName, temperaturaAmbiente, tipoMaterialIs
     
     Table16Bean bean = getByID(pkBean);*/
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_16 WHERE NME_TABELA = ? AND NMR_TEMPERATURA = ? ",[tableName,temperatura],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_16 WHERE NME_TABELA = ? AND NMR_TEMPERATURA = ? ",[tableName,temperatura],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_16, "*"';
+    filtro += ',"NME_TABELA,=,'+ tableName +'"';
+    filtro += ',"NMR_TEMPERATURA,=,'+ temperatura +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_16 = eval(filtro);
              
-             if(rs.rows.length >0)
-             {
-                if (tipoMaterialIsolacao == "EPR" && temperaturaCondutor == _105C)
-                {
-                    fator = rs.rows.item(0).NMR_EPR_105;
-                    //bean.getValorEPR105();
-                }
-                else
-                {
-                    fator = rs.rows.item(0).NMR_EPR_XLPE;
-                    //bean.getValorEPRXLPE();
-                }
-             }
-             
-             $("#fator").val(fator);
-        });
-    },errorCB);
+     if(arrayTAB_AUXILIAR_16.length >0)
+     {
+        if (tipoMaterialIsolacao == "EPR" && temperaturaCondutor == _105C)
+        {
+            //fator = rs.rows.item(0).NMR_EPR_105;
+            fator = arrayTAB_AUXILIAR_16[0]["NMR_EPR_105"];
+            //bean.getValorEPR105();
+        }
+        else
+        {
+            //fator = rs.rows.item(0).NMR_EPR_XLPE;
+            fator = arrayTAB_AUXILIAR_16[0]["NMR_EPR_XLPE"];
+            //bean.getValorEPRXLPE();
+        }
+     }
+     
+     $("#fator").val(fator);
+    //    });
+    //},errorCB);
 }
 
 function getFatorTable01(temperaturaCondutor, temperaturaAmbiente)
@@ -235,87 +259,101 @@ function getFatorTable01(temperaturaCondutor, temperaturaAmbiente)
     
     //id = NMR_GRAUS
     //Table01Bean bean = getByID(temperaturaCondutor);
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_01 WHERE NMR_GRAUS = ? ",[temperaturaCondutor],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_01 WHERE NMR_GRAUS = ? ",[temperaturaCondutor],function(tx,rs){
+   
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_01, "*"';
+    filtro += ',"NMR_GRAUS,=,'+ temperaturaCondutor +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_01 = eval(filtro);
                      
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_01.length >0)
             {
                 if (temperaturaAmbiente == _35C)
                 {
                     //fator = bean.getValor35Graus();
-                    fator = rs.rows.item(0).VLR_30_GRAUS;
+                    //fator = rs.rows.item(0).VLR_30_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_30_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _40C)
                 {
                     //fator = bean.getValor40Graus();
-                    fator = rs.rows.item(0).VLR_40_GRAUS;
+                    //fator = rs.rows.item(0).VLR_40_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_40_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _45C)
                 {
                     //fator = bean.getValor45Graus();
-                    fator = rs.rows.item(0).VLR_45_GRAUS;
+                    //fator = rs.rows.item(0).VLR_45_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_45_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _50C)
                 {
                     //fator = bean.getValor50Graus();
-                    fator = rs.rows.item(0).VLR_50_GRAUS;
+                    //fator = rs.rows.item(0).VLR_50_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_50_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _55C)
                 {
                     //fator = bean.getValor55Graus();
-                    fator = rs.rows.item(0).VLR_55_GRAUS;
+                    //fator = rs.rows.item(0).VLR_55_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_55_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _60C)
                 {
                     //fator = bean.getValor60Graus();
-                    fator = rs.rows.item(0).VLR_60_GRAUS;
+                    //fator = rs.rows.item(0).VLR_60_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_60_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _65C)
                 {
                     //fator = bean.getValor65Graus();
-                    fator = rs.rows.item(0).VLR_65_GRAUS;
+                    //fator = rs.rows.item(0).VLR_65_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_65_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _70C)
                 {
                     //fator = bean.getValor70Graus();
-                    fator = rs.rows.item(0).VLR_70_GRAUS;
+                    //fator = rs.rows.item(0).VLR_70_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_70_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _75C)
                 {
                     //fator = bean.getValor75Graus();
-                    fator = rs.rows.item(0).valor75Graus;
+                    //fator = rs.rows.item(0).valor75Graus;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_75_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _80C)
                 {
                     //fator = bean.getValor80Graus();
-                    fator = rs.rows.item(0).VLR_80_GRAUS;
+                    //fator = rs.rows.item(0).VLR_80_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_80_GRAUS"];
                 }
                 else if (temperaturaAmbiente == _85C)
                 {
                     //fator = bean.getValor85Graus();
-                    fator = rs.rows.item(0).VLR_85_GRAUS;
+                    //fator = rs.rows.item(0).VLR_85_GRAUS;
+                    fator = arrayTAB_AUXILIAR_01[0]["VLR_85_GRAUS"];
                 }
             }
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFatorCorrecaoAgrupamento(numeroCircuitos, numeroBandejas)
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
+    
     var numeroCircuitos = $("#numeroCircuitos").val();
     
     var fator = 1;
     
-    dimensionamento = new DimensionamentoBean();
-    dimensionamento.setTipoProduto($("#cableList").val());
-    dimensionamento.setNivelTensao($("#systemVoltage").val());
-    dimensionamento.setNumeroCondutores($("#conductorNumber").val());
-    dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
-    dimensionamento.setlocalInstalacao($("#localInstalacao").val());
-    dimensionamento.setQuantidadeCamadas($("#quantidadeCamadas").val());
+    var dimensionamento = getDimensionamentoTabelaUtil();
     
     // Recupera a temperatura ambiente ao ar/solo.
     var temperaturaMaximaCondutor = $("#maximumTemperature").val();
@@ -323,7 +361,6 @@ function getFatorCorrecaoAgrupamento(numeroCircuitos, numeroBandejas)
     var temperaturaAmbiente = $("#temperaturaArSolo").val();
     
     //getDebug().logMethodEnter("getFatorCorrecaoAgrupamento");
-    var fator = 1;
     
     if (dimensionamento.isCabosEnergia())
     {
@@ -580,6 +617,8 @@ function getFatorCorrecaoResistividade()
 
 function getFatorCorrecaoTabela33()
 {
+    alert("getFatorCorrecaoTabela33");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 0;
     var metodo = "";
@@ -594,70 +633,77 @@ function getFatorCorrecaoTabela33()
     }
     
     //Table17Bean bean = getByID(metodo);
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_17 WHERE NME_RESISTIVIDADE = ? ",[metodo],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_17 WHERE NME_RESISTIVIDADE = ? ",[metodo],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_17, "*"';
+    filtro += ',"NME_RESISTIVIDADE,=,'+ metodo +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_17 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_17.length >0)
             {
                 if (dimensionamento.getResistividadeTermica() == _1)
                 {
                     //fator = bean.getValor1();
-                      fator = rs.rows.item(0).VLR_1;
+                      //fator = rs.rows.item(0).VLR_1;
+                    fator = arrayTAB_AUXILIAR_17[0]["VLR_1"];
                 }
                 else if (dimensionamento.getResistividadeTermica() == _1_5)
                 {
                     //fator = bean.getValor15();
-                      fator = rs.rows.item(0).VLR_1_5;
+                      //fator = rs.rows.item(0).VLR_1_5;
+                    fator = arrayTAB_AUXILIAR_17[0]["VLR_1_5"];
                 }
                 else if (dimensionamento.getResistividadeTermica() == _2)
                 {
                     //fator = bean.getValor2();
-                      fator = rs.rows.item(0).VLR_2;
+                      //fator = rs.rows.item(0).VLR_2;
+                    fator = arrayTAB_AUXILIAR_17[0]["VLR_2"];
                 }
                 else if (dimensionamento.getResistividadeTermica() == _3)
                 {
                     //fator = bean.getValor3();
-                      fator = rs.rows.item(0).VLR_3;
+                      //fator = rs.rows.item(0).VLR_3;
+                    fator = arrayTAB_AUXILIAR_17[0]["VLR_3"];
                 }
             }
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
     
     return $("#fator").val();
 }
 
 function getFatorCorrecaoTabela41(resistividadeTermica)
 {
+    alert("getFatorCorrecaoTabela41");
     var fator = 0;
     
-//    List<Table06Bean> list;
-//    try {
-//        list = dao.getByResistividade(getResistividade(resistividadeTermica));
-//        
-//    } catch (SDFDAOException e) {
-//        getLogger().error(e);
-//        throw new SDFBusinessException("Erro ao carregar os dados.", e);
-//    }
-//    
-//    if (list.size() > 0) {
-//        fator = list.get(0).getFatorCorrecao();
-//    }
     var resistividade = getResistividadeTabela41(resistividadeTermica);
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_06 WHERE VLR_RESISTIVIDADE_TERMICA = ? ",[resistividade],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_06 WHERE VLR_RESISTIVIDADE_TERMICA = ? ",[resistividade],function(tx,rs){
+    
+        var filtro = 'selectXML(xmlTAB_AUXILIAR_06, "*"';
+        filtro += ',"VLR_RESISTIVIDADE_TERMICA,=,'+ resistividade +'"';
+        filtro += ')';
+        
+        var arrayTAB_AUXILIAR_06 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_06.length >0)
             {
-                fator = rs.rows.item(0).VLR_FATOR_CORRECAO;
+                //fator = rs.rows.item(0).VLR_FATOR_CORRECAO;
+                fator = arrayTAB_AUXILIAR_06[0]["VLR_FATOR_CORRECAO"];
             }
     
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    
+    //    });
+    //},errorCB);
     
     return $("#fator").val();
 }
@@ -707,19 +753,123 @@ function getFatorAgrupamentoNavalFatorCorrecao(numeroCircuitos, numeroBandejas)
         if (dimensionamento.isColunaE())
         {
             //getDebug().logVariable("Tabela", "table13");
-            fator = new Table13().getFatorCorrecao(dimensionamento, numeroCircuitos, numeroBandejas);
+            //fator = new Table13().getFatorCorrecao(dimensionamento, numeroCircuitos, numeroBandejas);
+            getFatorCorrecaoTable13(numeroCircuitos, numeroBandejas);
+            fator = $("#fator").val();
         }
-        else if (dimensionamento.isColunaF()) {
-            getDebug().logVariable("Tabela", "table11");
-            fator = new Table11().getFatorCorrecao(dimensionamento, numeroCircuitos, numeroBandejas);
+        else if (dimensionamento.isColunaF())
+        {
+            //getDebug().logVariable("Tabela", "table11");
+            //fator = new Table11().getFatorCorrecao(dimensionamento, numeroCircuitos, numeroBandejas);
+            getFatorCorrecaoTable11(numeroCircuitos, numeroBandejas);
+            fator = $("#fator").val();
         }
     }
     
     return fator;
 }
 
+function getFatorCorrecaoTable11(numeroCircuitos, numeroBandejas)
+{
+    alert("getFatorCorrecaoTable11");
+    
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var fator = 1;
+    
+    //Table13PKBean pkBean = new Table13PKBean();
+    //pkBean.setInstalacao(getFormaInstalacao(dimensionamento));
+    //pkBean.setNumeroBandejas(numeroBandejas);
+    var forma = getFormaInstalacaoTable11();
+    
+    //Table13Bean bean = getByID(pkBean);
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_11, "*"';
+    filtro += ',"NME_INSTALACAO,=,'+ forma +'"';
+    filtro += ',"NMR_BANDEJAS,=,'+ numeroBandejas +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_11 = eval(filtro);
+    
+    if(arrayTAB_AUXILIAR_11.length >0)
+    {
+        switch (numeroCircuitos)
+        {
+            case "1":
+                //fator = bean.getCircuitosTrifasicos1();
+                fator = arrayTAB_AUXILIAR_11[0]["NMR_CIRCUITO_TRIF_1"];
+                break;
+            case "2":
+                //fator = bean.getCircuitosTrifasicos2();
+                fator = arrayTAB_AUXILIAR_11[0]["NMR_CIRCUITO_TRIF_2"];
+                break;
+            case "3":
+                //fator = bean.getCircuitosTrifasicos3();
+                fator = arrayTAB_AUXILIAR_11[0]["NMR_CIRCUITO_TRIF_3"];
+                break;
+        }
+    }
+    //return fator;
+    $("#fator").val(fator);
+}
+
+function getFormaInstalacaoTable11()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var forma = "";
+    
+    if (dimensionamento.getLocalInstalacao() == BANDEJA_PERFURADA)
+    {
+        if (dimensionamento.isOrientacaoHorizontal())
+        {
+            if (dimensionamento.isJustaposto())
+            {
+                //forma = FormaInstalacao.BANDEJA_PERFURADA_HORIZONTAL_UNIPOLARES_JUSTAPOSTOS.getDescription();
+                forma = "Bandeja perfurada na horizontal com cabos unipolares justapostos";
+            }
+            else if (dimensionamento.isTrifolio())
+            {
+                //forma = FormaInstalacao.BANDEJA_PERFURADA_HORIZONTAL_TRIFOLIO_2DE.getDescription();
+                forma = "Bandeja perfurada na horizontal com cabos em formação de trifólio com espaçamento maior ou igual a 2De";
+            }
+        }
+        else if (dimensionamento.isOrientacaoVertical())
+        {
+            if (dimensionamento.isJustaposto())
+            {
+                //forma = FormaInstalacao.BANDEJA_PERFURADA_VERTICAL_UNIPOLARES_JUSTAPOSTOS.getDescription();
+                forma = "Bandeja perfurada na vertical com cabos unipolares justapostos";
+            }
+            else if (dimensionamento.isTrifolio())
+            {
+                //forma = FormaInstalacao.BANDEJA_PERFURADA_VERTICAL_TRIFOLIO_2DE.getDescription();
+                forma = "Bandeja perfurada na vertical com cabos em formação de trifólio com espaçamento maior ou igual a 2De";
+            }
+        }
+    }
+    else if (dimensionamento.getLocalInstalacao() == PAREDES || dimensionamento.getLocalInstalacao() == ALVENARIA || dimensionamento.getLocalInstalacao() == LEITO || dimensionamento.getLocalInstalacao() == BANDEJA_NAO_PERFURADA) {
+        
+        if (dimensionamento.isOrientacaoHorizontal())
+        {
+            if (dimensionamento.isJustaposto())
+            {
+                //forma = FormaInstalacao.CAMADA_PAREDES_PRATELEIRAS_PISO_LEITOS_UNIPOLAR_JUSTAPOSTOS.getDescription();
+                forma = "Camada sobre paredes/Prateleira/Piso/Leitos/Bandeja não perfurada/ na horizontal com cabos justapostos";
+            }
+            else if (dimensionamento.isTrifolio())
+            {
+                //forma = FormaInstalacao.CAMADA_PAREDES_PRATELEIRAS_PISO_LEITOS_TRIFOLIO_2DE.getDescription();
+                forma = "Camada sobre paredes/Prateleira/Piso/Leitos/Bandeja não perfurada/ na horizontal com cabos em formação de trifólio com espaçamento maior ou igual a 2De";
+            }
+        }
+    }
+    
+    return forma;
+}
+
 function getFatorCorrecaoTable13(numeroCircuitos, numeroBandejas)
 {
+    alert("getFatorCorrecaoTable13");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
@@ -730,45 +880,58 @@ function getFatorCorrecaoTable13(numeroCircuitos, numeroBandejas)
     
     //Table13Bean bean = getByID(pkBean);
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_13 WHERE NME_INSTALACAO = ? AND NMR_BANDEJAS = ? ",[forma,numeroBandejas],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_13 WHERE NME_INSTALACAO = ? AND NMR_BANDEJAS = ? ",[forma,numeroBandejas],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_13, "*"';
+    filtro += ',"NME_INSTALACAO,=,'+ forma +'"';
+    filtro += ',"NMR_BANDEJAS,=,'+ numeroBandejas +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_13 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_13.length >0)
             {
                 switch (numeroCircuitos) {
                     case "1":
                         //fator = bean.getNumeroCabosBandeja1();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_1;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_1;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_1"];
                         break;
                     case "2":
                         //fator = bean.getNumeroCabosBandeja2();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_2;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_2;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_2"];
                         break;
                     case "3":
                         //fator = bean.getNumeroCabosBandeja3();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_3;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_3;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_3"];
                         break;
                     case "4":
                         //fator = bean.getNumeroCabosBandeja4();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_4;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_4;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_4"];
                         break;
                     case "5":
                     case "6":
                         //fator = bean.getNumeroCabosBandeja6();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_6;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_6;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_6"];
                         break;
                     case "7":
                     case "8":
                     case "9":
                         //fator = bean.getNumeroCabosBandeja9();
-                          fator = rs.rows.item(0).NMR_CABOS_BANDEJA_9;
+                        //fator = rs.rows.item(0).NMR_CABOS_BANDEJA_9;
+                        fator = arrayTAB_AUXILIAR_13[0]["NMR_CABOS_BANDEJA_9"];
                         break;
                 }
             }
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFormaInstalacaoTable13()
@@ -820,71 +983,90 @@ function getFormaInstalacaoTable13()
 
 function getFatorCorrecaoTable12(numeroCircuitos)
 {
+    alert("getFatorCorrecaoTable12");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     var forma = getFormaAgrupamentoTable12();
     //Table12Bean bean = getByID(getFormaAgrupamento(dimensionamento));
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_12 WHERE NME_FORMA_AGRUPAMENTO = ? ",[forma],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_12 WHERE NME_FORMA_AGRUPAMENTO = ? ",[forma],function(tx,rs){
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_12, "*"';
+    filtro += ',"NME_FORMA_AGRUPAMENTO,=,'+ forma +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_12 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_12.length >0)
             {
                 switch (numeroCircuitos) {
                     case "1":
-                        fator = rs.rows.item(0).NMR_CIRCUITO_1;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_1;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_1"];
                         break;
                     case "2":
-                        fator = rs.rows.item(0).NMR_CIRCUITO_2;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_2;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_2"];
                         break;
                     case "3":
-                        fator = rs.rows.item(0).NMR_CIRCUITO_3;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_3;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_3"];
                         break;
                     case "4":
-                        fator = rs.rows.item(0).NMR_CIRCUITO_4;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_4;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_4"];
                         break;
                     case "5":
-                        fator = rs.rows.item(0).NMR_CIRCUITO_5;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_5;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_5"];
                         break;
                     case "6":
-                            fator = rs.rows.item(0).NMR_CIRCUITO_6;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_6;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_6"];
                         break;
                     case "7":
-                          fator = rs.rows.item(0).NMR_CIRCUITO_7;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_7;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_7"];
                         break;
                     case "8":
-                          fator = rs.rows.item(0).NMR_CIRCUITO_8;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_8;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_8"];
                         break;
                     case "9":
                     case "10":
                     case "11":
-                          fator = rs.rows.item(0).NMR_CIRCUITO_9;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_9;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_9"];
                         break;
                     case "12":
                     case "13":
                     case "14":
                     case "15":
                         //fator = bean.getNumeroCircuito12();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_12;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_12;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_12"];
                         break;
                     case "16":
                     case "17":
                     case "18":
                     case "19":
                         //fator = bean.getNumeroCircuito16();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_16;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_16;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_16"];
                         break;
                     default:
                         //fator = bean.getNumeroCircuito20();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_20;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_20;
+                        fator = arrayTAB_AUXILIAR_12[0]["NMR_CIRCUITO_20"];
                         break;
                 }
             }
                 
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFormaAgrupamentoTable12()
@@ -925,80 +1107,97 @@ function getFormaAgrupamentoTable12()
 
 function getFatorAgrupamentoTabela42(numeroCircuitos)
 {
-    
-    var fator = 0;
+    var fator = 1;
     var forma  = getFormaAgrupamentoTabela42();
     
     //Table15Bean bean = getByID(getFormaAgrupamento(dimensionamento));
     
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_15 WHERE NME_FORMA_AGRUPAMENTO = ? ",[forma],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_15 WHERE NME_FORMA_AGRUPAMENTO = ? ",[forma],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_15, "*"';
+    filtro += ',"NME_FORMA_AGRUPAMENTO,=,'+ forma +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_15 = eval(filtro);
          
-             if(rs.rows.length >0)
+             if(arrayTAB_AUXILIAR_15.length >0)
              {
                 switch (numeroCircuitos) {
                     case "1":
                         //fator = bean.getValorCircuito1();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_1;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_1;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_1"];
                         break;
                     case "2":
                         //fator = bean.getValorCircuito2();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_2;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_2;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_2"];
                         break;
                     case "3":
                         //fator = bean.getValorCircuito3();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_3;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_3;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_3"];
                         break;
                     case "4":
                         //fator = bean.getValorCircuito4();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_4;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_4;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_4"];
                         break;
                     case "5":
                         //fator = bean.getValorCircuito5();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_5;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_5;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_5"];
                         break;
                     case "6":
                         //fator = bean.getValorCircuito6();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_6;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_6;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_6"];
                         break;
                     case "7":
                         //fator = bean.getValorCircuito7();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_7;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_7;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_7"];
                         break;
                     case "8":
                         //fator = bean.getValorCircuito8();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_8;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_8;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_8"];
                         break;
                     case "9":
                     case "10":
                     case "11":
                         //fator = bean.getValorCircuito911();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_9_11;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_9_11;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_9_11"];
                         break;
                     case "12":
                     case "13":
                     case "14":
                     case "15":
                         //fator = bean.getValorCircuito1215();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_12_15;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_12_15;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_12_15"];
                         break;
                     case "16":
                     case "17":
                     case "18":
                     case "19":
                         //fator = bean.getValorCircuito1619();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_16_19;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_16_19;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_16_19"];
                         break;
                     default:
                         //fator = bean.getValorCircuito20();
-                          fator = rs.rows.item(0).NMR_CIRCUITO_20_MAIS;
+                        //fator = rs.rows.item(0).NMR_CIRCUITO_20_MAIS;
+                        fator = arrayTAB_AUXILIAR_15[0]["NMR_CIRCUITO_20_MAIS"];
                         break;
                 }
             }
             $("#fator").val(fator);
-        });
-    },errorCB);
-    //return fator;
+    //    });
+    //},errorCB);
+    return fator;
 }
 
 function getFormaAgrupamentoTabela42()
@@ -1042,43 +1241,56 @@ function getFormaAgrupamentoTabela42()
 
 function getFatorAgrupamentoTabela43(numeroCircuitos)
 {
+    alert("getFatorAgrupamentoTabela43");
+    
     var fator = 0;
     
     var quantidadeCamadas = $("#numeroCamadas").val();
     $("#quantidadeCamadas").val(camadas);
     
     //Table14Bean bean = getByID(getNumeroCamadas(dimensionamento.getQuantidadeCamadas()));
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_14 WHERE NMR_CONDUTORES = ? ",[quantidadeCamadas],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_14 WHERE NMR_CONDUTORES = ? ",[quantidadeCamadas],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_14, "*"';
+    filtro += ',"NMR_CONDUTORES,=,'+ quantidadeCamadas +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_14 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_14.length >0)
             {
                 switch (numeroCircuitos)
                 {
                     case "2":
                         //fator = bean.getValor2();
-                          fator = rs.rows.item(0).NMR_VALOR_2;
+                        //fator = rs.rows.item(0).NMR_VALOR_2;
+                        fator = arrayTAB_AUXILIAR_14[0]["NMR_VALOR_2"];
                         break;
                     case "3":
                         //fator = bean.getValor3();
-                          fator = rs.rows.item(0).NMR_VALOR_3;
+                        //fator = rs.rows.item(0).NMR_VALOR_3;
+                        fator = arrayTAB_AUXILIAR_14[0]["NMR_VALOR_3"];
                         break;
                     case "4":
                     case "5":
                         //fator = bean.getValor45();
-                          fator = rs.rows.item(0).NMR_VALOR_4_5;
+                        //fator = rs.rows.item(0).NMR_VALOR_4_5;
+                        fator = arrayTAB_AUXILIAR_14[0]["NMR_VALOR_4_5"];
                         break;
                     case "6":
                     case "7":
                     case "8":
                         //fator = bean.getValor68();
-                          fator = rs.rows.item(0).NMR_VALOR_6_8;
+                        //fator = rs.rows.item(0).NMR_VALOR_6_8;
+                        fator = arrayTAB_AUXILIAR_14[0]["NMR_VALOR_6_8"];
                         break;
                     default:
                         if (numeroCircuitos >= 9)
                         {
                             //fator = bean.getValor9();
-                            fator = rs.rows.item(0).NMR_VALOR_9_MAIS;
+                            //fator = rs.rows.item(0).NMR_VALOR_9_MAIS;
+                            fator = arrayTAB_AUXILIAR_14[0]["NMR_VALOR_9_MAIS"];
                         }
                         break;
                 }
@@ -1087,12 +1299,14 @@ function getFatorAgrupamentoTabela43(numeroCircuitos)
                       
             }
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFatorAgrupamentoTabela44(numeroCircuitos)
 {
+    alert("getFatorAgrupamentoTabela44");
+    
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
 	var corrente = 0;
@@ -1100,50 +1314,64 @@ function getFatorAgrupamentoTabela44(numeroCircuitos)
     
     var fator = 0;
         
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_08 WHERE NMR_CIRCUITO = ? ",[numeroCircuitos],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_08 WHERE NMR_CIRCUITO = ? ",[numeroCircuitos],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_08, "*"';
+    filtro += ',"NMR_CIRCUITO,=,'+ numeroCircuitos +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_08 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_08.length >0)
             {
                 if (dimensionamento.getDistanciaEntreCabos() == NULA)
                 {
                     //fator = bean.getNula();
-                    fator = rs.rows.item(0).VLR_NULA;
+                    //fator = rs.rows.item(0).VLR_NULA;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_NULA"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == UM_DIAMETRO)
                 {
                     //fator = bean.getUmDiametroCabo();
-                    fator = rs.rows.item(0).VLR_UM_DIAMETRO_CABO;
+                    //fator = rs.rows.item(0).VLR_UM_DIAMETRO_CABO;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_UM_DIAMETRO_CABO"];
                     
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == _0_125M)
                 {
                     //fator = bean.getValor_0125();
-                    fator = rs.rows.item(0).VLR_0125;
+                    //fator = rs.rows.item(0).VLR_0125;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_0125"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == _0_25M)
                 {
                     //fator = bean.getValor_025();
-                    fator = rs.rows.item(0).VLR_025;
+                    //fator = rs.rows.item(0).VLR_025;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_025"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == _0_5M)
                 {
                     //fator = bean.getValor_05();
-                    fator = rs.rows.item(0).VLR_05;
+                    //fator = rs.rows.item(0).VLR_05;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_05"];
                 }
                 else
                 {
                     //fator = bean.getNula();
-                    fator = rs.rows.item(0).VLR_NULA;
+                    //fator = rs.rows.item(0).VLR_NULA;
+                    fator = arrayTAB_AUXILIAR_08[0]["VLR_NULA"];
                 }
             }
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFatorAgrupamentoTabela45(numeroCircuitos)
 {
+    alert("getFatorAgrupamentoTabela45");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 0;
     
@@ -1156,46 +1384,60 @@ function getFatorAgrupamentoTabela45(numeroCircuitos)
     }
     
     //List<Table09Bean> list = dao.getByNumeroCircuitos(numeroCircuitos, nomeTabela);
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_09 WHERE NME_TABELA = ? AND NMR_CABOS = ? ",[nomeTabela, numeroCircuitos],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_09 WHERE NME_TABELA = ? AND NMR_CABOS = ? ",[nomeTabela, numeroCircuitos],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_09, "*"';
+    filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
+    filtro += ',"NMR_CABOS,=,'+ numeroCircuitos +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_09 = eval(filtro);
                  
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_09.length >0)
             {
                 if (dimensionamento.getDistanciaEntreCabos() == NULA)
                 {
                     //fator = list.get(0).getNula();
-                    fator = rs.rows.item(0).VLR_NULA;
+                    //fator = rs.rows.item(0).VLR_NULA;
+                    fator = arrayTAB_AUXILIAR_09[0]["VLR_NULA"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == UM_DIAMETRO)
                 {
                     //fator = list.get(0).getValor_1();
-                    fator = rs.rows.item(0).VLR_1;
+                    //fator = rs.rows.item(0).VLR_1;
+                    fator = arrayTAB_AUXILIAR_09[0]["VLR_1"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == _0_25M)
                 {
                     //fator = list.get(0).getValor_025();
-                    fator = rs.rows.item(0).VLR_025;
+                    //fator = rs.rows.item(0).VLR_025;
+                    fator = arrayTAB_AUXILIAR_09[0]["VLR_025"];
                 }
                 else if (dimensionamento.getDistanciaEntreCabos() == _0_5M)
                 {
                     //fator = list.get(0).getValor_05();
-                    fator = rs.rows.item(0).VLR_05;
+                    //fator = rs.rows.item(0).VLR_05;
+                    fator = arrayTAB_AUXILIAR_09[0]["VLR_05"];
                 }
                 else
                 {
                     //fator = list.get(0).getNula();
-                    fator = rs.rows.item(0).VLR_NULA;
+                    //fator = rs.rows.item(0).VLR_NULA;
+                    fator = arrayTAB_AUXILIAR_09[0]["VLR_NULA"];
                 }
             }
     
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
 {
+    alert("getFatorAgrupamentoTabela38");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
@@ -1289,16 +1531,24 @@ function getNomeBancoTabela37(secaoCondutor)
 
 function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
 {
+    alert("getFatorAgrupamentoTabela37");
+    
     //Table19Bean bean = getByID(getNomeBanco(dimensionamento, secaoCondutor));
     var nomeTabela = getNomeBancoTabela37(secaoCondutor);
     var dimensionamento = getDimensionamentoTabelaUtil();
     
     var fator = 1;
 
-    db.transaction(function(tx){
-        tx.executeSql("SELECT * FROM TAB_AUXILIAR_19 WHERE NME_BANCO = ? ",[nomeTabela],function(tx,rs){
+    //db.transaction(function(tx){
+    //    tx.executeSql("SELECT * FROM TAB_AUXILIAR_19 WHERE NME_BANCO = ? ",[nomeTabela],function(tx,rs){
+    
+    var filtro = 'selectXML(xmlTAB_AUXILIAR_19, "*"';
+    filtro += ',"NME_BANCO,=,'+ nomeTabela +'"';
+    filtro += ')';
+    
+    var arrayTAB_AUXILIAR_19 = eval(filtro);
 
-            if(rs.rows.length >0)
+            if(arrayTAB_AUXILIAR_19.length >0)
             {
                 if (numeroCircuitos == _2X2)
                 {
@@ -1309,12 +1559,14 @@ function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
                     if (numeroCircuitos == _2X3)
                     {
                         //fator = bean.getValor23();
-                        fator = rs.rows.item(0).VLR_2X3;
+                        //fator = rs.rows.item(0).VLR_2X3;
+                        fator = arrayTAB_AUXILIAR_09[0]["VLR_2X3"];
                     }
                     else if (numeroCircuitos == _3X3)
                     {
                         //fator = bean.getValor33();
-                        fator = rs.rows.item(0).VLR_3X3;
+                        //fator = rs.rows.item(0).VLR_3X3;
+                        fator = arrayTAB_AUXILIAR_09[0]["VLR_3X3"];
                     }
                 }
                 else
@@ -1322,29 +1574,34 @@ function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
                     if (numeroCircuitos == _2X3)
                     {
                         //fator = bean.getValor22();
-                        fator = rs.rows.item(0).VLR_2X2;
+                        //fator = rs.rows.item(0).VLR_2X2;
+                        fator = arrayTAB_AUXILIAR_09[0]["VLR_2X2"];
                     }
                     else if (numeroCircuitos == _3X3)
                     {
                         //fator = bean.getValor23();
-                        fator = rs.rows.item(0).VLR_2X3;
+                        //fator = rs.rows.item(0).VLR_2X3;
+                        fator = arrayTAB_AUXILIAR_09[0]["VLR_2X3"];
                     }
                     else if (numeroCircuitos == _3X4)
                     {
                         //fator = bean.getValor33();
-                        fator = rs.rows.item(0).VLR_3X3;
+                        //fator = rs.rows.item(0).VLR_3X3;
+                        fator = arrayTAB_AUXILIAR_09[0]["VLR_3X3"];
                     }
                 }
             }
     
             //return fator;
             $("#fator").val(fator);
-        });
-    },errorCB);
+    //    });
+    //},errorCB);
 }
 
 function getFatorAgrupamentoTabela34(numeroCircuitos, numeroBandejas)
 {
+    alert("getFatorAgrupamentoTabela34");
+    
     var fator = 1;
     var dimensionamento = getDimensionamentoTabelaUtil();
     
@@ -1374,6 +1631,8 @@ function getFatorAgrupamentoTabela34(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabela36(numeroCabos, numeroBandejas)
 {
+    alert("getFatorAgrupamentoTabela36");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
@@ -1415,6 +1674,8 @@ function getFatorAgrupamentoTabela36(numeroCabos, numeroBandejas)
 
 function getFatorAgrupamentoTabela35(numeroCircuitos, numeroBandejas)
 {
+    alert("getFatorAgrupamentoTabela35");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
@@ -1446,6 +1707,8 @@ function getFatorAgrupamentoTabela35(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabelaA8(numeroCircuitos, numeroBandejas)
 {
+     alert("getFatorAgrupamentoTabelaA8");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     
@@ -1533,6 +1796,8 @@ function getFatorOutrosTabelaA8(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabelaA7(numeroCircuitos, numeroBandejas)
 {
+    alert("getFatorAgrupamentoTabelaA7");
+    
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
     

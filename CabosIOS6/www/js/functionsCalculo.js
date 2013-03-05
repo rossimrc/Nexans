@@ -6,56 +6,7 @@ var numeroCabos = 0;
 var numeroCabosCorrente = 0;
 var secaoCorrente = 0;
 
-
-/*var xmlT003_PRODUTOS = "<T003_PRODUTOS>";
-xmlT003_PRODUTOS += "<produto>";
-xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
-xmlT003_PRODUTOS += "<COD_PRODUTO>47025</COD_PRODUTO>";
-xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>310</SEQ_REGISTRO_TIPO>";
-xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 3X95 MM2 0.6/1 KV</DSC_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
-xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
-xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
-xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/12</NME_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>3</NMR_NUMERO_CONDUTORES_FASE>";
-xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>95</NME_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "</produto>";
-xmlT003_PRODUTOS += "<produto>";
-xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
-xmlT003_PRODUTOS += "<COD_PRODUTO>47027</COD_PRODUTO>";
-xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>311</SEQ_REGISTRO_TIPO>";
-xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 2X70 MM2 0.6/1 KV</DSC_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
-xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
-xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
-xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/1</NME_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>2</NMR_NUMERO_CONDUTORES_FASE>";
-xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>70</NME_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "</produto>";
-xmlT003_PRODUTOS += "<produto>";
-xmlT003_PRODUTOS += "<TPO_REGISTRO>D</TPO_REGISTRO>";
-xmlT003_PRODUTOS += "<COD_PRODUTO>37119</COD_PRODUTO>";
-xmlT003_PRODUTOS += "<SEQ_REGISTRO_TIPO>312</SEQ_REGISTRO_TIPO>";
-xmlT003_PRODUTOS += "<DSC_PRODUTO>AFITOX XP 1X50 MM2 0.6/1 KV</DSC_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_FAMILIA_PRODUTO>190</NMR_FAMILIA_PRODUTO>";
-xmlT003_PRODUTOS += "<DTA_ALTERACAO>2007-05-04</DTA_ALTERACAO>";
-xmlT003_PRODUTOS += "<NME_FORMATO_CABO>R</NME_FORMATO_CABO>";
-xmlT003_PRODUTOS += "<NME_TENSAO_PRODUTO>0.6/1</NME_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NME_UNIDADE_TENSAO_PRODUTO>KV</NME_UNIDADE_TENSAO_PRODUTO>";
-xmlT003_PRODUTOS += "<NMR_NUMERO_CONDUTORES_FASE>1</NMR_NUMERO_CONDUTORES_FASE>";
-xmlT003_PRODUTOS += "<NME_SECAO_CONDUTOR_FASE>50</NME_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "<NME_UND_SECAO_CONDUTOR_FASE>MM2</NME_UND_SECAO_CONDUTOR_FASE>";
-xmlT003_PRODUTOS += "</produto>";
-xmlT003_PRODUTOS += "</T003_PRODUTOS>";*/
-
-function selectXML(xmlTabela, campos)
-{
-    alert("Campos selectXML: " + campos);
-    
+function selectXML(xmlTabela, campos){
 	//PARSING XML
 	var xmlData = parseXML(xmlTabela);
 	var rows = xmlData.getElementsByTagName("produto");
@@ -76,53 +27,113 @@ function selectXML(xmlTabela, campos)
 				var condicao = arguments[j];
 				var arrayCondicao = condicao.split(",");
                 
-				//ARRAY CONDICAO
+				//ARRAY CONDICAO NORMAL
 				//0 = CAMPO
 				//1 = CONDICAO (=, <, >, <=, >=, BETWEEN)
 				//2 = VALOR
 				//3 = SEGUNDO VALOR CASO BETWEEN
 				//NO PARAMETRO PASSAR ASSIM: "COD_PRODUTO,=,4000" OU "COD_PRODUTO,BETWEEN,4000,5000"
 				
-				var campoValidado = actualRow.getElementsByTagName(arrayCondicao[0])[0].textContent;
-				switch(arrayCondicao[1]){
-					case "=":
-						if(campoValidado != arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-                    case "!=":
-                        if(campoValidado == arrayCondicao[2]){
-                            passou = false;
-                        }
-                        break;
-					case "<":
-						if(campoValidado >= arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case "<=":
-						if(campoValidado > arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case ">":
-						if(campoValidado <= arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case ">=":
-						if(campoValidado < arrayCondicao[2]){
-							passou = false;
-						}
-						break;
-					case "BETWEEN":
-						if(campoValidado < arrayCondicao[2] || campoValidado > arrayCondicao[3]){
-							passou = false;
-						}
-						break;
+				//ARRAY CONDICAO OR
+				//0 = OR
+				//1 = CAMPO
+				//2 = CONDICAO (=, <, >, <=, >=, BETWEEN)
+				//3 = VALOR
+				//4 = SEGUNDO VALOR CASO BETWEEN
+				//NO PARAMETRO PASSAR ASSIM: "COD_PRODUTO,=,4000" OU "COD_PRODUTO,BETWEEN,4000,5000"
+				
+				
+				var campoValidado;
+				if(arrayCondicao[0] == "OR"){
+					campoValidado = actualRow.getElementsByTagName(arrayCondicao[1])[0].textContent;
+					switch(arrayCondicao[2]){
+						case "=":
+							if(campoValidado == arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case "!=":
+							if(campoValidado != arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case "<":
+							if(campoValidado < arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case "<=":
+							if(campoValidado <= arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case ">":
+							if(campoValidado > arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case ">=":
+							if(campoValidado >= arrayCondicao[3]){
+								passou = true;
+							}
+							break;
+						case "BETWEEN":
+							if(campoValidado >= arrayCondicao[3] && campoValidado <= arrayCondicao[4]){
+								passou = true;
+							}
+							break;
+					}
+				}else{
+					campoValidado = actualRow.getElementsByTagName(arrayCondicao[0])[0].textContent;
+					switch(arrayCondicao[1]){
+						case "=":
+							if(campoValidado != arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case "!=":
+							if(campoValidado == arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case "<":
+							if(campoValidado >= arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case "<=":
+							if(campoValidado > arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case ">":
+							if(campoValidado <= arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case ">=":
+							if(campoValidado < arrayCondicao[2]){
+								passou = false;
+							}
+							break;
+						case "BETWEEN":
+							if(campoValidado < arrayCondicao[2] || campoValidado > arrayCondicao[3]){
+								passou = false;
+							}
+							break;
+					}
 				}
 				
 				if(!passou){
+					//Valida proximo argumento para OR
+					if(j + 1 < arguments.length){
+						var proximaCondicao = arguments[j+1];
+						var arrayProximaCondicao = proximaCondicao.split(",");
+						if(arrayProximaCondicao[0] == "OR"){
+							continue;
+						}
+					}
+                    
 					break;
 				}
 			}
@@ -194,15 +205,16 @@ function calcular()
     
         //init();
     
-        alert("Antes do metodo calcularSecaoNominalCondutores()");
-        //calcularSecaoNominalCondutores();
-        alert("Depois do metodo calcularSecaoNominalCondutores()");
+        //alert("Antes do metodo calcularSecaoNominalCondutores()");
+        calcularSecaoNominalCondutores();
     
-        //calcularReatanciaIndutiva();
-        /*calcularReatanciaIndutivaCalculo();
+        calcularReatanciaIndutivaCalculo();
         
+        //*** PAREI A VALIDAÇÃO AQUI - THIAGO
         calcularQuedaTensao();
-        calcularCurtoCircuito();
+        alert("FIM - Depois do metodo calcularQuedaTensao()");
+    
+        /*calcularCurtoCircuito();
         calcularIntegralJouleCondutor(getSC(),getKbb());
         
         if (dimensionamento.isMediaTensao()){
@@ -223,9 +235,7 @@ function calcular()
 
 function calcularSecaoNominalCondutores()
 {
-	
     //getCalculoDebug().logMethodEnter("calcularSecaoNominalCondutores");
-    alert("calcularSecaoNominalCondutores");
     
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
@@ -237,15 +247,14 @@ function calcularSecaoNominalCondutores()
     
     // Efetua o c·lculo pelo critÈrio da queda de tens„o.
 	calcularCriterioQuedaTensao();
-    
+    alert("Depois calcularCriterioQuedaTensao");
 	
 	//DAR UMA OLHADA
     //updateCabo(secaoNominal.getProduto());
     
     // Calcula fator de canaleta.
-    if (dimensionamento.isMediaTensao() &&
-        (dimensionamento.getPossibilidadeInstalacao() == CANALETA_FECHADA_SOLO)) {
-        
+    if (dimensionamento.isMediaTensao() && (dimensionamento.getPossibilidadeInstalacao() == CANALETA_FECHADA_SOLO))
+    {    
         fatorCanaleta = calcularFatorCorrecaoCanaleta(dimensionamento.getCorrenteProjeto(), getRca(), getNumeroCabos());
         var iCanaleta = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), getNumeroCabos(), getSC(), fatorCanaleta);
         
@@ -266,6 +275,8 @@ function calcularSecaoNominalCondutores()
     corrente = getI();
     numeroCabosCorrente = getNumeroCabos();
     secaoCorrente = getSC();
+    
+    alert("Saiu calcularSecaoNominalCondutores");
 }
 
 function calcularReatanciaIndutivaCalculo()
