@@ -29,8 +29,8 @@ function getSecaoPadronizada(sE){
 	if (!isSecaoPadronizada(sE)) {
 		secaoPadronizada = buscarSecaoAcimaTabelaUtil(se);
 		
-		var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-		if (secaoPadronizada > arrayProdutoBean.options["SecaoMaxima"].value) {
+		//var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+		if (secaoPadronizada > arrayProdutoBean["SecaoMaxima"]) {
 			secaoPadronizada = 0;
 		}
 	}

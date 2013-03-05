@@ -71,17 +71,17 @@ function getConstanteDieletricaReatanciaCapacitiva()
 function getDdiReatanciaCapacitiva()
 {
     var dimensionamento = getDimensionamentoTabelaUtil();
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     
     //var diametroCondutor = produto.getDiametroCondutor();
-    var diametroCondutor = arrayProdutoBean.options["NMR_DIAMETRO_CONDUTOR"].value;
+    var diametroCondutor = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
     
     var espessura1Semi = 0;
     
     if (dimensionamento.isMediaTensao())
     {
         //espessura1Semi = produto.getEspessuraNom1SemiCond();
-        espessura1Semi = arrayProdutoBean.options["MMR_ESPESSURA_NOM_1A_SEMI_COND"].value;
+        espessura1Semi = arrayProdutoBean["MMR_ESPESSURA_NOM_1A_SEMI_COND"];
     }
     
     return diametroCondutor + (espessura1Semi * 2);
@@ -89,8 +89,8 @@ function getDdiReatanciaCapacitiva()
 
 function getTReatanciaCapacitiva()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var espessuraNominalIsolacao = arrayProdutoBean.options["NMR_ESPESSURA_NOMINAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var espessuraNominalIsolacao = arrayProdutoBean["NMR_ESPESSURA_NOMINAL_ISOLACAO"];
     
     //return produto.getEspessuraNominalIsolacao();
     return espessuraNominalIsolacao;

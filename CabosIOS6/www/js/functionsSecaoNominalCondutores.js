@@ -15,7 +15,7 @@ var iTabelada = 0;
 
 function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
 {    
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+	//var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     //var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
 	
     var numeroMaximoCabos = 20;//NUMERO_MAXIMO_CABOS;
@@ -288,7 +288,7 @@ function calcularRcc(dimensionamento){
 }
 
 function calcularResistenciaBlindagem(dimensionamento){
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+	//var arrayProdutoBean = document.getElementById("arrayProdutoBean");
 	
 	// N˙mero fios da proteÁ„o met·lica.
 	//var np = arrayProdutoBean.options["NMR_NUMERO_FIOS_BLINDAGEM"].value;

@@ -253,7 +253,7 @@ function checkPageConsistency(p) {
 				
 			}
 			else {
-				navigator.notification.alert("Escolha todas as opções",null,"Erro");
+				//navigator.notification.alert("Escolha todas as opções",null,"Erro");
 				window.scrollBy(0,-500);
 			}
 		}

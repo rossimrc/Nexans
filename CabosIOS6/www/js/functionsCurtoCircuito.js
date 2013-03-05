@@ -44,7 +44,7 @@ function calcularComInformacaoCurtoCondutor()
     icc = dimensionamento.getCorrenteCurto();
     
     // Calcula o kcc e o Sc.
-    kcc = getKc() * Math.sqrt(Math.log10((getTetafc() + getBetac()) / (getTeta0c() + getBetac())));
+    kcc = getKc() * Math.sqrt(Math.log((getTetafc() + getBetac()) / (getTeta0c() + getBetac())) / Math.LN10);
     sc = (icc * Math.sqrt(tcc)) / kcc;
     
 //    TabelaUtil tabelaUtil = new TabelaUtil();
@@ -84,7 +84,7 @@ function calcularSemInformacaoCurtoCondutor()
     //getDebug().logMethodEnter("calcularSemInformacaoCurtoCondutor");
     
     // Calcula o kcc e o Icc.
-    kcc = getKc() * Math.sqrt(Math.log10((getTetafc() + getBetac()) / (getTeta0c() + getBetac())));
+    kcc = getKc() * Math.sqrt(Math.log((getTetafc() + getBetac()) / (getTeta0c() + getBetac())) / Math.LN10);
     icc = kcc * (sc / Math.sqrt(getTccDefault()));
     //getDebug().logVariable("kcc", kcc);
     //getDebug().logVariable("icc", icc);
@@ -120,7 +120,7 @@ function calcularComInformacaoCurtoBlindagem()
     icb = dimensionamento.getCorrenteCurto();
     tcb = dimensionamento.getTempoAtuacaoProtecao();
     
-    kbb = getKb() * Math.sqrt(Math.log10((getTetafb() + getBetab()) / (getTeta0b() + getBetab())));
+    kbb = getKb() * Math.sqrt(Math.log((getTetafb() + getBetab()) / (getTeta0b() + getBetab())) / Math.LN10);
     //sb = (icb * Math.sqrt(tcb)) / kbb;
     sb = getSbDefault();
     
@@ -137,7 +137,7 @@ function calcularSemInformacaoCurtoBlindagem()
     icb = getIcbDefault();
     tcb = getTcbDefault();
     sb = getSbDefault();
-    kbb = getKb() * Math.sqrt(Math.log10((getTetafb() + getBetab()) / (getTeta0b() + getBetab())));
+    kbb = getKb() * Math.sqrt(Math.log((getTetafb() + getBetab()) / (getTeta0b() + getBetab())) / Math.LN10);
     
 //    getDebug().logVariable("icb", kcc);
 //    getDebug().logVariable("tcb", icc);

@@ -11,8 +11,8 @@ TIPO_MATERIAL_ISOLACAO_XLPE = "XLPE";
  */
 function isMaterialIsolacaoEPR()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_EPR;
 }
@@ -23,8 +23,8 @@ function isMaterialIsolacaoEPR()
  */
 function isMaterialIsolacaoXLPE()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_XLPE || tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_XLP;
 }
@@ -35,8 +35,8 @@ function isMaterialIsolacaoXLPE()
  */
 function isMaterialIsolacaoPVC()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_PVC;
 }
@@ -47,8 +47,8 @@ function isMaterialIsolacaoPVC()
  */
 function isMaterialIsolacaoXLP()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     return tipoMaterialIsolacao ==  TIPO_MATERIAL_ISOLACAO_XLP;
 }
@@ -59,8 +59,8 @@ function isMaterialIsolacaoXLP()
  */
 function isMaterialIsolacaoPE()
 {
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-    var tipoMaterialIsolacao = arrayProdutoBean.options["NME_TIPO_MATERIAL_ISOLACAO"].value;
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
     return tipoMaterialIsolacao == TIPO_MATERIAL_ISOLACAO_PE;
 }

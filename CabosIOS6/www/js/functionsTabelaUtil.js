@@ -3,7 +3,7 @@ function getDimensionamentoTabelaUtil()
 {
     //alert("getDimensionamentoTabelaUtil");
     
-    var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+    //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     
     var fator = 1;
     
@@ -1955,16 +1955,16 @@ function getTemperaturaOpBlindagemTabelaUtil(dimensionamento) {
 	// TODO Verificar se existe a necessidade de verificar as outras
 	// temperaturas..
 	
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-	if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "EPR") {
+	//var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+	if (arrayProdutoBean["DSC_TEXTO_TIPO_MAT_ISOLACAO"] == "EPR") {
 		if (dimensionamento.isTemperaturaMaximaCondutor90()) {
 			temperatura = 85;
 		}
-	} else if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "XLPE") {
+	} else if (arrayProdutoBean["DSC_TEXTO_TIPO_MAT_ISOLACAO"] == "XLPE") {
 		if (dimensionamento.isTemperaturaMaximaCondutor90()) {
 			temperatura = 80;
 		}
-	} else if (arrayProdutoBean.options["DSC_TEXTO_TIPO_MAT_ISOLACAO"].value == "PVC") {
+	} else if (arrayProdutoBean["DSC_TEXTO_TIPO_MAT_ISOLACAO"] == "PVC") {
 		if (dimensionamento.isTemperaturaMaximaCondutor70()) {
 			temperatura = 65;
 		}

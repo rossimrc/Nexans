@@ -214,20 +214,33 @@ function calcular()
         calcularQuedaTensao();
         alert("FIM - Depois do metodo calcularQuedaTensao()");
     
-        /*calcularCurtoCircuito();
+        calcularCurtoCircuito();
+		alert("FIM 2 - Depois do metodo calcularCurtoCircuito()");
+    
         calcularIntegralJouleCondutor(getSC(),getKbb());
-        
+		alert("FIM 3 - Depois do metodo calcularIntegralJouleCondutor()");
+    
+	
         if (dimensionamento.isMediaTensao()){
+			alert("Entrou calcularIntegralJouleBlindagem()");
             calcularIntegralJouleBlindagem(getSb(), getKbb());
+			alert("FIM 4 - Depois do metodo calcularIntegralJouleBlindagem()");
         }
         
         calcularImpedanciaSequenciaPosNeg(getRca(), getXL());
-        calcularReatanciaCapacitiva();
+		alert("FIM 5 - Depois do metodo calcularImpedanciaSequenciaPosNeg()");
+        calcularReatanciaCapacitivaReatanciaCapacitiva();
+		alert("FIM 6 - Depois do metodo calcularReatanciaCapacitiva()");
         
         if (dimensionamento.isMediaTensao() && dimensionamento.isCobre() && dimensionamento.isCabosEnergia()) {
+			alert("Entrou calcularDimensionamentoEconomico()");
             calcularDimensionamentoEconomico(dimensionamento.getCorrenteProjeto(), numeroCabos);
-        }*/
-        
+			alert("FIM 7 - Depois do metodo calcularDimensionamentoEconomico()");
+        }
+    
+	alert("FIM do FIM (CALCULO)");
+	
+	
     //} catch(err) {
     //    alert("Erro: " + err);
     //}
@@ -354,9 +367,9 @@ function getSecaoMinimaCalculo(dimensionamento) {
 	}
 	
 	gradienteMaximo = secao;
-	var arrayProdutoBean = document.getElementById("arrayProdutoBean");
-	if (secao < arrayProdutoBean.options["SecaoMinima"].value) {
-		secao = arrayProdutoBean.options["SecaoMinima"].value;
+	//var arrayProdutoBean = document.getElementById("arrayProdutoBean");
+	if (secao < arrayProdutoBean["SecaoMinima"]) {
+		secao = arrayProdutoBean["SecaoMinima"];
 	}
 	
 	return secao;
