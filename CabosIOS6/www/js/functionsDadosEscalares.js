@@ -116,7 +116,7 @@ function getTeta0b()
     var dimensionamento = getDimensionamentoTabelaUtil();
     var value = 0;
     
-    if (dimensionamento.getCaboSelecionado() == EP_DRY || dimensionamento.getCaboSelecionado() == Cabo.FIPEX_BF)
+    if (dimensionamento.getCaboSelecionado() == EP_DRY || dimensionamento.getCaboSelecionado() == FIPEX_BF)
     {
         if (dimensionamento.getTensaoIsolamento() <= _15KV_25KV)
         {

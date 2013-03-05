@@ -226,7 +226,7 @@ function getFatorCorrecaoTabela32(tableName, temperaturaAmbiente, tipoMaterialIs
     
     var filtro = 'selectXML(xmlTAB_AUXILIAR_16, "*"';
     filtro += ',"NME_TABELA,=,'+ tableName +'"';
-    filtro += ',"NMR_TEMPERATURA,=,'+ temperatura +'"';
+    filtro += ',"NMR_TEMPERATURA,=,'+ temperaturaAmbiente +'"';
     filtro += ')';
     
     var arrayTAB_AUXILIAR_16 = eval(filtro);

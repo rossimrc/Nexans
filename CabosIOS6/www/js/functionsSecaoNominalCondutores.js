@@ -262,7 +262,7 @@ function calcularRca(dimensionamento, valorRcc)
 		calcularResistenciaBlindagem(dimensionamento);
 		
 		// Calcula a resistencia elÈtrica em CA corrigida.
-		calcularResistenciaEletricaCA(getYs(), getYp());
+		calcularResistenciaEletricaCA(dimensionamento, getYs(), getYp());
 	}
 	
 	return rca;
