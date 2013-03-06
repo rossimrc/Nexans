@@ -92,10 +92,10 @@ function showResultadoCalculo()
             $("#dados_resultado_numeroCamadasBandejas").html(getNumeroCamadasBandejasRelatorio());            
         }
         
-        $("#dados_resultado_reatanciaCapacitiva").html(getXcReatanciaCapacitiva() + " ohm.km");
+        $("#dados_resultado_reatanciaCapacitiva").html(getXcReatanciaCapacitiva().toFixed(4).toString() + " ohm.km");
         $("#dados_resultado_reatanciaIndutiva").html(getXL() + " ohm.km");
         $("#dados_resultado_resistenciaEletricaCA").html(getResistenciaEletricaCAString() + " ohm.km");
-        $("#dados_resultado_reatanciaCapacitiva").html(getNumeroCircuitosRelatorio() + " ohm.km");
+        //$("#dados_resultado_reatanciaCapacitiva").html(getNumeroCircuitosRelatorio() + " ohm.km");
         $("#dados_resultado_impedanciaSequenciaPosNeg").html(getImpedancia() + " ohm.km");
         $("#dados_resultado_quedaTensao").html(getQuedaTensaoString() + " %");
         $("#dados_resultado_maximaCorrenteCC").html(getMaximaCorrenteCCString() + " kA");
