@@ -33,6 +33,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
     
     // Aplica os fatores de correÁ„o a corrente.
     //fatorCorrecao.setSecao(sC);
+    setSecaoFC(sC);
     var i = -1;
     
     var novaCorrente = aplicarFatorCorrecao($("#correnteProjeto").val(), numeroCabos, sC, 1);

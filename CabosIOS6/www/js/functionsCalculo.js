@@ -5,6 +5,7 @@ var corrente = 0;
 var numeroCabos = 0;
 var numeroCabosCorrente = 0;
 var secaoCorrente = 0;
+var calculoExceptionMessage = "";
 
 function selectXML(xmlTabela, campos){
 	//PARSING XML
@@ -242,7 +243,8 @@ function calcular()
 	
 	
     //} catch(err) {
-    //    alert("Erro: " + err);
+    //    calculoExceptionMessage = "Informamos que para esta condição sugerida, o sistema não encontra resposta.";
+        //alert("Erro: " + err);
     //}
 }
 
@@ -271,7 +273,7 @@ function calcularSecaoNominalCondutores()
         fatorCanaleta = calcularFatorCorrecaoCanaleta(dimensionamento.getCorrenteProjeto(), getRca(), getNumeroCabos());
         var iCanaleta = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), getNumeroCabos(), getSC(), fatorCanaleta);
         
-        while ((iCanaleta > getITabelada()) || (iCanaleta == Number.NaN)) {
+        while ((iCanaleta > getITabelada()) || (iCanaleta == isNaN)) {
             
             calcularCriterioCorrenteSecaoNominal(getNumeroCabos(), true);
             
@@ -288,6 +290,8 @@ function calcularSecaoNominalCondutores()
     corrente = getI();
     numeroCabosCorrente = getNumeroCabos();
     secaoCorrente = getSC();
+    
+    alert("Secao Nominal Condutores: " + secaoCorrente);
     
     alert("Saiu calcularSecaoNominalCondutores");
 }
@@ -387,4 +391,276 @@ function calcularCurtoCircuito(){
 		corrente = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
 		criterioDimensionamento = 1;
 	}
+}
+
+function getSecaoNominalCondutor()
+{
+    return getSC();
+}
+
+function isCriterioCorrente()
+{
+    return criterioDimensionamento == "2";
+}
+
+function getFatorCorrecaoTemperaturaAmbiente()
+{
+    var fator = lastFatorTemperatura;
+    
+    if (isCriterioCorrente())
+    {
+        fator = getFatorTemperaturaAmbiente();
+    }
+    
+    if(fator == "0")
+    {
+        return 1;
+    }
+    else
+    {
+        return fator;
+    }
+    //return fator == 0 ? 1 : fator;
+}
+
+function isCriterioCurtoCircuito()
+{
+    return criterioDimensionamento == "1";
+}
+
+function isCriterioQuedaTensao()
+{
+    return criterioDimensionamento == "3";
+}
+
+function getCriterioDimensionamento()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var criterio = "";
+    
+    if (isCriterioCurtoCircuito())
+    {
+        criterio = "Curto Circuito";
+    }
+    else if (isCriterioQuedaTensao())
+    {
+        criterio = "Queda de Tensão";
+    }
+    else if (isCriterioCorrente())
+    {
+        criterio = "Corrente";
+    }
+    
+    if (dimensionamento.isMediaTensao())
+    {
+        if (isCriterioCorrente() && (gradienteMaximo == getSecaoNominalCondutor()) && (getNumeroCabos() == 1 || dimensionamento.isNumeroCabosFixada()))
+        {
+            criterio += " e Gradiente Elétrico Máximo";
+        }
+    }
+    
+    return criterio;
+}
+
+function getCapacidadeConducaoCorrenteString()
+{
+    return Math.floor(corrente);
+}
+
+function getFatorCorrecaoAgrupamento()
+{
+    var fator = lastFatorAgrupamento;
+    if (isCriterioCorrente())
+    {
+        fator = getFatorAgrupamento();
+    }
+    
+    if(fator == "0")
+    {
+        return 1;
+    }
+    else
+    {
+        return fator;
+    }
+    
+    //return fator == 0 ? 1 : fator;
+}
+
+function getFatorCorrecaoResistividadeTermica()
+{
+    var fator = lastFatorResistividade;
+    if (isCriterioCorrente())
+    {
+        fator = fatorResistividadeTermica;
+    }
+    
+    if(fator == "0")
+    {
+        return 1;
+    }
+    else
+    {
+        return fator;
+    }
+    //return fator == 0 ? 1 : fator;
+}
+
+function getFatorCorrecaoCanaleta()
+{
+    if(fatorCanaleta == "0")
+    {
+        return 1;
+    }
+    else
+    {
+        return fatorCanaleta;
+    }
+    
+    //return fatorCanaleta == 0 ? 1 : fatorCanaleta;
+}
+
+function hasInstalacaoFinalProposta()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var ok = true;
+    
+    if (dimensionamento.isBaixaTensao())
+    {
+        if (dimensionamento.isColunaA() || dimensionamento.isColunaB() || dimensionamento.isColunaD() || dimensionamento.isColunaG())
+        {
+            ok = false;
+        }
+    }
+    
+    if (dimensionamento.isMediaTensao())
+    {
+        if (dimensionamento.isColunaF() || dimensionamento.isColunaG() || dimensionamento.isColunaH() || dimensionamento.isColunaI())
+        {
+            ok = false;
+        }
+    }
+    
+    if (dimensionamento.isCabosNavais())
+    {
+        if (dimensionamento.isColunaB() || dimensionamento.isColunaC() || dimensionamento.isColunaG())
+        {
+            ok = false;
+        }
+    }
+    
+    return ok;
+}
+
+function getNumeroCircuitosRelatorio()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var circuitos = 1;
+    
+    if (getNumeroCircuitos() > 0)
+    {
+        circuitos = getNumeroCircuitos();
+    }
+    else if (dimensionamento.getNumeroCircuitos(1) > 1)
+    {
+        circuitos = getNumeroCircuitos(1);
+    }
+    
+    return circuitos;
+}
+
+function getNumeroCamadasBandejasRelatorio()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    var camadas = 1;
+    
+    if (dimensionamento.getQuantidadeCamadas() > 1)
+    {
+        camadas = dimensionamento.getQuantidadeCamadas();
+    }
+    else if (getNumeroBandejas() > 0)
+    {
+        camadas = getNumeroBandejas();
+    }
+    else if (dimensionamento.getNumeroBandejas() > 1)
+    {
+        camadas = dimensionamento.getNumeroBandejas();
+    }
+    
+    return camadas;
+}
+
+function getResistenciaEletricaCAString()
+{
+    //NumberFormat nf = new DecimalFormat("0.00000", getDecimalLocale());
+    return getRca();
+}
+
+function getQuedaTensao()
+{
+    return getDV();
+}
+
+function getQuedaTensaoString()
+{
+    var value = (getQuedaTensao() * 100);
+    return (value / 100);
+}
+
+function getMaximaCorrenteCCString()
+{
+    var icc = getIcc();
+    return icc.toFixed(2).toString();
+}
+
+function getTempoCC()
+{  
+    var tempo = 0;
+    if (getTcc() == 0)
+    {
+        tempo = 0.3;
+    }
+    else
+    {
+        tempo = getTcc();
+    }
+    
+    return tempo;
+}
+
+function getTempoCCString()
+{
+    var tempoaux = getTempoCC();
+    return tempoaux.toFixed(2).toString();
+}
+
+function getIntegralJouleCondutorString()
+{
+    var aux = getI2t();
+    return aux.toFixed(2).toString();
+}
+
+function getIntegralJouleBlindagemString()
+{
+    return getI2t();
+}
+
+function hasDimensionamentoEconomico()
+{
+    if ((getSe() > 0) && (getSe() > getSecaoNominalCondutor()))
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+function hasDimensionamentoEconomicoError()
+{
+    if (getOriginalSection() > 0 && getOriginalSection() > getSecaoNominalCondutor())
+    {
+        return true;
+    }
+    
+    return false;
 }

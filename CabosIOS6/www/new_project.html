@@ -57,6 +57,8 @@
         <input type="hidden" name="correnteCurto" id="correnteCurto" value="0" />
         <input type="hidden" name="tempoAtuacaoProtecao" id="tempoAtuacaoProtecao" value="0" />
         
+        <input type="hidden" name="cabosAlternativos" id="cabosAlternativos" value="" />
+        
         
         <!-- VARIAVEIS PARA SIMULACAO (DEVEM SEREM ZERADAS TODA VEZ QUE FOR REALIZADA UMA SIMULAÇÃO) -->
         <input type="hidden" name="fator" id="fator" value="0" />
@@ -1257,11 +1259,267 @@
             </div>
             
 			<div id="page_resultado_calculo" class="popup">
-                <select id="arrayProdutoBean" class="small-select">
+                <select id="arrayProdutoBean" class="small-select" style="display:none;">
                     <option value="0">Selecione</option>
                 </select>
 				<div class="popup-body">
 					Página do Resultado do Cálculo:<br>
+                    
+                    <ul>
+                        <li id='dados_projeto'>
+                            <br><br>SISTEMA DE DIMENSIONAMENTO - SDF<br><br>
+                        </li>
+                        <li>
+                            <strong>Nome:</strong><br>
+                        </li>
+                        <li id="dados_projeto_nome"></li>
+                        
+                        <li>
+                            <strong>Empresa:</strong><br>
+                        </li>
+                        <li id="dados_projeto_empresa"></li>
+                        
+                        <li>
+                            <strong>Projeto:</strong><br>
+                        </li>
+                        <li id="dados_projeto_nome_projeto"></li>
+                        
+                        <li>
+                            <strong>Data:</strong><br>
+                        </li>
+                        <li id="dados_projeto_data"></li>
+                        
+                        <li>
+                            <strong>Hora:</strong><br>
+                        </li>
+                        <li id="dados_projeto_data"></li>
+                    </ul>
+                    
+                    <ul>
+                        <li id='dados_projeto'>
+                            <br><br>DADOS DE ENTRADA<br><br>
+                        </li>
+                        <li>
+                            <strong>Tipo do produto:</strong><br>
+                        </li>
+                        <li id="dados_entrada_tipo_produto"></li>
+                        
+                        <li>
+                            <strong>Frequência:</strong><br>
+                        </li>
+                        <li id="dados_entrada_frequencia"></li>
+                        <li>
+                            <strong>Nível de tensão do sistema:</strong><br>
+                        </li>
+                        <li id="dados_entrada_nivelTensao"></li>
+                        <li>
+                            <strong>Material do condutor:</strong><br>
+                        </li>
+                        <li id="dados_entrada_materialCondutor"></li>
+                        <li>
+                            <strong>Número de condutores:</strong><br>
+                        </li>
+                        <li id="dados_entrada_numeroCondutores"></li>
+                        <li>
+                            <strong>Tensão de serviço (fase-fase):</strong><br>
+                        </li>
+                        <li id="dados_entrada_tensaoServico_unidadeTensao"></li>
+                        <li>
+                            <strong>Tensão de isolamento:</strong><br>
+                        </li>
+                        <li id="dados_entrada_tensaoIsolamento"></li>
+
+                        <li id="dados_entrada_imagem_cabo"></li>
+                        <li>
+                            <strong>Utilização do circuito:</strong><br>
+                        </li>
+                        <li id="dados_entrada_utilizacaoCircuito"></li>
+                        <li>
+                            <strong>Sistema:</strong><br>
+                        </li>
+                        <li id="dados_entrada_sistema"></li>
+                        <li>
+                            <strong>Temperatura máx. do condutor:</strong><br>
+                        </li>
+                        <li id="dados_entrada_temperaturaMaximaCondutor"></li>
+                        <li>
+                            <strong>Cabo escolhido:</strong><br>
+                        </li>
+                        <li id="dados_entrada_caboSelecionado"></li>
+                        <li>
+                            <strong>Possibilidade de instalação:</strong><br>
+                        </li>
+                        <li id="dados_entrada_possibilidadeInstalacao"></li>
+                        <li>
+                            <strong>Temperatura ao ar/solo:</strong><br>
+                        </li>
+                        <li id="dados_entrada_temperaturaArSolo"></li>
+                        <li>
+                            <strong>Comprimento do circuito:</strong><br>
+                        </li>
+                        <li id="dados_entrada_comprimentoCircuito"></li>
+                        <li>
+                            <strong>Máx. queda de tensão desejada:</strong><br>
+                        </li>
+                        <li id="dados_entrada_quedaTensaoMaxima"></li>
+                        <li>
+                            <strong>Fator de potência:</strong><br>
+                        </li>
+                        <li id="dados_entrada_fatorPotencia"></li>
+                        <li>
+                            <strong>Corrente de projeto:</strong><br>
+                        </li>
+                        <li id="dados_entrada_correnteProjeto"></li>
+                        <li>
+                            <strong>Potência aparente:</strong><br>
+                        </li>
+                        <li id="dados_entrada_potenciaAparente"></li>
+                        <li>
+                            <strong>Seção Fixada?</strong><br>
+                        </li>
+                        <li id="dados_entrada_secao_fixada"></li>
+                        <li>
+                            <strong>Número de condutores por fase fixado?</strong><br>
+                        </li>
+                        <li id="dados_entrada_num_condutores_fixado"></li>
+                        <li>
+                            <strong>Corrente de curto-circuito no condutor fixada?</strong><br>
+                        </li>
+                        <li id="dados_entrada_corrente_curto_circuito_condutor_fixada"></li>
+                    </ul>
+                    
+                    <ul id="ul_resultado_erro">
+                        <li id="resultado_msg_erro"></li>
+                    </ul>
+                    
+                    <ul id="ul_resultado">
+                        <li id='dados_projeto'>
+                            <br><br>RESULTADOS<br><br>
+                        </li>
+                        <li>
+                            <strong>Seção nominal do condutor (mm²):</strong><br>
+                        </li>
+                        <li id="dados_resultado_numeroCondutores_secaoNominalCondutor"></li>
+                        <li>
+                            <strong>Número de condutores por fase:</strong><br>
+                        </li>
+                        <li id="dados_resultado_numeroCabos"></li>
+                        
+                        <li>
+                            <strong>Dimensionado pelo critério:</strong><br>
+                        </li>
+                        <li id="dados_resultado_criterioDimensionamento"></li>
+                        
+                        <li id="label_resultado_capacidade_total"></li>
+                        <li id="dados_resultado_capacidadeConducaoCorrente"></li>
+                        
+                        <!-- <ww:if test="calculo.fatorCorrecaoTemperaturaAmbiente != 1"> -->
+                        <li id="if_calculo_fatorCorrecaoTemperaturaAmbiente" style="display:none;">
+                            <strong>Fatores de correção utilizados (Temperatura Ambiente):</strong><br>
+                        </li>
+                        <li id="dados_resultado_fatorCorrecaoTemperaturaAmbiente" style="display:none;"></li>
+                        
+                        <li id="if_calculo_fatorCorrecaoAgrupamento" style="display:none;">
+                            <strong>Fatores de correção utilizados (Agrupamento):</strong><br>
+                        </li>
+                        <li id="dados_resultado_fatorCorrecaoAgrupamento" style="display:none;"></li>
+                        
+                        <li id="if_calculo_fatorCorrecaoResistividadeTermica" style="display:none;">
+                            <strong>Fatores de correção utilizados (Resistividade térmica do solo):</strong><br>
+                        </li>
+                        <li id="dados_resultado_fatorCorrecaoResistividadeTermica" style="display:none;"></li>
+                        <li id="if_calculo_fatorCorrecaoCanaleta" style="display:none;">
+                            <strong>Fatores de correção utilizados (Canaleta):</strong><br>
+                        </li>
+                        <li id="dados_resultado_fatorCorrecaoCanaleta" style="display:none;"></li>
+                        
+                        <!--<ww:if test="hasInstalacaoFinalProposta()">-->
+                        <li id="if_calculo_disposicao_instalacao_final_proposta" style="display:none;">
+                            <strong>Disposição de Instalação Final Proposta:</strong><br>
+                        </li>
+                        <li id="if_dados_resultado_numeroCircuitos" style="display:none;">
+                            a) Número de circuitos por camada:<br>
+                        </li>
+                        <li id="dados_resultado_numeroCircuitos" style="display:none;"></li>
+                        <li id="if_dados_resultado_numeroCamadasBandejas" style="display:none;">
+                            b) Número de camadas/bandejas:<br>
+                        </li>
+                        <li id="dados_resultado_numeroCamadasBandejas" style="display:none;"></li>
+                        
+                        <li>
+                            <strong>Reatância capacitiva:</strong><br>
+                        </li>
+                        <li id="dados_resultado_reatanciaCapacitiva"></li>
+                        <li>
+                            <strong>Reatância indutiva:</strong><br>
+                        </li>
+                        <li id="dados_resultado_reatanciaIndutiva"></li>
+                        <li>
+                            <strong>Resistência elétrica em corrente alternada:</strong><br>
+                        </li>
+                        <li id="dados_resultado_resistenciaEletricaCA"></li>
+                        <li>
+                            <strong>Impedância de sequencia positiva e negativa:</strong><br>
+                        </li>
+                        <li id="dados_resultado_impedanciaSequenciaPosNeg"></li>
+                        <li>
+                            <strong>Queda de tensão:</strong><br>
+                        </li>
+                        <li id="dados_resultado_quedaTensao"></li>
+                        <li>
+                            <strong>Máx. corrente de curto-circuito trifásico:</strong><br>
+                        </li>
+                        <li id="dados_resultado_maximaCorrenteCC"></li>
+                        <li>
+                            <strong>Tempo de curto-circuito trifásico:</strong><br>
+                        </li>
+                        <li id="dados_resultado_tempoCC"></li>
+                        
+                        <li>
+                            <strong>I&sup2;t(Integral de Joule do condutor):</strong><br>
+                        </li>
+                        <li id="dados_resultado_integralJouleCondutor"></li>
+                        
+                        <!-- <ww:if test="dimensionamento.isMediaTensao()"> -->
+                        <li id="if_dados_resultado_integralJouleBlindagem" style="display:none;">
+                            <strong>I&sup2;t(Integral de Joule da blindagem):</strong><br>
+                        </li>
+                        <li id="dados_resultado_integralJouleBlindagem"></li>
+                        
+                        <!-- <ww:if test="calculo.hasDimensionamentoEconomico()"> -->
+                        <li id="if_dados_resultado_dimensionamento_economico" style="display:none;">
+                            <strong>Dimensionamento Econômico (mm²):</strong><br>
+                        </li>
+                        <li id="if_dados_resultado_dimensionamento_economico_texto" style="display:none;">
+                            Seção determinada pelo método simplificado com base em uma tarifação média de R$ 0,20 kWh sob um período mínimo de análise de 10 anos, visando a relação otimizada de INVESTIMENTOS NA AQUISIÇÃO DO CABO X CUSTOS OPERACIONAIS.<br><br><br>
+                        </li>
+                        <li id="if_dados_resultado_numero_condutores_fase_secao" style="display:none;">
+                            Número de condutores por Fase x Seção:<br>
+                        </li>
+                        <li id="label_resultado_numeroCabos_dimensionamentoEconomico" style="display:none;"></li>
+
+                        <!-- <ww:elseif test="calculo.hasDimensionamentoEconomicoError()"> -->
+                        <li id="if_dados_resultado_dimensionamento_economico_error" style="display:none;">
+                            <strong>Dimensionamento Econômico (mm²):</strong><br>
+                        </li>
+                        <li id="if_dados_resultado_dimensionamento_economico_texto_error" style="display:none;">
+                            Seção determinada acima das formações previstas na linha de cabos padronizados.<br>
+                        </li>
+                        
+                        <!-- <ww:if test="hasCaboAlternativo()"> -->
+                        <li id="resultado_alternativa">
+                            <strong>Alternativa:</strong><br>
+                        </li>
+                        <li id="dados_resultado_alternativo_quedatensao"></li>
+                        <li id="dados_resultado_alternativo_quedatensao_else"></li>
+                        
+                        <!-- <ww:if test="isAfitox750()"> -->
+                        <li id="resultado_alternativa_isAfitox750">
+                            <strong>Nota - Para este dimensionamento a FICAP recomenda o recálculo com cabos AFITOX-F 0,6/1 kV</strong><br>
+                        </li>
+                    </ul>
+                    
+                    
 					<button id="specification-popup2-cancel">cancelar</button>
 					<button id="specification-popup2-continue">continuar</button>
 				</div>

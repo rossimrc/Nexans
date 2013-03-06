@@ -10,7 +10,7 @@ var sb = 0;
 function calcularCriterioCurto(scAux)
 {
     var dimensionamento = getDimensionamentoTabelaUtil();
-    sc = sc;
+    sc = scAux;
     
     calcularCriterioCurtoCondutor();
     

@@ -1,6 +1,8 @@
 var lastFatorAgrupamento = "";
 var lastFatorResistividade = "";
 var lastFatorTemperatura = "";
+var secaoFC = "";
+var numeroCabosFC = "";
 
 //function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor)
 //{
@@ -424,8 +426,8 @@ function getFatorCorrecaoAgrupamento(numeroCircuitos, numeroBandejas)
                     if (dimensionamento.isEspacado() || dimensionamento.isTrifolio() || dimensionamento.isTripolar())
                     {
                         //Tabela38Media tabela38 = new Tabela38Media();
-                        //fator = tabela38.getFatorAgrupamento(dimensionamento, numeroCircuitos, secao);
-                        getFatorAgrupamentoTabela38(numeroCircuitos, secao);
+                        //fator = tabela38.getFatorAgrupamento(dimensionamento, numeroCircuitos, secaoFC);
+                        getFatorAgrupamentoTabela38(numeroCircuitos, secaoFC);
                         fator = $("#fator").val();
                     }
                     else
@@ -443,8 +445,8 @@ function getFatorCorrecaoAgrupamento(numeroCircuitos, numeroBandejas)
                     if (dimensionamento.getPossibilidadeInstalacao() == BANCO_DUTOS_SOLO)
                     {
                         //Tabela37NBR14039 tabela37 = new Tabela37NBR14039();
-                        //fator = tabela37.getFatorAgrupamento(dimensionamento, secao, numeroCircuitos);
-                        getFatorAgrupamentoTabela37(secao, numeroCircuitos);
+                        //fator = tabela37.getFatorAgrupamento(dimensionamento, secaoFC, numeroCircuitos);
+                        getFatorAgrupamentoTabela37(secaoFC, numeroCircuitos);
                         fator = $("#fator").val();
                     }
                     else {
@@ -1434,7 +1436,7 @@ function getFatorAgrupamentoTabela45(numeroCircuitos)
     //},errorCB);
 }
 
-function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
+function getFatorAgrupamentoTabela38(numeroCircuitos, secaoFC)
 {
     alert("getFatorAgrupamentoTabela38");
     
@@ -1448,7 +1450,7 @@ function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
             fator = 1;
         } else if (numeroCircuitos == 2)
         {
-            if (secao <= 95)
+            if (secaoFC <= 95)
             {
                 fator = 0.87;
             } else
@@ -1457,7 +1459,7 @@ function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
             }
         } else if (dimensionamento.is3Circuitos())
         {
-            if (secao <= 95)
+            if (secaoFC <= 95)
             {
                 fator = 0.80;
             }
@@ -1471,7 +1473,7 @@ function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
     {
         if (dimensionamento.is2Circuitos())
         {
-            if (secao <= 95)
+            if (secaoFC <= 95)
             {
                 fator = 0.86;
             } else
@@ -1479,13 +1481,13 @@ function getFatorAgrupamentoTabela38(numeroCircuitos, secao)
                 fator = 0.83;
             }
         } else if (dimensionamento.is3Circuitos()) {
-            if (secao <= 95) {
+            if (secaoFC <= 95) {
                 fator = 0.79;
             } else {
                 fator = 0.76;
             }
         } else if (dimensionamento.is4Circuitos()) {
-            if (secao < 95) {
+            if (secaoFC < 95) {
                 fator = 0.71;
             } else {
                 fator = 0.67;
@@ -1881,4 +1883,9 @@ function getFatorOutrosTabelaA7(numeroCircuitos, numeroBandejas)
     }
     
     return fator;
+}
+
+function setSecaoFC(secao)
+{
+    secaoFC = secao;
 }

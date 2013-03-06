@@ -1,3 +1,134 @@
+function showResultadoCalculo()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    
+    //DADOS DO PROJETO
+    $("#dados_projeto_nome").html($("#username").val());
+    $("#dados_projeto_empresa").html($("#company").val());
+    $("#dados_projeto_nome_projeto").html($("#projectName").val());
+    $("#dados_projeto_data").html();
+    $("#dados_projeto_hora").html();
+    
+    //DADOS SELECIONADOS
+    //$("#potenciaAparente").val()
+    //$("#fixarInformacaoCurto option:selected").text()
+    $("#dados_entrada_tipo_produto").html($("#cableList option:selected").text());
+    $("#dados_entrada_frequencia").html($("#frequency").val());
+    $("#dados_entrada_nivelTensao").html($("#systemVoltage option:selected").text());
+    $("#dados_entrada_materialCondutor").html($("#cableMaterial option:selected").text());
+    $("#dados_entrada_numeroCondutores").html($("#conductorNumber option:selected").text());
+    $("#dados_entrada_tensaoServico_unidadeTensao").html($("#serviceVoltage").val() + ' ' + $("#voltageUnit option:selected").text());
+    $("#dados_entrada_tensaoIsolamento").html($("#isolationVoltage option:selected").text());
+    //$("#dados_entrada_imagem_cabo").html();
+    getImageCabo();
+    $("#dados_entrada_utilizacaoCircuito").html($("#circuitUsage option:selected").text());
+    $("#dados_entrada_sistema").html($("#system option:selected").text());
+    $("#dados_entrada_temperaturaMaximaCondutor").html($("#maximumTemperature option:selected").text());
+    $("#dados_entrada_caboSelecionado").html($("#caboSelecionado option:selected").text());
+    $("#dados_entrada_possibilidadeInstalacao").html($("#possibilidadeInstalacao option:selected").text());
+    $("#dados_entrada_temperaturaArSolo").html($("#temperaturaArSolo option:selected").text());
+    $("#dados_entrada_comprimentoCircuito").html($("#comprimentoCircuito").val());
+    $("#dados_entrada_quedaTensaoMaxima").html($("#quedaTensaoMaxima").val());
+    $("#dados_entrada_fatorPotencia").html($("#fatorPotencia").val());
+    $("#dados_entrada_correnteProjeto").html($("#correnteProjeto").val());
+    $("#dados_entrada_potenciaAparente").html($("#potenciaAparente").val());
+    $("#dados_entrada_secao_fixada").html($("#fixarSecaoCondutor option:selected").text());
+    $("#dados_entrada_num_condutores_fixado").html($("#fixarNumeroCabos option:selected").text());
+    $("#dados_entrada_corrente_curto_circuito_condutor_fixada").html($("#fixarInformacaoCurto option:selected").text());
+    
+    //RESULTADOS
+    if(calculoExceptionMessage != "")
+    {
+        $("#resultado_msg_erro").html(calculoExceptionMessage);
+        $("#ul_resultado").html("");
+    }
+    else
+    {
+        $("#resultado_msg_erro").html("");
+        
+        $("#dados_resultado_numeroCondutores_secaoNominalCondutor").html($("#conductorNumber").val() + " x " + getSecaoNominalCondutor());
+        $("#dados_resultado_numeroCabos").html(numeroCabos);
+        $("#dados_resultado_criterioDimensionamento").html(getCriterioDimensionamento());        
+        $("#label_resultado_capacidade_total").html("<strong>Capacidade total de condução de corrente (corrente de projeto = " + $("#correnteProjeto").val() + "A):</strong><br>");
+        $("#dados_resultado_capacidadeConducaoCorrente").html(getCapacidadeConducaoCorrenteString());
+        
+        if(getFatorCorrecaoTemperaturaAmbiente()!="1")
+        {
+            //Fatores de correção utilizados (Temperatura Ambiente):
+            document.getElementById("if_calculo_fatorCorrecaoTemperaturaAmbiente").style.display = "";
+            document.getElementById("dados_resultado_fatorCorrecaoTemperaturaAmbiente").style.display = "";
+            $("#dados_resultado_fatorCorrecaoTemperaturaAmbiente").html(getFatorCorrecaoTemperaturaAmbiente());
+        }
+        
+        if(getFatorCorrecaoAgrupamento()!="1")
+        {
+            document.getElementById("if_calculo_fatorCorrecaoAgrupamento").style.display = "";
+            document.getElementById("dados_resultado_fatorCorrecaoAgrupamento").style.display = "";
+            $("#dados_resultado_fatorCorrecaoAgrupamento").html(getFatorCorrecaoAgrupamento());
+        }
+        
+        if(getFatorCorrecaoResistividadeTermica()!="1")
+        {
+            document.getElementById("if_calculo_fatorCorrecaoResistividadeTermica").style.display = "";
+            document.getElementById("dados_resultado_fatorCorrecaoResistividadeTermica").style.display = "";
+            $("#dados_resultado_fatorCorrecaoResistividadeTermica").html(getFatorCorrecaoResistividadeTermica());
+        }
+        
+        if(getFatorCorrecaoCanaleta()!="1")
+        {
+            document.getElementById("if_calculo_fatorCorrecaoCanaleta").style.display = "";
+            document.getElementById("dados_resultado_fatorCorrecaoCanaleta").style.display = "";
+            $("#dados_resultado_fatorCorrecaoCanaleta").html(getFatorCorrecaoCanaleta());
+        }
+        
+        if(hasInstalacaoFinalProposta())
+        {
+            document.getElementById("if_calculo_disposicao_instalacao_final_proposta").style.display = "";
+            document.getElementById("if_dados_resultado_numeroCircuitos").style.display = "";
+            document.getElementById("dados_resultado_numeroCircuitos").style.display = "";
+            document.getElementById("if_dados_resultado_numeroCamadasBandejas").style.display = "";
+            document.getElementById("dados_resultado_numeroCamadasBandejas").style.display = "";
+            $("#dados_resultado_numeroCircuitos").html(getNumeroCircuitosRelatorio());
+            $("#dados_resultado_numeroCamadasBandejas").html(getNumeroCamadasBandejasRelatorio());            
+        }
+        
+        $("#dados_resultado_reatanciaCapacitiva").html(getXcReatanciaCapacitiva() + " ohm.km");
+        $("#dados_resultado_reatanciaIndutiva").html(getXL() + " ohm.km");
+        $("#dados_resultado_resistenciaEletricaCA").html(getResistenciaEletricaCAString() + " ohm.km");
+        $("#dados_resultado_reatanciaCapacitiva").html(getNumeroCircuitosRelatorio() + " ohm.km");
+        $("#dados_resultado_impedanciaSequenciaPosNeg").html(getImpedancia() + " ohm.km");
+        $("#dados_resultado_quedaTensao").html(getQuedaTensaoString() + " %");
+        $("#dados_resultado_maximaCorrenteCC").html(getMaximaCorrenteCCString() + " kA");
+        $("#dados_resultado_tempoCC").html(getTempoCCString() + " s");
+        $("#dados_resultado_integralJouleCondutor").html(getIntegralJouleBlindagemString() + " A&sup2;s");
+        
+        if(dimensionamento.isMediaTensao())
+        {
+            document.getElementById("if_dados_resultado_integralJouleBlindagem").style.display = "";
+            document.getElementById("dados_resultado_integralJouleBlindagem").style.display = "";
+            $("#dados_resultado_integralJouleBlindagem").html(getNumeroCircuitosRelatorio() + " A&sup2;s");
+            
+            if(hasDimensionamentoEconomico())
+            {
+                document.getElementById("if_dados_resultado_dimensionamento_economico").style.display = "";
+                document.getElementById("if_dados_resultado_dimensionamento_economico_texto").style.display = "";
+                document.getElementById("if_dados_resultado_numero_condutores_fase_secao").style.display = "";
+                document.getElementById("label_resultado_numeroCabos_dimensionamentoEconomico").style.display = "";
+                $("#label_resultado_numeroCabos_dimensionamentoEconomico").html($("#numeroCabos").val() + " x " + getSe());
+            }
+            else if(hasDimensionamentoEconomicoError())
+            {
+                document.getElementById("if_dados_resultado_dimensionamento_economico_error").style.display = "";
+                document.getElementById("if_dados_resultado_dimensionamento_economico_texto_error").style.display = "";
+            }
+        }
+        
+        $("#dados_resultado_alternativo_quedatensao").html("Para esta mesma aplicação, porém com um maior limite térmico no condutor -" + $("#maximumTemperature").val() + "&deg;C, a FICAP recomenda também a sua linha de produtos tipo " + $("#cabosAlternativos").val() + ".");
+        $("#dados_resultado_alternativo_quedatensao_else").html("Para esta mesma opção de instalação, a FICAP possui as linhas de cabos " + $("#cabosAlternativos").val() + " com maior capacidade de condução de corrente.");
+    }
+    
+}
+
 function showDeterminacaoCaboNaval()
 {
     escondeDivs();

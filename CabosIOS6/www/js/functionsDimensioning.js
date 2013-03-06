@@ -1,3 +1,137 @@
+function getImageCabo()
+{
+    var cabo = $("#caboSelecionado").val();
+    var materialCondutor = $("#cableMaterial").val();
+    
+    if (cabo == AFITOX_06_1KV)
+    {
+        //caboControl.src = "img/cabos/CaboAfitox06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_06_1KV].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitox06_1kV.jpg'></img>");
+    }
+    else if (cabo == AFITOX_750V)
+    {
+        //caboControl.src = "img/cabos/CaboAfitox750V.jpg";
+        //$(".cable-name").html(CABO[AFITOX_750V].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitox750V.jpg'></img>");
+    }
+    else if (cabo == EP_DRY)
+    {
+        //caboControl.src = "img/cabos/CaboEPDRY.jpg";
+        //$(".cable-name").html(CABO[EP_DRY].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY.jpg'></img>");
+    }
+    else if (cabo == EP_DRY_105C)
+    {
+        //caboControl.src = "img/cabos/CaboEPDRY105.jpg";
+        //$(".cable-name").html(CABO[EP_DRY_105C].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboEPDRY105.jpg'></img>");
+    }
+    else if (cabo == FITER_FLEX)
+    {
+        //caboControl.src = "img/cabos/CaboFiterFlex.jpg";
+        //$(".cable-name").html(CABO[FITER_FLEX].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboFiterFlex.jpg'></img>");
+    }
+    else if (cabo == FIPEX_BF)
+    {
+        //caboControl.src = "img/cabos/CaboFiperxBF.jpg";
+        //$(".cable-name").html(CABO[FIPEX_BF].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboFiperxBF.jpg'></img>");
+    }
+    else if (cabo == NOFLAN_ANTICHAMA_BWF_FLEXIVEL)
+    {
+        //caboControl.src = "img/cabos/CaboNoflamAntichamaBWFFlexivel.jpg";
+        //$(".cable-name").html(CABO[NOFLAN_ANTICHAMA_BWF_FLEXIVEL].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboNoflamAntichamaBWFFlexivel.jpg'></img>");
+    }
+    else if (cabo == VINIL)
+    {
+        if (materialCondutor == COBRE)
+        {
+            //caboControl.src = "img/cabos/CaboVinil.jpg";
+            //$(".cable-name").html(CABO[COBRE].description);
+            $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboVinil.jpg'></img>");
+        }
+        else
+        {
+            //caboControl.src = "img/cabos/CaboVinilAluminio.jpg";
+            //$(".cable-name").html("Cabo Vinil Aluminios");
+            $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboVinilAluminio.jpg'></img>");
+        }
+        
+    }
+    else if (cabo == VINIL_FLEXIVEL)
+    {
+        //caboControl.src = "img/cabos/CaboVinilFlexivel.jpg";
+        //$(".cable-name").html(CABO[VINIL_FLEXIVEL].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboVinilFlexivel.jpg'></img>");
+    }
+    else if (cabo == AFITOX_SM_BC)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM_BC].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxSM.jpg'></img>");
+    }
+    else if (cabo == AFITOX_XPBC)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XPBC].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
+    }
+    else if (cabo == AFITOX_SM_AS)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM_AS].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxSM.jpg'></img>");
+    }
+    else if (cabo == AFITOX_XPS)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XPS].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
+    }
+    else if (cabo == AFITOX_SM)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxSM.jpg";
+        //$(".cable-name").html(CABO[AFITOX_SM].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
+    }
+    else if (cabo == AFITOX_XP)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxXP_06_1kV.jpg";
+        //$(".cable-name").html(CABO[AFITOX_XP].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxXP_06_1kV.jpg'></img>");
+    }
+    else if (cabo == AFITOX_MXP_BC)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MXP_BC].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
+    }
+    else if (cabo == AFITOX_MXP_S)
+    {
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
+    }
+    else if (cabo == AFITOX_MEP_BC)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MEP_BC].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
+    }
+    else if (cabo == AFITOX_MEP_S)
+    {
+        //caboControl.src = "img/cabos/CaboAfitoxMXP.jpg";
+        //$(".cable-name").html(CABO[AFITOX_MEP_S].description);
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/cabos/CaboAfitoxMXP.jpg'></img>");
+    }
+    else
+    {
+        //caboControl.src = "img/spacer.gif";
+        $("#dados_entrada_imagem_cabo").html("<img class='img-cabo' src='img/spacer.gif'></img>");
+    }
+}
+
 function updateNivelTensao()
 {
     var tipoProduto = $("#cableList").val();
@@ -2389,4 +2523,5 @@ function validar2()
 function submitSelecaoDimensionamento()
 {
     calcular();
+    showResultadoCalculo();
 }
