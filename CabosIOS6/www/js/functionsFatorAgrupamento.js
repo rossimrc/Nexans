@@ -3,6 +3,8 @@ function calcularAgrupamentoFatorAgrupamento(numeroCabos)
     var dimensionamento = getDimensionamentoTabelaUtil();
     
     numeroCircuitos = dimensionamento.getNumeroCircuitos(numeroCabos);
+    
+    alert('numeroCircuitos: ' + numeroCircuitos);
 
     //numeroBandejas = getNumeroBandejas();
     var numeroBandejas = dimensionamento.getNumeroBandejas();
@@ -16,7 +18,7 @@ function calcularAgrupamentoFatorAgrupamento(numeroCabos)
             if ((dimensionamento.isMediaTensao() && !(dimensionamento.isColunaA() || dimensionamento.isColunaC()))
                 || numeroBandejas > getNumeroMaximoBandejas()) {
                 
-                alert("Número de cabos por fase e/ou circuitos agrupados, não previstos nas tabelas padronizadas de fatores de agrupamentos das normas NBR 5410, NBR 14039 ou IEC.");
+                //alert("Número de cabos por fase e/ou circuitos agrupados, não previstos nas tabelas padronizadas de fatores de agrupamentos das normas NBR 5410, NBR 14039 ou IEC.");
             }
             
             var numeroCircuitosAux = dimensionamento.getNumeroCircuitos(numeroCabos) / numeroBandejas;
@@ -25,7 +27,7 @@ function calcularAgrupamentoFatorAgrupamento(numeroCabos)
     }
     else if (numeroCircuitos > getNumeroMaximoCircuitosBandejaFatorAgrupamento())
     {
-        alert("Número de cabos por fase e/ou circuitos agrupados, não previstos nas tabelas padronizadas de fatores de agrupamentos das normas NBR 5410, NBR 14039 ou IEC.");
+        //alert("Número de cabos por fase e/ou circuitos agrupados, não previstos nas tabelas padronizadas de fatores de agrupamentos das normas NBR 5410, NBR 14039 ou IEC.");
     }
     
     return numeroCircuitos;

@@ -564,7 +564,8 @@ function DimensionamentoBean() {
         return SISTEMA[this.sistema].description;
     }
 
-    this.isDuasFases = function() {
+    this.isDuasFases = function()
+    {
         return ((this.sistema == MONOFASICO_DOIS_CONDUTORES) || (this.sistema == MONOFASICO_TRES_CONDUTORES) || (this.sistema == DUAS_FASES_SEM_NEUTRO));
     }
 

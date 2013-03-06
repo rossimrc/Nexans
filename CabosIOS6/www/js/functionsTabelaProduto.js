@@ -121,7 +121,7 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     /*filtro = '"NMR_FAMILIA_PRODUTO,=,'+getFamilia(caboSelecionado)+'","NMR_NUMERO_CONDUTORES_FASE,=,'+numeroCondutores+'","NME_TENSAO_PRODUTO,=,'+getTensaoIsolamentoDesc(tensaoIsolamento)+'"';*/
     filtro += ')';
 
-    var minSecao = Number.MAX_VALUE;
+    var minSecao = 1.7976931348623157E308;
     var maxSecao = 0;
     
     var array5 = eval(filtro);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");

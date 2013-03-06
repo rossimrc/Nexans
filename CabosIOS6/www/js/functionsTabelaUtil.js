@@ -23,6 +23,8 @@ function getDimensionamentoTabelaUtil()
 	dimensionamento.setEletrodutoMetalico($("#eletrodutoMetalico").val());
     dimensionamento.setFormacaoBancoDutos($("#formacaoBancoDutos").val());
     dimensionamento.setQuantidadeCircuitos($("#quantidadeCircuitos").val());
+    dimensionamento.setSistema($("#system").val());
+    dimensionamento.setMaterialCondutor($("#cableMaterial").val());
 
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());
@@ -229,6 +231,7 @@ function getNumeroCondutoresCarregadosTable04Base(dimensionamento){
 }
 
 function getNomeColunaTable04Base(dimensionamento){
+    var dimensionamento = getDimensionamentoTabelaUtil();
 	var coluna = "";
 	if (dimensionamento.isColunaA1()) {
 		coluna = "A1";
@@ -248,6 +251,7 @@ function getNomeColunaTable04Base(dimensionamento){
 }
 
 function getNomeTabelaTable04Base(numeroTabela){
+    var dimensionamento = getDimensionamentoTabelaUtil();
 	var nomeTabela = "";
 	
 	if (numeroTabela == 36) {
@@ -1726,6 +1730,8 @@ function getSecaoTable04Base(numeroTabela, dimensionamento, corrente, minimaSeca
     filtro += ',"OR,'+ fieldName +',=,'+ corrente +'"';
     filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
     filtro += ')';
+    
+    alert("filtro: " + filtro);
                       
     var arrayTAB_AUXILIAR_04 = eval(filtro);
 				
@@ -1743,6 +1749,7 @@ function getSecaoTable04Base(numeroTabela, dimensionamento, corrente, minimaSeca
 					if(tempItem < minItem)
                     {
 						minRow = tempRow;
+                        minItem = minRow[fieldName];
 					}
 				}
 								 

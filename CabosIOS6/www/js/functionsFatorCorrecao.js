@@ -27,8 +27,8 @@ var numeroCabosFC = "";
 function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanaleta)
 {
     var numCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
-    //alert("Valor numCircuitos: " + numCircuitos);
-    //var numCircuitos = getNumeroCircuitos();
+    //alert("aplicarFatorCorrecao Valor numCircuitos: " + numCircuitos);
+    var numCircuitos = getNumeroCircuitos();
     
     lastFatorResistividade = getFatorCorrecaoResistividade();
     lastFatorTemperatura = getFatorCorrecaoTemperatura();
@@ -45,11 +45,18 @@ function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanalet
     //alert("corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta)");
     //alert(corrente + " / ("+lastFatorResistividade+" * "+lastFatorTemperatura+" * "+lastFatorAgrupamento+" * "+ numeroCabos+" * "+fatorCanaleta+")");
     
-    var fatorcorrecao = corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
+    if(fatorCanaleta!="")
+    {
+        var fatorcorrecao = corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos * fatorCanaleta);
+    }
+    else
+    {
+        var fatorcorrecao = corrente / (lastFatorResistividade * lastFatorTemperatura * lastFatorAgrupamento * numeroCabos);
+    }
     
-    //alert("fatorcorrecao: " + fatorcorrecao);
+    //alert("fatorcorrecao: " + fatorcorrecao.toFixed(1));
     
-    return fatorcorrecao
+    return fatorcorrecao.toFixed(1);
 }
 
 function calcularMaximaCorrenteConducao(corrente, numeroCabos)

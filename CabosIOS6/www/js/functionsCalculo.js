@@ -202,7 +202,7 @@ function calcular()
         //var tipoMaterialIsolacao = $("#arrayProdutoBean").text();
         var tipoMaterialIsolacao = arrayProdutoBean["NME_TIPO_MATERIAL_ISOLACAO"];
     
-        alert("NME_TIPO_MATERIAL_ISOLACAO: " + tipoMaterialIsolacao);
+        //alert("NME_TIPO_MATERIAL_ISOLACAO: " + tipoMaterialIsolacao);
     
         //init();
     
@@ -210,8 +210,7 @@ function calcular()
         calcularSecaoNominalCondutores();
     
         calcularReatanciaIndutivaCalculo();
-        
-        //*** PAREI A VALIDAÇÃO AQUI - THIAGO
+    
         calcularQuedaTensao();
         alert("FIM - Depois do metodo calcularQuedaTensao()");
     
@@ -239,7 +238,7 @@ function calcular()
 			alert("FIM 7 - Depois do metodo calcularDimensionamentoEconomico()");
         }
     
-	alert("FIM do FIM (CALCULO)");
+        alert("FIM do FIM (CALCULO)");
 	
 	
     //} catch(err) {
@@ -256,13 +255,15 @@ function calcularSecaoNominalCondutores()
 	
     //secaoNominal = new SecaoNominalCondutores(dimensionamento, produtoBean);
     
+    //alert("Calculo getNumeroCabos():" + getNumeroCabos());
+    
     // Efetua o c·lculo pelo critÈrio da corrente.
     calcularCriterioCorrenteSecaoNominal(1, false);
     criterioDimensionamento = 2;
     
     // Efetua o c·lculo pelo critÈrio da queda de tens„o.
 	calcularCriterioQuedaTensao();
-    alert("Depois calcularCriterioQuedaTensao");
+    //alert("Depois calcularCriterioQuedaTensao");
 	
 	//DAR UMA OLHADA
     //updateCabo(secaoNominal.getProduto());
@@ -272,6 +273,8 @@ function calcularSecaoNominalCondutores()
     {    
         fatorCanaleta = calcularFatorCorrecaoCanaleta(dimensionamento.getCorrenteProjeto(), getRca(), getNumeroCabos());
         var iCanaleta = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), getNumeroCabos(), getSC(), fatorCanaleta);
+        
+        //alert('Antes do calcularCriterioCorrenteSecaoNominal: ' + calcularCriterioCorrenteSecaoNominal());
         
         while ((iCanaleta > getITabelada()) || (iCanaleta == isNaN)) {
             
@@ -636,13 +639,13 @@ function getTempoCCString()
 
 function getIntegralJouleCondutorString()
 {
-    var aux = getI2t();
+    var aux = getI2tJouleCondutor();
     return aux.toFixed(2).toString();
 }
 
 function getIntegralJouleBlindagemString()
 {
-    return getI2t();
+    return getI2tJouleBlindagem();
 }
 
 function hasDimensionamentoEconomico()
