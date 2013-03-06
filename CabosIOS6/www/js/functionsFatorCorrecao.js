@@ -59,7 +59,7 @@ function aplicarFatorCorrecao(corrente, numeroCabos, secaoCondutor, fatorCanalet
     return fatorcorrecao.toFixed(1);
 }
 
-function calcularMaximaCorrenteConducao(corrente, numeroCabos)
+/*function calcularMaximaCorrenteConducao(corrente, numeroCabos)
 {
     var numeroCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
     var numCircuitos = $("#numeroCircuitos").val();
@@ -74,13 +74,16 @@ function calcularMaximaCorrenteConducao(corrente, numeroCabos)
     }
     
     return corrente * lastFatorResistividade * lastFatorTemperatura * numeroCabos * lastFatorAgrupamento;
-}
+}*/
 
 function calcularMaximaCorrenteConducao(corrente, numeroCabos, fatorCanaleta)
 {
     var numeroCircuitos = calcularAgrupamentoFatorAgrupamento(numeroCabos);
     var numCircuitos = $("#numeroCircuitos").val();
     
+	//alert("calcularMaximaCorrenteConducao NUMERO CIRCUITOS:" + numeroCircuitos);
+	//alert("calcularMaximaCorrenteConducao NUM CIRCUITOS:" + numCircuitos);
+	
 //    lastFatorResistividade = getFatorCorrecaoResistividade();
 //    lastFatorTemperatura = getFatorCorrecaoTemperatura();
 //    lastFatorAgrupamento = 1;
@@ -90,6 +93,9 @@ function calcularMaximaCorrenteConducao(corrente, numeroCabos, fatorCanaleta)
         lastFatorAgrupamento = getFatorCorrecaoAgrupamento(numCircuitos, dimensionamento.getNumeroBandejas());
     }
     
+	//alert(corrente +" "+ lastFatorResistividade +" "+ lastFatorTemperatura +" "+ numeroCabos +" "+ lastFatorAgrupamento +" "+ fatorCanaleta);
+	
+	fatorCanaleta = fatorCanaleta == undefined || fatorCanaleta == ""|| fatorCanaleta == 0 ? 1 : fatorCanaleta;
     return corrente * lastFatorResistividade * lastFatorTemperatura * numeroCabos * lastFatorAgrupamento * fatorCanaleta;
 }
 
@@ -186,7 +192,7 @@ function getFatorCorrecaoTemperatura()
 
 function getFatorCorrecaoTabela40(temperatura, materialIsolacao, nomeTabela)
 {
-    alert("getFatorCorrecaoTabela40");
+    //alert("getFatorCorrecaoTabela40");
     var fator = 1;
     
     //db.transaction(function(tx){
@@ -220,7 +226,7 @@ function getFatorCorrecaoTabela40(temperatura, materialIsolacao, nomeTabela)
 
 function getFatorCorrecaoTabela32(tableName, temperaturaAmbiente, tipoMaterialIsolacao, temperaturaCondutor)
 {
-    alert("getFatorCorrecaoTabela32");
+    //alert("getFatorCorrecaoTabela32");
     
     var fator = 0;
     
@@ -626,7 +632,7 @@ function getFatorCorrecaoResistividade()
 
 function getFatorCorrecaoTabela33()
 {
-    alert("getFatorCorrecaoTabela33");
+    //alert("getFatorCorrecaoTabela33");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 0;
@@ -688,7 +694,7 @@ function getFatorCorrecaoTabela33()
 
 function getFatorCorrecaoTabela41(resistividadeTermica)
 {
-    alert("getFatorCorrecaoTabela41");
+    //alert("getFatorCorrecaoTabela41");
     var fator = 0;
     
     var resistividade = getResistividadeTabela41(resistividadeTermica);
@@ -780,7 +786,7 @@ function getFatorAgrupamentoNavalFatorCorrecao(numeroCircuitos, numeroBandejas)
 
 function getFatorCorrecaoTable11(numeroCircuitos, numeroBandejas)
 {
-    alert("getFatorCorrecaoTable11");
+    //alert("getFatorCorrecaoTable11");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -877,7 +883,7 @@ function getFormaInstalacaoTable11()
 
 function getFatorCorrecaoTable13(numeroCircuitos, numeroBandejas)
 {
-    alert("getFatorCorrecaoTable13");
+    //alert("getFatorCorrecaoTable13");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -992,7 +998,7 @@ function getFormaInstalacaoTable13()
 
 function getFatorCorrecaoTable12(numeroCircuitos)
 {
-    alert("getFatorCorrecaoTable12");
+    //alert("getFatorCorrecaoTable12");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -1250,7 +1256,7 @@ function getFormaAgrupamentoTabela42()
 
 function getFatorAgrupamentoTabela43(numeroCircuitos)
 {
-    alert("getFatorAgrupamentoTabela43");
+    //alert("getFatorAgrupamentoTabela43");
     
     var fator = 0;
     
@@ -1314,7 +1320,7 @@ function getFatorAgrupamentoTabela43(numeroCircuitos)
 
 function getFatorAgrupamentoTabela44(numeroCircuitos)
 {
-    alert("getFatorAgrupamentoTabela44");
+    //alert("getFatorAgrupamentoTabela44");
     
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
@@ -1379,7 +1385,7 @@ function getFatorAgrupamentoTabela44(numeroCircuitos)
 
 function getFatorAgrupamentoTabela45(numeroCircuitos)
 {
-    alert("getFatorAgrupamentoTabela45");
+    //alert("getFatorAgrupamentoTabela45");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 0;
@@ -1445,7 +1451,7 @@ function getFatorAgrupamentoTabela45(numeroCircuitos)
 
 function getFatorAgrupamentoTabela38(numeroCircuitos, secaoFC)
 {
-    alert("getFatorAgrupamentoTabela38");
+    //alert("getFatorAgrupamentoTabela38");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -1540,7 +1546,7 @@ function getNomeBancoTabela37(secaoCondutor)
 
 function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
 {
-    alert("getFatorAgrupamentoTabela37");
+    //alert("getFatorAgrupamentoTabela37");
     
     //Table19Bean bean = getByID(getNomeBanco(dimensionamento, secaoCondutor));
     var nomeTabela = getNomeBancoTabela37(secaoCondutor);
@@ -1609,7 +1615,7 @@ function getFatorAgrupamentoTabela37(secaoCondutor, numeroCircuitos)
 
 function getFatorAgrupamentoTabela34(numeroCircuitos, numeroBandejas)
 {
-    alert("getFatorAgrupamentoTabela34");
+    //alert("getFatorAgrupamentoTabela34");
     
     var fator = 1;
     var dimensionamento = getDimensionamentoTabelaUtil();
@@ -1640,7 +1646,7 @@ function getFatorAgrupamentoTabela34(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabela36(numeroCabos, numeroBandejas)
 {
-    alert("getFatorAgrupamentoTabela36");
+    //alert("getFatorAgrupamentoTabela36");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -1683,7 +1689,7 @@ function getFatorAgrupamentoTabela36(numeroCabos, numeroBandejas)
 
 function getFatorAgrupamentoTabela35(numeroCircuitos, numeroBandejas)
 {
-    alert("getFatorAgrupamentoTabela35");
+    //alert("getFatorAgrupamentoTabela35");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -1716,7 +1722,7 @@ function getFatorAgrupamentoTabela35(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabelaA8(numeroCircuitos, numeroBandejas)
 {
-     alert("getFatorAgrupamentoTabelaA8");
+     //alert("getFatorAgrupamentoTabelaA8");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;
@@ -1805,7 +1811,7 @@ function getFatorOutrosTabelaA8(numeroCircuitos, numeroBandejas)
 
 function getFatorAgrupamentoTabelaA7(numeroCircuitos, numeroBandejas)
 {
-    alert("getFatorAgrupamentoTabelaA7");
+    //alert("getFatorAgrupamentoTabelaA7");
     
     var dimensionamento = getDimensionamentoTabelaUtil();
     var fator = 1;

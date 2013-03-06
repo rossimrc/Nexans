@@ -35,7 +35,7 @@ function getDimensionamentoTabelaUtil()
 
 function buscarCorrenteTabela(secao){
 	
-	alert("buscarCorrenteTabela");
+	//alert("buscarCorrenteTabela");
 	var dimensionamento = getDimensionamentoTabelaUtil();
 	
 	var corrente = 0;
@@ -45,33 +45,33 @@ function buscarCorrenteTabela(secao){
 		if(dimensionamento.isBaixaTensao()){
 			if(temperatura == _70C){
 				if(isTabela36(dimensionamento)){
-					alert("tabela36");
+					//alert("tabela36");
 					corrente = getCorrenteTable04Base("36", dimensionamento, secao);
 				}else if(isTabela38(dimensionamento)){
-					alert("tabela38");
+					//alert("tabela38");
 					corrente = getCorrenteTable05Base("38", dimensionamento, secao);
 				}
 			}else if(temperatura == _90C){
 				if(isTabela37(dimensionamento)){
-					alert("tabela37");
+					//alert("tabela37");
 					corrente = getCorrenteTable04Base("37", dimensionamento, secao);
 				}else if(isTabela39(dimensionamento)){
-					alert("tabela39");
+					//alert("tabela39");
 					corrente = getCorrenteTable05Base("39", dimensionamento, secao);
 				}
 			}
 		}else if(dimensionamento.isMediaTensao()){
 			if (isTabela28(dimensionamento)) {
-				alert("tabela28");
+				//alert("tabela28");
 				corrente = getCorrenteTable10Base("28", dimensionamento, secao);
 			} else if (isTabela29(dimensionamento)) {
-				alert("tabela29");
+				//alert("tabela29");
 				corrente = getCorrenteTable10Base("29", dimensionamento, secao);
 			} else if (isTabela30(dimensionamento)) {
-				alert("tabela30");
+				//alert("tabela30");
 				corrente = getCorrenteTable10Base("30", dimensionamento, secao);
 			} else if (isTabela31(dimensionamento)) {
-				alert("tabela31");
+				//alert("tabela31");
 				corrente = getCorrenteTable10Base("31", dimensionamento, secao);
 			}
 		}
@@ -153,11 +153,15 @@ function getCorrenteTable04Base(numeroTabela, dimensionamento, secao){
 	
 	//db.transaction(function(tx){
 	//			   tx.executeSql("SELECT * FROM TAB_AUXILIAR_04 WHERE NME_TABELA = ? AND NMR_SECAO = ?",[nomeTabela, secao],function(tx,rs){
-					
+				
+	//alert("getCorrente: " + filtro);
+	
+	//alert(arrayTAB_AUXILIAR_04.length);
+			
 			if(arrayTAB_AUXILIAR_04.length >0){
 								 
-				var name = "VLR_" + getNomeColunaTable04Base(dimensionamento) + getNumeroCondutoresCarregadosTable04Base(dimensionamento);
-				
+				var name = "VLR_" + getNomeColunaTable04Base(dimensionamento) + "_" + getNumeroCondutoresCarregadosTable04Base(dimensionamento);
+				//alert("NOME CAMPO: " + name);
 				 switch(name){
 					case "VLR_A1_2":
 						//corrente = rs.rows.item(0).VLR_A1_2;
@@ -1727,11 +1731,11 @@ function getSecaoTable04Base(numeroTabela, dimensionamento, corrente, minimaSeca
     
     var filtro = 'selectXML(xmlTAB_AUXILIAR_04, "*"';
     filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
-    filtro += ',"OR,'+ fieldName +',=,'+ corrente +'"';
+    filtro += ',"'+ fieldName +',>=,'+ corrente +'"';
     filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
     filtro += ')';
     
-    alert("filtro: " + filtro);
+    //alert("filtro: " + filtro);
                       
     var arrayTAB_AUXILIAR_04 = eval(filtro);
 				
@@ -1779,7 +1783,7 @@ function getSecaoTable05Base(numeroTabela, dimensionamento, corrente, minimaSeca
     
     var filtro = 'selectXML(xmlTAB_AUXILIAR_05, "*"';
     filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
-    filtro += ',"OR,'+ fieldName +',=,'+ corrente +'"';
+    filtro += ',"'+ fieldName +',>=,'+ corrente +'"';
     filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
     filtro += ')';
     
@@ -1800,7 +1804,7 @@ function getSecaoTable05Base(numeroTabela, dimensionamento, corrente, minimaSeca
 						minRow = tempRow;
 					}
 				}
-					  
+
 				$("#sessao").val(minRow["NMR_SECAO"]);
 			}
 								 

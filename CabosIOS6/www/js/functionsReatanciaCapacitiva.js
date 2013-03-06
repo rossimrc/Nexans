@@ -13,13 +13,17 @@ function calcularReatanciaCapacitivaReatanciaCapacitiva()
     
     // Frequência do sistema.
     var f = dimensionamento.getFrequencia();
-    
+	
+	alert("VALOR F: " + f);
+	
     // Capacitância.
     calcularCapacitanciaReatanciaCapacitiva();
     
     // Calcula a reatância capacitiva.
     xc = Math.pow(10, 6) / (2 * Math.PI * f * c);
     
+	alert("VALOR XC: " + xc);
+	
     //getDebug().logVariable("xc", xc);
     //getDebug().logMethodExit();
 }
@@ -76,6 +80,7 @@ function getDdiReatanciaCapacitiva()
     //var diametroCondutor = produto.getDiametroCondutor();
     var diametroCondutor = arrayProdutoBean["NMR_DIAMETRO_CONDUTOR"];
     
+	
     var espessura1Semi = 0;
     
     if (dimensionamento.isMediaTensao())
@@ -91,7 +96,7 @@ function getTReatanciaCapacitiva()
 {
     //var arrayProdutoBean = document.getElementById("arrayProdutoBean");
     var espessuraNominalIsolacao = arrayProdutoBean["NMR_ESPESSURA_NOMINAL_ISOLACAO"];
-    
+	 
     //return produto.getEspessuraNominalIsolacao();
     return espessuraNominalIsolacao;
 }

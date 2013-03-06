@@ -214,7 +214,7 @@ function showEletrodutoAr()
     document.getElementById("id_posicionamentoCabos").style.display = "";
     getPosicionamentoEletrodutoAr();
     
-    alert("Depois getPosicionamentoEletrodutoAr");
+    //alert("Depois getPosicionamentoEletrodutoAr");
     
     if(isUnipolarEletroduoAr())
     {

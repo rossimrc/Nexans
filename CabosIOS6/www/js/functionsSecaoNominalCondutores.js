@@ -21,7 +21,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
     var numeroMaximoCabos = 20;//NUMERO_MAXIMO_CABOS;
     numeroCabos = numCabos;
     
-    alert("numeroCabos Inicial: " + numeroCabos);
+    //alert("numeroCabos Inicial: " + numeroCabos);
 	
     var fixar = $("#fixarNumeroCabos").val();
     if (fixar > 0){
@@ -36,13 +36,13 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
     // Aplica os fatores de correÁ„o a corrente.
     //fatorCorrecao.setSecao(sC);
     //setSecaoFC(sC);
-    var i = -1;
+    i = -1;
     
-    alert('correnteProjeto: ' + $("#correnteProjeto").val());
+    //alert('correnteProjeto: ' + $("#correnteProjeto").val());
     
     var novaCorrente = aplicarFatorCorrecao($("#correnteProjeto").val(), numeroCabos, sC, 1);
     
-    alert("novaCorrente: " + novaCorrente)
+    //alert("novaCorrente: " + novaCorrente)
     
     while (i != novaCorrente)
     {
@@ -51,9 +51,9 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
         // Verifica se a seÁ„o do condutor foi fixada.
         if (isSecaoCondutorFixada()) {
             sC = $("#secaoCondutorFixado").val();
-            alert("sC: " + sC);
+            //alert("sC: " + sC);
 			var corrente = buscarCorrenteTabela(sC);
-            alert("corrente: " + corrente);
+            //alert("corrente: " + corrente);
             
 			//////////////
 			
@@ -74,10 +74,10 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
             }
             
         } else {
-            alert('aumentarSecao: ' + aumentarSecao);
+            //alert('aumentarSecao: ' + aumentarSecao);
             if (aumentarSecao) {
                 sC = buscarSecaoAcimaTabelaUtil(sC); // Verificar se È maior que a m·xima.
-                alert("sC: " + sC + " > SecaoMaxima: " + arrayProdutoBean["SecaoMaxima"]);
+                //alert("sC: " + sC + " > SecaoMaxima: " + arrayProdutoBean["SecaoMaxima"]);
                 //arrayProdutoBean["SecaoMinima"]
                 //if (sC > arrayProdutoBean.options["SecaoMaxima"].value) {
                 if (sC > arrayProdutoBean["SecaoMaxima"])
@@ -85,7 +85,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
                     sC = 0;
                 }
             } else {
-                alert('secaoNominal sC: ' + sC);
+                //alert('secaoNominal sC: ' + sC);
                 sC = buscarSecaoTabelaUtil(i, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
             }
             //getDebug().logVariable("sC", sC);
@@ -93,7 +93,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
             // Se a seÁ„o n„o for encontrada, incrementa o numero de cabos e
             // aplica-se novamente os fatores de correÁ„o.
             while (sC == 0 && numeroCabos <= numeroMaximoCabos) {
-                alert('while (sC == 0 && numeroCabos <= numeroMaximoCabos) {');
+                //alert('while (sC == 0 && numeroCabos <= numeroMaximoCabos) {');
                 
                 // Incrementa o n˙mero de cabos.
                 numeroCabos++;
@@ -105,7 +105,7 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
                 //getDebug().logVariable("Aplicando fator de correÁ„o: i", i);
                 
                 sC = buscarSecaoTabelaUtil(i, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
-                alert("sC while: " + sC);
+                //alert("sC while: " + sC);
                 //getDebug().logVariable("sC", sC);
             }
         }
@@ -116,9 +116,12 @@ function calcularCriterioCorrenteSecaoNominal(numCabos, aumentarSecao)
     }
     
     // Busca a corrente para a seÁ„o encontrada e aplica os fatores de correÁ„o.
+	//alert("SECAO sC Itabelada: " + sC);
+	
     iTabelada = buscarCorrenteTabela(sC);
     //fatorCorrecao.setSecao(sC);
-    i = calcularMaximaCorrenteConducao(iTabelada, numeroCabos);
+    i = calcularMaximaCorrenteConducao(iTabelada, numeroCabos, 1);
+	//alert("VALOR I: " + i);
     //getDebug().logVariable("i", i);
     
     // Verifica se o n˙mero m·ximo de cabos foi ultrapassado.

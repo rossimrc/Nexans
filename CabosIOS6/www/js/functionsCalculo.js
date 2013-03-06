@@ -212,30 +212,30 @@ function calcular()
         calcularReatanciaIndutivaCalculo();
     
         calcularQuedaTensao();
-        alert("FIM - Depois do metodo calcularQuedaTensao()");
+        //alert("FIM - Depois do metodo calcularQuedaTensao()");
     
         calcularCurtoCircuito();
-		alert("FIM 2 - Depois do metodo calcularCurtoCircuito()");
+		//alert("FIM 2 - Depois do metodo calcularCurtoCircuito()");
     
         calcularIntegralJouleCondutor(getSC(),getKbb());
-		alert("FIM 3 - Depois do metodo calcularIntegralJouleCondutor()");
+		//alert("FIM 3 - Depois do metodo calcularIntegralJouleCondutor()");
     
 	
         if (dimensionamento.isMediaTensao()){
-			alert("Entrou calcularIntegralJouleBlindagem()");
+			//alert("Entrou calcularIntegralJouleBlindagem()");
             calcularIntegralJouleBlindagem(getSb(), getKbb());
-			alert("FIM 4 - Depois do metodo calcularIntegralJouleBlindagem()");
+			//alert("FIM 4 - Depois do metodo calcularIntegralJouleBlindagem()");
         }
         
         calcularImpedanciaSequenciaPosNeg(getRca(), getXL());
-		alert("FIM 5 - Depois do metodo calcularImpedanciaSequenciaPosNeg()");
+		//alert("FIM 5 - Depois do metodo calcularImpedanciaSequenciaPosNeg()");
         calcularReatanciaCapacitivaReatanciaCapacitiva();
-		alert("FIM 6 - Depois do metodo calcularReatanciaCapacitiva()");
+		//alert("FIM 6 - Depois do metodo calcularReatanciaCapacitiva()");
         
         if (dimensionamento.isMediaTensao() && dimensionamento.isCobre() && dimensionamento.isCabosEnergia()) {
-			alert("Entrou calcularDimensionamentoEconomico()");
+			//alert("Entrou calcularDimensionamentoEconomico()");
             calcularDimensionamentoEconomico(dimensionamento.getCorrenteProjeto(), numeroCabos);
-			alert("FIM 7 - Depois do metodo calcularDimensionamentoEconomico()");
+			//alert("FIM 7 - Depois do metodo calcularDimensionamentoEconomico()");
         }
     
         alert("FIM do FIM (CALCULO)");
@@ -294,9 +294,9 @@ function calcularSecaoNominalCondutores()
     numeroCabosCorrente = getNumeroCabos();
     secaoCorrente = getSC();
     
-    alert("Secao Nominal Condutores: " + secaoCorrente);
+    //alert("Secao Nominal Condutores: " + secaoCorrente);
     
-    alert("Saiu calcularSecaoNominalCondutores");
+    //alert("Saiu calcularSecaoNominalCondutores");
 }
 
 function calcularReatanciaIndutivaCalculo()
@@ -606,8 +606,9 @@ function getQuedaTensao()
 
 function getQuedaTensaoString()
 {
-    var value = (getQuedaTensao() * 100);
-    return (value / 100);
+    //var value = (getQuedaTensao() * 100);
+    //return (value / 100);
+	return getQuedaTensao().toFixed(2).toString();
 }
 
 function getMaximaCorrenteCCString()
