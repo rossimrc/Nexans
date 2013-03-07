@@ -246,6 +246,8 @@ function calcularCriterioQuedaTensao()
 		produto = new Produto().getCabo(dimensionamento, sC);
 		fatorCorrecao.setProduto(produto);
 	}*/
+    
+    getCaboDimensionamentoCalculo(sC);
 	
 	// Calcula o Rcc.
 	rcc = calcularRcc(dimensionamento);

@@ -90,6 +90,7 @@ function getCaboDimensionamentoCalculo(secaoCabo)
     filtro += ',"NMR_FAMILIA_PRODUTO,=,'+ getFamilia(caboSelecionado) +'"';
     filtro += ',"NMR_NUMERO_CONDUTORES_FASE,=,'+ numeroCondutores +'"';
     filtro += ',"NME_TENSAO_PRODUTO,=,'+ getTensaoIsolamentoDesc(tensaoIsolamento) +'"';
+    //filtro += ',"SEQ_REGISTRO_TIPO,=,1890"';
     
     //alert(strEval);
     //var array5 = eval(strEval);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
@@ -115,13 +116,13 @@ function getCaboDimensionamentoCalculo(secaoCabo)
 	if(secaoCabo > 0)
 	{
 		//filtro = filtro + " AND NME_SECAO_CONDUTOR_FASE='" + secaoCabo.toFixed(0) + "'";
-        filtro += ',"NME_SECAO_CONDUTOR_FASE,=,' + secaoCabo.toFixed(0) + '"';
+        filtro += ',"NME_SECAO_CONDUTOR_FASE,=,' + parseInt(secaoCabo) + '"';
 	}
     
     /*filtro = '"NMR_FAMILIA_PRODUTO,=,'+getFamilia(caboSelecionado)+'","NMR_NUMERO_CONDUTORES_FASE,=,'+numeroCondutores+'","NME_TENSAO_PRODUTO,=,'+getTensaoIsolamentoDesc(tensaoIsolamento)+'"';*/
     filtro += ')';
 
-    var minSecao = 1.7976931348623157E308;
+    var minSecao = Number.MAX_VALUE;
     var maxSecao = 0;
     
     var array5 = eval(filtro);//selectXML(xmlT003_PRODUTOS, "*", "COD_PRODUTO,BETWEEN,30000,40000", "SEQ_REGISTRO_TIPO,=,312");
@@ -227,13 +228,13 @@ function getCaboDimensionamentoCalculo(secaoCabo)
 function getFamilia(cabo)
 {
 	//alert('Teste: ' + parseInt(cabo)%1000);
-    if(parseInt(cabo)<1000)
+    if(cabo<1000)
     {
     	return cabo;
     }
     else
     {
-    	return parseInt(cabo)%1000;
+    	return cabo % 1000;
     }
 }
 

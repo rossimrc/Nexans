@@ -25,6 +25,15 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setQuantidadeCircuitos($("#quantidadeCircuitos").val());
     dimensionamento.setSistema($("#system").val());
     dimensionamento.setMaterialCondutor($("#cableMaterial").val());
+    dimensionamento.setFatorPotencia($("#fatorPotencia").val());
+    dimensionamento.setComprimentoCircuito($("#comprimentoCircuito").val());
+    dimensionamento.setUnidadeTensao($("#voltageUnit").val());
+    dimensionamento.setQuedaTensaoMaxima($("#quedaTensaoMaxima").val());
+    dimensionamento.setCorrenteProjeto($("#correnteProjeto").val());
+    dimensionamento.setTensaoServico($("#serviceVoltage").val());
+    dimensionamento.setFixarInformacaoCurto($("#fixarInformacaoCurto").val());
+    dimensionamento.setTempoAtuacaoProtecao($("#tempoAtuacaoProtecao").val());
+    dimensionamento.setCorrenteCurto($("#correnteCurto").val());
 
     // Recupera a temperatura ambiente ao ar/solo.
     dimensionamento.setTemperaturaMaximaCondutor($("#maximumTemperature").val());

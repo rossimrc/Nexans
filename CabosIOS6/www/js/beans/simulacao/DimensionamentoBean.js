@@ -59,7 +59,7 @@ function DimensionamentoBean() {
 
     this.getTensaoServicoVolts = function() {
 
-        if (this.unidadeTensao == "V") {
+        if (this.unidadeTensao == "1") {
             return this.tensaoServico;
         } else {
             return this.tensaoServico * 1000;
@@ -68,7 +68,7 @@ function DimensionamentoBean() {
 
     this.getTensaoServiFcokV = function() {
 
-        if (this.unidadeTensao == "V") {
+        if (this.unidadeTensao == "1") {
             return this.tensaoServico / 1000;
         } else {
             return this.tensaoServico;

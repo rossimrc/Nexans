@@ -100,13 +100,13 @@ function showResultadoCalculo()
         $("#dados_resultado_quedaTensao").html(getQuedaTensaoString() + " %");
         $("#dados_resultado_maximaCorrenteCC").html(getMaximaCorrenteCCString() + " kA");
         $("#dados_resultado_tempoCC").html(getTempoCCString() + " s");
-        $("#dados_resultado_integralJouleCondutor").html(getIntegralJouleBlindagemString() + " A&sup2;s");
+        $("#dados_resultado_integralJouleCondutor").html(getIntegralJouleCondutorString() + " A&sup2;s");
         
         if(dimensionamento.isMediaTensao())
         {
             document.getElementById("if_dados_resultado_integralJouleBlindagem").style.display = "";
             document.getElementById("dados_resultado_integralJouleBlindagem").style.display = "";
-            $("#dados_resultado_integralJouleBlindagem").html(getNumeroCircuitosRelatorio() + " A&sup2;s");
+            $("#dados_resultado_integralJouleBlindagem").html(getI2tJouleBlindagem() + " A&sup2;s");
             
             if(hasDimensionamentoEconomico())
             {

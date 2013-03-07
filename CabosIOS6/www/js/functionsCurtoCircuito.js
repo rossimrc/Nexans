@@ -31,6 +31,7 @@ function calcularCriterioCurtoCondutor()
     }
     else
     {
+        alert("Entrou else");
         calcularSemInformacaoCurtoCondutor();
     }
 }
@@ -85,6 +86,8 @@ function calcularSemInformacaoCurtoCondutor()
     
     // Calcula o kcc e o Icc.
     kcc = getKc() * Math.sqrt(Math.log((getTetafc() + getBetac()) / (getTeta0c() + getBetac())) / Math.LN10);
+    alert("calcularSemInformacaoCurtoCondutor kcc: " + kcc)
+    
     icc = kcc * (sc / Math.sqrt(getTccDefault()));
     //getDebug().logVariable("kcc", kcc);
     //getDebug().logVariable("icc", icc);
@@ -294,6 +297,7 @@ function getKcc()
  */
 function getKbb()
 {
+    alert("kbb: " + kbb);
     return kbb;
 }
 

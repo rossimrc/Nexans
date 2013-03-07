@@ -211,13 +211,13 @@ function calcular()
     
         calcularReatanciaIndutivaCalculo();
     
-        calcularQuedaTensao();
+        calcularQuedaTensaoCalculo();
         //alert("FIM - Depois do metodo calcularQuedaTensao()");
     
         calcularCurtoCircuito();
 		//alert("FIM 2 - Depois do metodo calcularCurtoCircuito()");
     
-        calcularIntegralJouleCondutor(getSC(),getKbb());
+        calcularIntegralJouleCondutor(getSC(),getKcc());
 		//alert("FIM 3 - Depois do metodo calcularIntegralJouleCondutor()");
     
 	
@@ -245,6 +245,119 @@ function calcular()
     //    calculoExceptionMessage = "Informamos que para esta condição sugerida, o sistema não encontra resposta.";
         //alert("Erro: " + err);
     //}
+}
+
+function calcularQuedaTensaoCalculo()
+{
+    var dimensionamento = getDimensionamentoTabelaUtil();
+    numeroCabos = getNumeroCabos();
+    var numeroMaximoCabos = 20;
+    
+    if (dimensionamento.getFixarNumeroCabos() > 0)
+    {
+        numeroMaximoCabos = dimensionamento.getNumeroCabosFixado();
+        numeroCabos = dimensionamento.getNumeroCabosFixado();
+    }
+    
+    var correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
+    
+    // Calcula a queda de tens„o.
+    calcularQuedaTensao(getSC(), correnteQueda, getRca(), getXL());
+    
+    //getCalculoDebug().logVariable("dV", quedaTensao.getDV());
+    
+    //var correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, secaoNominal.getSC());
+    /*var correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), getNumeroCabos(), getSC(), fatorCanaleta);
+    
+    var novaCorrenteFator = -1;
+    
+    while (correnteFator != novaCorrenteFator) {
+        
+        // Verifica se a queda de tens„o calculada È maior que a especificada pelo usu·rio.
+        while ((getDV() > dimensionamento.getQuedaTensaoMaxima()) && (numeroCabos <= numeroMaximoCabos))
+        {
+            //getCalculoDebug().logMessage("Executando loop enquanto dV maior que " + dimensionamento.getQuedaTensaoMaxima());
+            
+            var sCQT = getSC();
+            
+            // Tenta buscar uma seÁ„o maior que a atual para o cabo.
+            // Verifica se a secao atual È a m·xima suportada pelo cabo.
+            if (sCQT >= arrayProdutoBean["SecaoMaxima"] || dimensionamento.isSecaoCondutorFixada())
+            {
+                
+                numeroCabos++;
+                correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
+                
+                if (!dimensionamento.isSecaoCondutorFixada())
+                {
+                    
+                    // Adicionado o fator de correÁ„o por conta do fluxograma.
+                    //setSecao(sCQT);
+                    correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, sCQT);
+                    sCQT = buscarSecaoTabelaUtil(correnteFator, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
+                }
+            }
+            else
+            {    
+                // Busca uma seÁ„o maior que a atual.
+                sCQT = buscarSecaoAcimaTabelaUtil(getSC());
+                
+                // Verifica se a seÁ„o n„o foi encontrada ou se n„o È suportada pelo cabo.
+                if (sCQT <= 0 || sCQT > arrayProdutoBean["SecaoMaxima"])
+                {
+                    
+                    // Divide a corrente corrigida por divisor e busca a seÁ„o correspondente na tabela.
+                    numeroCabos++;
+                    correnteQueda = dimensionamento.getCorrenteProjeto() / numeroCabos;
+                    
+                    //fatorCorrecao.setSecao(sC);
+                    correnteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, sCQT);
+                    
+                    sCQT = buscarSecaoTabelaUtil(correnteFator, getSecaoMinimaSecaoNominal(), arrayProdutoBean["SecaoMaxima"]);
+                }
+            }
+            setSC(sCQT);
+            
+            //getCalculoDebug().logVariable("numeroCabos", numeroCabos);
+            //getCalculoDebug().logVariable("correnteQueda", correnteQueda);
+            //getCalculoDebug().logVariable("sC", sC);
+            
+            //updateCabo(sC);
+            getCaboDimensionamentoCalculo(sCQT);
+            
+            calcularCriterioQuedaTensao();
+            calcularReatanciaIndutivaCalculo();
+            
+            //calcularQuedaTensao(secaoNominal.getSC(), correnteQueda, secaoNominal.getRca(), reatanciaIndutiva.getXL());
+            calcularQuedaTensao(getSC(), correnteQueda, getRca(), getXL());
+            //getCalculoDebug().logVariable("dV", quedaTensao.getDV());
+        }
+        
+        // Busca o fator de correÁ„o novamente.
+        //fatorCorrecao.setSecao(secaoNominal.getSC());
+        novaCorrenteFator = aplicarFatorCorrecao(dimensionamento.getCorrenteProjeto(), numeroCabos, getSC());
+    }
+    
+    
+    // Verifica se o n˙mero m·ximo de cabos foi ultrapassado.
+    //if (numeroCabos > numeroMaximoCabos)
+    //    throw new CalculoException("N„o foi possÌvel encontrar a seÁ„o do condutor. Foi atingido o limite de " + numeroMaximoCabos
+    //                               + " condutor(es).");
+    
+    //fatorCorrecao.setSecao(secaoNominal.getSC());
+    correnteQueda = calcularMaximaCorrenteConducao(buscarCorrenteTabela(getSC()), numeroCabos, fatorCanaleta);
+    
+    if (correnteQueda > corrente)
+    {
+        criterioDimensionamento = 3;
+        corrente = correnteQueda;
+    }
+    else
+    {
+        numeroCabos = numeroCabosCorrente;
+        setSC(secaoCorrente);
+    }*/
+    //getCalculoDebug().logMethodExit();
 }
 
 function calcularSecaoNominalCondutores()
@@ -386,7 +499,8 @@ function calcularCurtoCircuito(){
 	
 	calcularCriterioCurto(getSC());
 	
-	if (getSc() > getSC()) {
+	if (getSc() > getSC())
+    {
 		setSC(getSc());
 		corrente = getIcc();
 		
