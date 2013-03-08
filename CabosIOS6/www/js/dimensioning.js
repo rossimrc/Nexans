@@ -1301,6 +1301,19 @@ $("#specification-popup2-continue").click(function(){
         //alert("Entrou na fase de calculo.");
         submitSelecaoDimensionamento();
     });
+                  
+    $("#resultado-popup2-voltar").click(function()
+    {
+        closePopup("page_resultado_calculo");
+        //showPopup("page-dimension");
+        showPopup("page-newproject");
+    });
+                  
+    $("#resultado-popup2-continue").click(function()
+    {
+        closePopup("page_resultado_calculo");
+        showPopup("page-newproject");
+    });
 
 function myquery2(p1, p2, p3) {
 	return 'SELECT a.id, a.nome FROM ' + p2 + ' b INNER JOIN ' + p3 + ' r ON b.id = r.id_1 INNER JOIN ' + p1 + ' a ON a.id = r.id_2 WHERE b.id = ?'
