@@ -1298,7 +1298,7 @@ $("#specification-popup2-continue").click(function(){
     //INTERATIVIDADE PARA CALCULO
     $("#id_Calculo_Dimensionamento").click(function()
     {
-        alert("Entrou na fase de calculo.");
+        //alert("Entrou na fase de calculo.");
         submitSelecaoDimensionamento();
     });
 

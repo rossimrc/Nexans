@@ -14,7 +14,18 @@ function getDimensionamentoTabelaUtil()
     dimensionamento.setPossibilidadeInstalacao($("#possibilidadeInstalacao").val());
     dimensionamento.setlocalInstalacao($("#localInstalacao").val());
     dimensionamento.setDistanciaEntreCabos($("#distanciaEntreCabos").val());
-    dimensionamento.setTipoInstalacao($("#tipoInstalacao").val());
+    
+    if($("#posicionamentoCabos").val()!="0")
+    {
+        //alert("Entrou posicionamentoCabos: " + $("#posicionamentoCabos").val());
+        dimensionamento.setTipoInstalacao($("#posicionamentoCabos").val());
+    }
+    else
+    {
+        //alert("Entrou tipoInstalacao: " + $("#tipoInstalacao").val());
+        dimensionamento.setTipoInstalacao($("#tipoInstalacao").val());    
+    }
+    
     dimensionamento.setOrientacaoFatorCorrecao($("#orientacaoFatorCorrecao").val());
     dimensionamento.setResistividadeTermica($("#resistividadeTermica").val());
     dimensionamento.setNumeroBandejas($("#numeroBandejas").val());
@@ -428,6 +439,8 @@ function getCorrenteTable10Base(numeroTabela, dimensionamento, secao){
     var filtro = 'selectXML(xmlTAB_AUXILIAR_10, "*"';
     filtro += ',"NME_TABELA,=,'+ nomeTabela +'"';
     filtro += ')';
+    
+    //alert("getCorrenteTable10Base:\n " + filtro);
     
     var arrayTAB_AUXILIAR_10 = eval(filtro);
 					 
@@ -1583,6 +1596,8 @@ function getMaiorSecaoTable10Base(numeroTabela, dimensionamento, secao, maior){
     
     filtro += ')';
     
+    //alert("getMaiorSecaoTable10Base:\n " + filtro);
+    
     var arrayTAB_AUXILIAR_10 = eval(filtro);
 	
 	//db.transaction(function(tx){
@@ -1841,6 +1856,8 @@ function getSecaoTable10Base(numeroTabela, dimensionamento, corrente, minimaSeca
     filtro += ',"NMR_SECAO,BETWEEN,'+ minimaSecao +','+ maximaSecao +'"';
     filtro += ')';
     
+    //alert("getSecaoTable10Base:\n " + filtro);
+    
     var arrayTAB_AUXILIAR_10 = eval(filtro);
 								 
 			if(arrayTAB_AUXILIAR_10.length >0)
@@ -1856,7 +1873,8 @@ function getSecaoTable10Base(numeroTabela, dimensionamento, corrente, minimaSeca
 	return sessao;
 }
 
-function getNomeColunaTable10Base(dimensionamento) {
+function getNomeColunaTable10Base(dimensionamento)
+{
 	var coluna = "";
 	
 	if (dimensionamento.isColunaA()) {

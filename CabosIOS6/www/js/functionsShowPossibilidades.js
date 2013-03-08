@@ -36,11 +36,18 @@ function showResultadoCalculo()
     $("#dados_entrada_num_condutores_fixado").html($("#fixarNumeroCabos option:selected").text());
     $("#dados_entrada_corrente_curto_circuito_condutor_fixada").html($("#fixarInformacaoCurto option:selected").text());
     
+    //VERIFICA SE POSSUI ERROS NO CALCULO
+    if( (getXL()=="NaN" || getXL()=="-Infinity") && (getXL()=="-Infinity" || getXL()=="NaN") && (getQuedaTensaoString()=="NaN" || getQuedaTensaoString()=="-Infinity"))
+    {
+        calculoExceptionMessage = "ERROR";
+    }
+    
+    
     //RESULTADOS
     if(calculoExceptionMessage != "")
     {
-        $("#resultado_msg_erro").html(calculoExceptionMessage);
-        $("#ul_resultado").html("");
+        $("#ul_resultado").html("<li id='dados_projeto'><br><br>RESULTADOS<br><br></li>");
+        $("#ul_resultado").append("<li>Informamos que para esta condição sugerida, o sistema não encontra resposta.</li>");
     }
     else
     {

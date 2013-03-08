@@ -247,6 +247,7 @@ function DimensionamentoBean() {
             	var c = this.isTripolar();
 
                 colunaA = a && (b || c);
+                //alert("isColunaA: " + colunaA);
             }
         }
         
@@ -291,8 +292,11 @@ function DimensionamentoBean() {
                 var b = this.isUnipolar();
                 var c = !(this.isJustaposto() || this.isTrifolio());
                 var d = this.isEspacado();
+                
+                //alert("a: " + a + " b: " + b + " c: " + c + " d: " + d);
 
                 colunaB = a && b && c && d;
+                //alert("isColunaB: " + colunaB);
             }
         }
         
@@ -712,7 +716,9 @@ function DimensionamentoBean() {
         return a || b;
     }
 
-    this.isEspacado = function() {
+    this.isEspacado = function()
+    {
+        //alert("isEspacado tipoInstalacao: " + this.tipoInstalacao + " - FORMACAO_ESPACADA: " + FORMACAO_ESPACADA + " - Local Instalacao: " + this.localInstalacao);
         return this.tipoInstalacao == FORMACAO_ESPACADA;
     }
 

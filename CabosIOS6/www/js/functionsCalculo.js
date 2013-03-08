@@ -9,6 +9,7 @@ var calculoExceptionMessage = "";
 
 function selectXML(xmlTabela, campos){
 	//PARSING XML
+    
 	var xmlData = parseXML(xmlTabela);
 	var rows = xmlData.getElementsByTagName("produto");
 	
@@ -189,7 +190,7 @@ function parseXML(xmlString){
 function calcular()
 {
     
-    alert("Entrou calcular()");
+    //alert("Entrou calcular()");
     var fatorCanaleta = 1;
     //try {
 		
@@ -238,7 +239,7 @@ function calcular()
 			//alert("FIM 7 - Depois do metodo calcularDimensionamentoEconomico()");
         }
     
-        alert("FIM do FIM (CALCULO)");
+        //alert("FIM do FIM (CALCULO)");
 	
 	
     //} catch(err) {
