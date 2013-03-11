@@ -37,10 +37,10 @@ function showResultadoCalculo()
     $("#dados_entrada_corrente_curto_circuito_condutor_fixada").html($("#fixarInformacaoCurto option:selected").text());
     
     //VERIFICA SE POSSUI ERROS NO CALCULO
-    if( (getXL()=="NaN" || getXL()=="-Infinity") && (getXL()=="-Infinity" || getXL()=="NaN") && (getQuedaTensaoString()=="NaN" || getQuedaTensaoString()=="-Infinity"))
-    {
-        calculoExceptionMessage = "ERROR";
-    }
+//    if( (getXL()=="NaN" || getXL()=="-Infinity") && (getXL()=="-Infinity" || getXL()=="NaN") && (getQuedaTensaoString()=="NaN" || getQuedaTensaoString()=="-Infinity"))
+//    {
+//        calculoExceptionMessage = "ERROR";
+//    }
     
     
     //RESULTADOS
