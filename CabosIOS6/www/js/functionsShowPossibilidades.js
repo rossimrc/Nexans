@@ -130,8 +130,8 @@ function showResultadoCalculo()
             }
         }
         
-        $("#dados_resultado_alternativo_quedatensao").html("Para esta mesma aplicação, porém com um maior limite térmico no condutor -" + $("#maximumTemperature").val() + "&deg;C, a FICAP recomenda também a sua linha de produtos tipo " + $("#cabosAlternativos").val() + ".");
-        $("#dados_resultado_alternativo_quedatensao_else").html("Para esta mesma opção de instalação, a FICAP possui as linhas de cabos " + $("#cabosAlternativos").val() + " com maior capacidade de condução de corrente.");
+        $("#dados_resultado_alternativo_quedatensao").html("Para esta mesma aplicação, porém com um maior limite térmico no condutor -" + $("#maximumTemperature").val() + "&deg;C, a Nexans recomenda também a sua linha de produtos tipo " + $("#cabosAlternativos").val() + ".");
+        $("#dados_resultado_alternativo_quedatensao_else").html("Para esta mesma opção de instalação, a Nexans possui as linhas de cabos " + $("#cabosAlternativos").val() + " com maior capacidade de condução de corrente.");
     }
     
 }

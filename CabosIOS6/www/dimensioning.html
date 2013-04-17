@@ -27,17 +27,25 @@
         <link rel="stylesheet" type="text/css" href="css/common.css" />
         <link rel="stylesheet" type="text/css" href="css/dimensioning.css" />
         <title>Nexans - Cabos</title>
+		<style type="text/css">
+			div, img {
+				position:relative;
+				float:left;
+			}
+			body {
+				height:460px !important;
+				overflow:hidden;
+			}
+		</style>
     </head>
     <body data-role="page">
-        <div class="app" data-role="content">
-			<div id="btn-return"></div>
-			<img src="img/dimensionamento-titulo.png"/>
-			<ul>
-                <li url='new_project.html'><img src="img/dimensionamento-novo.png"/></li>
-                <li url='project_list.html'><img src="img/dimensionamento-outros.png"/></li>
-            </ul>
-			<img id="img-footer" src="img/dimensionamento-rodape.png"/>
+        <div class="app" data-role="content" style="background-color:black;">
+			<img src="img/new/simulacao_top.png"/>
+				<a class="click-effect" href='new_project.html'><img src="img/new/simulacao_novo_btn.png"/></a>
+				<a class="click-effect" href=''><img src="img/new/simulacao_existentes_btn.png"/></a>
+			<img id="img-footer" src="img/new/simulacao_bot.png"/>
         </div>
+		<div id="btn-return"></div>
         <script type="text/javascript" src="cordova-2.1.0.js"></script>
         <script type="text/javascript" src="js/dimensioning.js"></script>
         <script type="text/javascript" src="js/enums.js"></script>

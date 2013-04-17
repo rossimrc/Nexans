@@ -1,14 +1,18 @@
 html {
-	padding-left:5px;
-	padding-top:5px;
 	overflow-y:scroll;
 	overflow-x:hidden;
 }
 
+div, ul, li, img {
+	position:relative;
+	float:left;
+}
+
 body {
-	width:300px;
-	height:auto;
-	overflow-x:hidden;
+	width:320px;
+	height:450px;
+	margin:0;
+	padding:0;
 }
 
 ul {
@@ -22,40 +26,52 @@ ul li {
     list-style:none;
     /*color:white;*/
 	position:relative;
-	top:-6px;
+	/*top:-6px;*/
 }
 
 ul li:last-child {
-	top:-10px;
+	/*top:-10px;*/
 }
 
 ul.new-project li,
 #page-cabledescription ul li,
 .cable-name,
 #page-cableinfo ul li {
-	background-image:url("../img/novo-bgitem.png");
+	background-image:url("../img/new/field_bg.png");
 	background-size:100% 100%;
-	width:277px;
+	width:320px;
 	min-height:46px;
 	padding-left:20px;
 	padding-top:10px;
-	top:-4px;
+	/*top:-4px;*/
 	color:black;
+	box-sizing:border-box;
+	font-family:"DINE1";
+}
+
+.cable-photo {
+	padding-left:0 !important;
+	padding-top:0 !important;
 }
 
 ul.new-project li:last-child, .cable-description {
-	background-image:url("../img/novo-bgitemgrande.png");
-	min-height:90px;
+	background-image:url("../img/new/field_bg_big.png");
+	min-height:120px;
+}
+
+#page-newproject {
+	height:460px;
+	overflow:hidden;
 }
 
 #page-newproject img:last-child {
 	position:relative;
-	top:-10px;
+	/*top:-10px;*/
 }
 
 .img-footer {
 	position:relative;
-	top:-8px;
+	/*top:-8px;*/
 }
 
 #btn-return {
@@ -64,6 +80,7 @@ ul.new-project li:last-child, .cable-description {
 	height:50px;
 	top:50px;
 	left:25px;
+	z-index:999;
 }
 
 img {
@@ -72,7 +89,7 @@ img {
 
 #img-footer {
 	position:relative;
-	top:-28px;
+	/*top:-28px;*/
 }
 
 input, textarea {
@@ -94,15 +111,16 @@ select {
 }
 
 .project-title {
-	background-image:url("../img/form-titulo.png");
+	background-image:url("../img/new/novo_top_limpo.png");
 	background-size:100% 100%;
-	width:277px;
-	min-height:34px;
+	width:320px;
+	min-height:133px;
 	text-align:right;
 	padding-right:20px;
-	padding-top:5px;
+	padding-top:97px;
 	position:relative;
-	top:-4px;
+	/*top:-4px;*/
+	box-sizing:border-box;
 }
 
 .title {
@@ -130,7 +148,7 @@ select {
 
 .popup {
 	/*background-color:rgba(0,0,0,1);*/
-	background-image:url("../img/bg.png");
+	background-image:url("../img/new/00_carregando.png");
 	/*background-size:100% 100%;*/
 	background-position-y:-16px;
 	background-attachment: fixed;
@@ -139,8 +157,6 @@ select {
 	position:fixed;
 	top:0px;
 	left:0px;
-	padding-left:10px;
-	padding-top:10px;
 	-webkit-box-sizing: border-box;
 	display:none;
 	overflow:scroll;
@@ -150,13 +166,12 @@ select {
 	/*-webkit-box-sizing: border-box;*/
 	color:black;
 	font-size:16px;
-	width:257px;
-	padding-left:20px;
-	padding-right:20px;
-	padding-top:10px;
-	margin-top:-4px;
-	background-image:url("../img/novo-bgitemgrande.png");
+	width:320px;
+	padding:40px;
+	/*margin-top:-4px;*/
+	background-image:url("../img/new/field_bg_big.png");
 	background-size:100% 100%;
+	box-sizing:border-box;
 }
 
 .info {
@@ -176,8 +191,9 @@ select {
 }
 
 .img-cabo {
-	max-height:294px;
-	max-width:548px;
+	width:100%;
+	height:100%;
+	zoom:100%;
 }
 
 .cable-name {

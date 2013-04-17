@@ -1,0 +1,49 @@
+body {
+	width:768px;
+	height:450px;
+	margin:0;
+	padding:0;
+}
+
+#about-text {
+	background-image:url("../img/new/nexans_bg.png");
+	background-size:100% 100%;
+    color:black;
+    font-family:verdana;
+    font-size:14px;
+    padding:100px;
+	position:relative;
+	margin-top:-5px;
+	/*height:720px;*/
+	max-width:768px;
+	text-align:justify;
+	box-sizing:border-box;
+}
+
+#img-footer {
+	position:relative;
+	top:-10px;
+}
+
+#return-btn {
+	position:absolute;
+	top:140px;
+	left:20px;
+	width:80px;
+	height:80px;
+	/*background-color:rgba(255,0,0,0.5);*/
+}
+
+img {
+	zoom:50%;
+}
+
+/*img:first-of-type {
+	zoom:100%;
+	width:274px;
+	height:123px;
+}*/
+
+a {
+    color:black;
+}

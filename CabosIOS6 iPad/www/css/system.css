@@ -1,0 +1,53 @@
+.app {
+    /*height:100%;*/
+}
+
+html, body {
+    /*overflow:hidden;
+    -webkit-user-select: none;*/
+	width:768px;
+	height:1024px;
+	margin:0;
+	padding:0;
+}
+
+#image-holder {
+	position:absolute;
+}
+
+.bg-tutorial {
+	background-image:url("../img/sobre_bg.png");
+	background-size:100% 100%;
+	width:768px;
+	height:1024px;
+	position:relative;
+}
+
+.image-index-icon {
+    width:10px;
+    height:10px;
+    position:relative;
+    float:left;
+    -webkit-border-radius:5px;
+    background-color:white;
+}
+
+.icon-selected {
+    background-color:black;
+}
+
+#image-index {
+	position:fixed;
+	bottom:0px;
+	width:100%;
+}
+
+#back-button {
+	position:absolute;
+	top:140px;
+	left:20px;
+	width:80px;
+	height:80px;
+	/*background-color:rgba(255,0,0,0.5);*/
+}
+

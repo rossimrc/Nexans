@@ -1,0 +1,78 @@
+body {
+	width:768px;
+	/*-webkit-transform:rotate(-90deg);*/
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+
+#faq {
+    margin:0;
+	position:relative;
+	float:left;
+}
+
+#faq dt {
+	float:left;
+	position:relative;
+	padding-left:14px;
+	background-size:100% 200%;
+	padding-top:16px;
+	padding-bottom:10px;
+	width:768px;
+	min-height:47px;
+	padding-right:50px;
+	box-sizing:border-box;
+}
+
+#faq dd {
+	float:left;
+	position:relative;
+	padding:10px;
+	padding-right:20px;
+	margin:0px;
+	background-image:url("../img/informacoes_dt.png");
+	background-size:100% 100%;
+	width:768px;
+	box-sizing:border-box;
+}
+
+.closed-question {
+	background-image:url("../img/informacoes_dl.png");
+}
+
+.open-question {
+	background-image:url("../img/informacoes_dl.png");
+	background-position-y: 100%;
+}
+
+img {
+	zoom:50%;
+}
+
+#img-footer {
+	position:relative;
+}
+
+.searchbar input {
+	width:400px;
+}
+
+.searchbar {
+	position:relative;
+	background-image:url("../img/informacoes_top.png");
+	width:768px;
+	height:298px;
+	background-size:100% 100%;
+	padding-bottom:10px;
+	box-sizing:border-box;
+	padding-top:250px;
+}
+
+#btn-return {
+	position:absolute;
+	top:140px;
+	left:30px;
+	width:80px;
+	height:80px;
+}

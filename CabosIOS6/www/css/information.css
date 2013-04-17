@@ -1,40 +1,49 @@
 body {
-	width:450px;
-	height:440px;
+	width:320px;
 	/*-webkit-transform:rotate(-90deg);*/
+	padding:0;
+	margin:0;
+	overflow:hidden;
 }
 
 #faq {
     margin:0;
+	position:relative;
+	float:left;
 }
 
 #faq dt {
+	float:left;
 	position:relative;
-	top:-5px;
 	padding-left:14px;
+	background-size:100% 200%;
 	padding-top:4px;
-	background-size:100% 100%;
-	width:439px;
-	height:24px;
+	padding-bottom:4px;
+	width:320px;
+	min-height:29px;
+	padding-right:30px;
+	box-sizing:border-box;
 }
 
 #faq dd {
+	float:left;
 	position:relative;
-	top:-5px;
 	padding:10px;
 	padding-right:20px;
 	margin:0px;
-	background-image:url("../img/info-bgresposta.png");
+	background-image:url("../img/new/info_dd.png");
 	background-size:100% 100%;
-	width:423px;
+	width:320px;
+	box-sizing:border-box;
 }
 
 .closed-question {
-	background-image:url("../img/info-bgperguntafechada.png");
+	background-image:url("../img/new/info_dt.png");
 }
 
 .open-question {
-	background-image:url("../img/info-bgperguntaaberta.png");
+	background-image:url("../img/new/info_dt.png");
+	background-position-y: 100%;
 }
 
 img {
@@ -43,7 +52,6 @@ img {
 
 #img-footer {
 	position:relative;
-	top:-10px;
 }
 
 .searchbar input {
@@ -52,11 +60,13 @@ img {
 
 .searchbar {
 	position:relative;
-	top:-5px;
-	background-image:url("../img/info-bgbusca.png");
-	width:453px;
+	background-image:url("../img/new/info_top.png");
+	width:320px;
+	height:98px;
 	background-size:100% 100%;
 	padding-bottom:10px;
+	box-sizing:border-box;
+	padding-top:68px;
 }
 
 #btn-return {

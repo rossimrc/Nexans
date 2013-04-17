@@ -68,7 +68,7 @@
         <div class="app" data-role="content">
 			<div id="btn-return"></div>
 			<div id="page-newproject">
-				<img src="img/novo-titulo.png"/>
+				<img src="img/new/novo_top.png"/>
             	<ul class="new-project">
                 	<li>
                     	Usuário:<br>
@@ -87,12 +87,12 @@
                     	<textarea id="projectDescription"></textarea>
                 	</li>
             	</ul>
-				<img src="img/novo-rodape.png" onClick="saveUserData()"/>
+				<div class="click-effect"><img src="img/novo-rodape.png" onClick="saveUserData()"/></div>
 			</div>
 			
 			<div id="page-projectdescription">
             	<ul class="new-project">
-					<img src="img/form-topo.png"/>
+					<!--<img src="img/form-topo.png"/>-->
 					<div class="project-title"><span class="title"></span></div>
                 	<li>
                     	Tipos de Produtos:<br>
@@ -182,33 +182,33 @@
 						<br style="clear:both;"/>
                 	</li>
             	</ul>
-				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
+				<div class="click-effect"><img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/></div>
 			</div>
 			
 			<div id="page-cabledescription">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="project-title"><span class="title"></span></div>
             	<ul>
                 	<li onclick='loadCableInfo(1)'>
                     	Clique aqui para visualizar o cabo
                 	</li>
             	</ul>
-				<img class="img-footer" src="img/novo-rodape-limpo.png"/>
+				<!--<img class="img-footer" src="img/novo-rodape-limpo.png"/>-->
 			</div>
 			
 			<div id="page-cableinfo">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="project-title"><span class="title"></span></div>
 				<ul>
 					<li class='cable-name'> </li>
 					<li class='cable-photo'> </li>
 					<li class='cable-description'> </li>
 				</ul>
-				<img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
+				<div class="click-effect"><img class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/></div>
 			</div>
 			
 			<div id="page-dimension">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="project-title"><span class="title"></span></div>
             	<ul class="new-project">
                 	<li>
@@ -289,11 +289,11 @@
 					</li>
 
             	</ul>
-				<img id="id_Calculo_Dimensionamento" class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/>
+				<div class="click-effect"><img id="id_Calculo_Dimensionamento" class="img-footer" src="img/novo-rodape.png" onClick="nextPage()"/></div>
 			</div>
 			
 			<div id="specification-popup" class="popup">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="popup-body">
                     <ul>
                         <li id='li_naval_protecao_metalica' style="display:none;">
@@ -332,7 +332,7 @@
 					<button id="specification-popup-cancel">cancelar</button>
 					<button id="specification-popup-continue">continuar</button>
 				</div>
-				<img src="img/novo-rodape-limpo.png"/>
+				<!--<img src="img/novo-rodape-limpo.png"/>-->
 			</div>
 			
 			<div id="specification-popup2" class="popup">
@@ -347,7 +347,7 @@
             
             <!-- POSSIBILIDADE DE INSTALAÇÃO -->
             <div id="localInstalacaoAparente-popup" class="popup" style="display:none;">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="popup-body">
                     <!-- APARENTE -->
                     <ul>
@@ -576,13 +576,13 @@
                         </li>
                     </ul>
 				</div>
-				<img src="img/novo-rodape-limpo.png"/>
+				<!--<img src="img/novo-rodape-limpo.png"/>-->
 			</div>
             
             <!-- POSSIBILIDADE CABOS -->
             <!-- POSICIONAMENTO CABOS - TRADUZIR AQUI O ARQUIVO -->
             <div id="possibilidadeCabos-popup" class="popup">
-				<img src="img/form-topo.png"/>
+				<!--<img src="img/form-topo.png"/>-->
 				<div class="popup-body">
 				<!--<div id="ttt">-->
                     <ul>
@@ -1254,7 +1254,7 @@
                         </li>
                     </ul>
 				</div>
-				<img src="img/novo-rodape-limpo.png"/>
+				<!--<img src="img/novo-rodape-limpo.png"/>-->
 				<!--</div>-->
             </div>
             
@@ -1511,7 +1511,7 @@
                         
                         <!-- <ww:if test="isAfitox750()"> -->
                         <li id="resultado_alternativa_isAfitox750">
-                            <strong>Nota - Para este dimensionamento a FICAP recomenda o recálculo com cabos AFITOX-F 0,6/1 kV</strong><br>
+                            <strong>Nota - Para este dimensionamento a Nexans recomenda o recálculo com cabos AFITOX-F 0,6/1 kV</strong><br>
                         </li>
                         
                         <li>
@@ -1543,7 +1543,11 @@
         <script type="text/javascript" src="js/functionsShowPossibilidades.js"></script>
         <script type="text/javascript" src="js/functionsTabelaProduto.js"></script>
 		
-        
+		<script type="text/javascript">
+            app.initialize();
+			initNewProject();
+        </script>
+		
         <script type="text/javascript" src="js/functionsTabelaUtil.js"></script>
         <script type="text/javascript" src="js/functionsTabelaProduto.js"></script>
         

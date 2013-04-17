@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name = "format-detection" content = "telephone=no"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+		 <link rel="stylesheet" type="text/css" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Nexans - Cabos</title>
+		<style type="text/css">
+			/*____ PRELOAD IMAGES ____*/
+			/*body:after {
+				content:url("img/bg.png") url("img/nexans-logo-main.png") url("img/btn-sobre.png") url("img/btn-dimensionamento.png") url("img/btn-informacoes.png")  url("img/btn-nexans.png") url("img/footer-menu.png") url("img/info-bgbusca.png") url("img/info-bgperguntaaberta.png") url("img/info-bgperguntafechada.png") url("img/info-bgresposta.png") url("img/info-rodape.png") url("img/info-titulo.png") url("img/nexans-bgtexto.png") url("img/nexans-rodape.png") url("img/nexans-titulos.png");
+				
+			}*/
+		</style>
+    </head>
+    <body data-role="page">
+		<span id="fastclick">
+        <div class="app" data-role="content">
+            <div id="logo"></div>
+            
+            <ul id="main-menu">
+				<li url='#'><img src="img/top_main.png"/></li>
+                <li class="click-effect" url=''><a href="system.html"><img src="img/sobre_btn.png"/></a></li>
+                <li class="click-effect" url='dimensioning.html'><img src="img/dimensionamento_btn.png"/></li>
+                <li class="click-effect" url='information.html'><img src="img/informacoes_btn.png"/></li>
+                <li class="click-effect" url='about.html'><img src="img/nexans_btn.png"/></li>
+				<li url='#'><img src="img/bottom_btn.png"/></li>
+            </ul>
+        </div>
+        <script type="text/javascript" src="cordova-2.1.0.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/dbinit.js"></script>   
+        <script type="text/javascript">
+			$.preload.images();
+            app.initialize();
+			document.addEventListener('deviceready', function() {
+				$.preload.images();
+				navigator.splashscreen.hide();
+			}, false);
+        </script>
+		</span>
+    </body>
+</html>

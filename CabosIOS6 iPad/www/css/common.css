@@ -1,0 +1,72 @@
+body {
+    font-size:12px;
+    width:320px;
+	height:480px;
+	background:url("../img/carregando.png");
+	background-size:100% 100%;
+	background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    -webkit-backface-visibility: hidden;
+    -webkit-user-select: none;
+	-webkit-tap-highlight-color:rgba(60,60,60,0);
+	-webkit-touch-callout:none;
+}
+
+@font-face {
+	font-family:"DINE1";
+	src: url("../fnt/DINE1.TTF");
+}
+
+.click-effect {
+	background-color:black;
+}
+
+.click-effect img:active {
+	opacity:0.8;
+}
+
+.ui-page {
+    
+}
+
+.topbar-wrapper {
+    background-color:black;
+    display:table;
+    width:100%;
+}
+
+.topbar {
+    height:40px;
+    background-color:#ccc;
+    text-align:center;
+    font-size:14px;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.topbar button {
+    position:absolute;
+    left:10px;
+    top:8px;
+}
+
+.searchbar {
+    padding-top:12px;
+}
+
+.searchbar input {
+    width:85%;
+    margin-left:5%;
+    margin-right:5%;
+}
+
+#faq-button {
+    position:absolute;
+    right:12px;
+    top:12px;
+    color:white;
+    background-color:black;
+    width:18px;
+    height:18px;
+    -webkit-border-radius:9px;
+}

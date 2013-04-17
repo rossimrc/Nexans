@@ -1,0 +1,207 @@
+html {
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+
+div, ul, li, img {
+	position:relative;
+	float:left;
+}
+
+body {
+	width:320px;
+	height:450px;
+	margin:0;
+	padding:0;
+}
+
+ul {
+    margin:0px;
+    padding:0px;
+}
+
+ul li {
+    margin:0px;
+	padding:0px;
+    list-style:none;
+    /*color:white;*/
+	position:relative;
+	/*top:-6px;*/
+}
+
+ul li:last-child {
+	/*top:-10px;*/
+}
+
+ul.new-project li,
+#page-cabledescription ul li,
+.cable-name,
+#page-cableinfo ul li {
+	background-image:url("../img/bg_barra.png");
+	background-size:100% 100%;
+	width:768px;
+	min-height:89px;
+	padding-left:20px;
+	padding-top:10px;
+	/*top:-4px;*/
+	color:black;
+	box-sizing:border-box;
+	
+	font-family:"DINE1";
+	font-size:20px;
+}
+
+.cable-photo {
+	padding-left:0 !important;
+	padding-top:0 !important;
+}
+
+ul.new-project li:last-child, .cable-description {
+	background-image:url("../img/bg_barra_grande.png");
+	min-height:251px;
+	background-size:100% 100%;
+}
+
+#page-newproject {
+	height:1024px;
+	overflow:hidden;
+}
+
+#page-newproject img:last-child {
+	position:relative;
+	/*top:-10px;*/
+}
+
+.img-footer {
+	position:relative;
+	/*top:-8px;*/
+}
+
+#btn-return {
+	position:absolute;
+	width:80px;
+	height:80px;
+	top:140px;
+	left:25px;
+	z-index:999;
+	/*background-color:rgba(255,0,0,0.4);*/
+}
+
+img {
+	zoom:50%;
+}
+
+#img-footer {
+	position:relative;
+	/*top:-28px;*/
+}
+
+input, textarea {
+    width:80%;
+}
+
+textarea {
+	height:200px;
+}
+
+select {
+	width:90%;
+}
+
+.small-select {
+	width:80%;
+	float:left;
+	position:relative;
+}
+
+.project-title {
+	background-image:url("../img/dimensionamento_top_clean.png");
+	background-size:100% 100%;
+	width:768px;
+	min-height:220px;
+	text-align:right;
+	padding-right:20px;
+	padding-top:147px;
+	position:relative;
+	/*top:-4px;*/
+	box-sizing:border-box;
+}
+
+.title {
+	text-align:right;
+	font-size:46px;
+}
+
+.small-select2 {
+	width:70%;
+	float:left;
+	position:relative;
+}
+
+.inline-faq {
+	margin:2px;
+	background-color:white;
+	width:25px;
+	height:18px;
+	-webkit-border-radius:9px;
+	color:black;
+	text-align:center;
+	position:relative;
+	float:left;
+}
+
+.popup {
+	/*background-color:rgba(0,0,0,1);*/
+	background-image:url("../img/new/00_carregando.png");
+	/*background-size:100% 100%;*/
+	background-position-y:-16px;
+	background-attachment: fixed;
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0px;
+	left:0px;
+	-webkit-box-sizing: border-box;
+	display:none;
+	overflow:scroll;
+	z-index:1000;
+}
+
+.popup-body {
+	/*-webkit-box-sizing: border-box;*/
+	color:black;
+	font-size:16px;
+	width:768px;
+	height:1024px;
+	padding:40px;
+	/*margin-top:-4px;*/
+	background-image:url("../img/carregando.png");
+	background-size:100% 100%;
+	box-sizing:border-box;
+}
+
+.info {
+	
+}
+
+#next-wrapper {
+    width:100%;
+    text-align:right;
+	margin-bottom:10px;
+}
+
+#next {
+    margin-top:10px;
+    position:relative;
+    right:10px;
+}
+
+.img-cabo {
+	width:100%;
+	height:100%;
+	zoom:100%;
+}
+
+.cable-name {
+
+}
